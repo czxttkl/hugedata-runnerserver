@@ -1,6 +1,9 @@
 package com.czxttkl.hugedata.helper;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.android.chimpchat.core.IChimpDevice;
 import com.android.ddmlib.ShellCommandUnresponsiveException;
@@ -31,7 +34,13 @@ public class Test implements Runnable {
 	}
 
 	public static void setAdbLocation(String adbLocation) {
-		Test.ADB_LOCATION = adbLocation;
+		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb
+		Pattern p = Pattern
+				.compile("(([a-zA-Z]:)|~|(\\.\\.)|(\\w|-)*)/((\\w|-)+/)*adb");
+		if (p.matcher(adbLocation).matches())
+			Test.ADB_LOCATION = adbLocation;
+		else
+			throw new IllegalArgumentException();
 	}
 
 	@Override
@@ -44,7 +53,9 @@ public class Test implements Runnable {
 
 		try {
 			Process tcpdump = Runtime.getRuntime().exec(testCmd);
-
+			BufferedReader dumpResult = new BufferedReader(new InputStreamReader(tcpdump.getInputStream()));
+			
+			
 			if (APP_INSTALL_PATH != null)
 				System.out.println("Install package:"
 						+ myDevice.installPackage(APP_INSTALL_PATH));
@@ -141,7 +152,7 @@ public class Test implements Runnable {
 			// windows c:/test.apk or linux ~/test.apk or ../test.apk or
 			// abc/test.apk or /test.apk
 			Pattern p = Pattern
-					.compile("(([a-zA-Z]:)|~|(\\.\\.)|(\\w*))/((\\w)+/)*(\\w+)\\.apk");
+					.compile("(([a-zA-Z]:)|~|(\\.\\.)|(\\w|-)*)/((\\w|-)+/)*(\\w|-)+\\.apk");
 			if (p.matcher(apinpa).matches()) {
 				this.appInstallPath = apinpa;
 				return this;

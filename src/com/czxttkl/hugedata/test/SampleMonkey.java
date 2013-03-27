@@ -60,7 +60,7 @@ public class SampleMonkey {
 				new NameDevicePair("HC29GPG09471", adbBackend
 						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
 								"HC29GPG09471")));
-		Test.setAdbLocation("c:/Android/platform-tools/adb.exe");
+		Test.setAdbLocation("c:/Android/platform-_tools/adb");
 
 	}
 
