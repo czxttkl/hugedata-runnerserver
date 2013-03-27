@@ -53,9 +53,12 @@ public class Test implements Runnable {
 
 		try {
 			Process tcpdump = Runtime.getRuntime().exec(testCmd);
-			BufferedReader dumpResult = new BufferedReader(new InputStreamReader(tcpdump.getInputStream()));
-			
-			
+/*			BufferedReader dumpResult = new BufferedReader(
+					new InputStreamReader(tcpdump.getInputStream()));
+			String s;
+			while ((s = dumpResult.readLine()) != null)
+				System.out.println(s);*/
+
 			if (APP_INSTALL_PATH != null)
 				System.out.println("Install package:"
 						+ myDevice.installPackage(APP_INSTALL_PATH));
