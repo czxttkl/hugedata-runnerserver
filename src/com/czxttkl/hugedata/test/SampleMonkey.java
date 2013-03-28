@@ -34,7 +34,8 @@ public class SampleMonkey {
 					.appInstallPath("c:/Android/mytools/renren.apk")
 					.clearHistory(true).build();
 			new Thread(a).start();
-
+			Test.tryLock();
+			
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
@@ -62,8 +63,9 @@ public class SampleMonkey {
 				new NameDevicePair("HC29GPG09471", adbBackend
 						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
 								"HC29GPG09471")));
-		Test.setAdbLocation("c:/Android/platform-tools/adb");
 		Test.setLogger("PacketTest.log",true);
+		Test.setAdbLocation("c:/Android/platform-tools/adb");
+
 
 	}
 
