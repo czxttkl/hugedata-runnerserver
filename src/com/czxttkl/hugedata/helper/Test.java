@@ -37,26 +37,37 @@ public class Test implements Runnable {
 		CLEAR_HISTORY = builder.clearHistory;
 	}
 
+	public static void tryLock() {
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		logger.warning("if is writtern");
+		System.out.println("if is writtern");
+	}
+
 	public static void setAdbLocation(String adbLocation) {
 		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb
-		//No need to append ".exe"
+		// No need to append ".exe"
 		Pattern p = Pattern
 				.compile("(([a-zA-Z]:)|~|(\\.\\.)|(\\w|-)*)/((\\w|-)+/)*adb");
 		if (p.matcher(adbLocation).matches())
 			Test.ADB_LOCATION = adbLocation;
 		else
 			throw new IllegalArgumentException();
+		logger.fine("Adb Location set successfully");
 	}
 
-	public static void setLogger(String logFilePath, boolean appendLog){
+	public static void setLogger(String logFilePath, boolean appendLog) {
 		LogFormatter logFormatter = new LogFormatter();
-		logger = Logger.getLogger(Test.class
-			      .getName());
+		logger = Logger.getLogger(Test.class.getName());
 		logger.setLevel(Level.FINEST);
-		
+
 		FileHandler fileHandler;
 		try {
-			fileHandler = new FileHandler(logFilePath,appendLog);
+			fileHandler = new FileHandler(logFilePath, appendLog);
 			fileHandler.setFormatter(logFormatter);
 			logger.addHandler(fileHandler);
 		} catch (SecurityException e) {
@@ -68,7 +79,7 @@ public class Test implements Runnable {
 		}
 
 	}
-	
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -79,24 +90,24 @@ public class Test implements Runnable {
 
 		try {
 			Process tcpdump = Runtime.getRuntime().exec(testCmd);
-/*			BufferedReader dumpResult = new BufferedReader(
-					new InputStreamReader(tcpdump.getInputStream()));
-			String s;
-			while ((s = dumpResult.readLine()) != null)
-				System.out.println(s);*/
+			/*
+			 * BufferedReader dumpResult = new BufferedReader( new
+			 * InputStreamReader(tcpdump.getInputStream())); String s; while ((s
+			 * = dumpResult.readLine()) != null) System.out.println(s);
+			 */
 
 			if (APP_INSTALL_PATH != null)
-				System.out.println("Install package:"
+				logger.info("Install package:"
 						+ myDevice.installPackage(APP_INSTALL_PATH));
 			else
-				System.out.println("No need to install package");
+				logger.info("No need to install package");
 
-			System.out.println(myDevice.startTestInstrumentation(
-					TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
+			logger.info(myDevice.startTestInstrumentation(TEST_PACKAGE_NAME,
+					TEST_DURATION_THRESHOLD));
 
-			System.out.println("Test finished");
+			logger.info("Test Instrumentation finished");
 
-			System.out.println("Tcpdump killed:"
+			logger.info("Tcpdump has been killed."
 					+ myDevice.shell("busybox pkill -SIGINT tcpdump"));
 
 		} catch (IOException e1) {
@@ -106,10 +117,10 @@ public class Test implements Runnable {
 			System.out.println("Test timed out. ");
 		} finally {
 			if (CLEAR_HISTORY)
-				System.out.println("Remove package:"
+				logger.info("Remove package:"
 						+ myDevice.removePackage(APP_PACKAGE_NAME));
 			else
-				System.out.println("No need to remove package"
+				logger.info("No need to remove package"
 						+ myDevice.shell("am force-stop " + APP_PACKAGE_NAME));
 			releaseAvailability();
 		}
@@ -143,6 +154,7 @@ public class Test implements Runnable {
 
 	private void releaseAvailability() {
 		System.out.println("Test ends. Device released.");
+		logger.info("Test ends. Device released.");
 		PAIR.availability = true;
 	}
 
@@ -162,7 +174,10 @@ public class Test implements Runnable {
 				this.TEST_PACKAGE_NAME = TEST_PACKAGE_NAME;
 			else
 				throw new IllegalArgumentException();
-			this.PAIR = pair;
+			if (pair.availability)
+				this.PAIR = pair;
+			else
+				throw new IllegalArgumentException();
 		}
 
 		public Builder testDurationThres(int durthr) {

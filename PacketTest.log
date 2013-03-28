@@ -1,0 +1,18 @@
+20130328124913->INFO->Test starts. Device suspended.
+20130328130859->FINE->Adb Location set successfully
+20130328130859->INFO->Test starts. Device suspended.
+20130328130909->WARNING->if is writtern
+20130328130910->INFO->Install package:true
+20130328131039->INFO->
+com.renren.mobile.android.test.TestApk:.
+Test results for InstrumentationTestRunner=.
+Time: 81.564
+
+OK (1 test)
+
+
+
+20130328131039->INFO->Test Instrumentation finished
+20130328131039->INFO->Tcpdump killed:
+20130328131041->INFO->Remove package:true
+20130328131041->INFO->Test ends. Device released.
