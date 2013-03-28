@@ -3,6 +3,10 @@ package com.czxttkl.hugedata.helper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.android.chimpchat.core.IChimpDevice;
@@ -11,7 +15,7 @@ import com.android.ddmlib.ShellCommandUnresponsiveException;
 public class Test implements Runnable {
 
 	public static String ADB_LOCATION;
-
+	public static Logger logger;
 	// Mandatory Parameters
 	private final String TEST_PACKAGE_NAME;
 	private final NameDevicePair PAIR;
@@ -35,6 +39,7 @@ public class Test implements Runnable {
 
 	public static void setAdbLocation(String adbLocation) {
 		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb
+		//No need to append ".exe"
 		Pattern p = Pattern
 				.compile("(([a-zA-Z]:)|~|(\\.\\.)|(\\w|-)*)/((\\w|-)+/)*adb");
 		if (p.matcher(adbLocation).matches())
@@ -43,6 +48,27 @@ public class Test implements Runnable {
 			throw new IllegalArgumentException();
 	}
 
+	public static void setLogger(String logFilePath, boolean appendLog){
+		LogFormatter logFormatter = new LogFormatter();
+		logger = Logger.getLogger(Test.class
+			      .getName());
+		logger.setLevel(Level.FINEST);
+		
+		FileHandler fileHandler;
+		try {
+			fileHandler = new FileHandler(logFilePath,appendLog);
+			fileHandler.setFormatter(logFormatter);
+			logger.addHandler(fileHandler);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -111,6 +137,7 @@ public class Test implements Runnable {
 
 	private void suspendAvailability() {
 		System.out.println("Test starts. Device suspended.");
+		logger.info("Test starts. Device suspended.");
 		PAIR.availability = false;
 	}
 

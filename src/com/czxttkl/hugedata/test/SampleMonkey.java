@@ -2,6 +2,8 @@ package com.czxttkl.hugedata.test;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+
 import com.android.chimpchat.adb.AdbBackend;
 import com.czxttkl.hugedata.helper.NameDevicePair;
 import com.czxttkl.hugedata.helper.Test;
@@ -61,6 +63,7 @@ public class SampleMonkey {
 						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
 								"HC29GPG09471")));
 		Test.setAdbLocation("c:/Android/platform-tools/adb");
+		Test.setLogger("PacketTest.log",true);
 
 	}
 
