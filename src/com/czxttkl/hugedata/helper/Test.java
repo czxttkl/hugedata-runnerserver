@@ -37,7 +37,7 @@ public class Test implements Runnable {
 		CLEAR_HISTORY = builder.clearHistory;
 	}
 
-	public static void tryLock() {
+/*	public static void tryLock() {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
@@ -46,38 +46,28 @@ public class Test implements Runnable {
 		}
 		logger.warning("if is writtern");
 		System.out.println("if is writtern");
-	}
+	}*/
 
 	public static void setAdbLocation(String adbLocation) {
 		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb
 		// No need to append ".exe"
 		Pattern p = Pattern
 				.compile("(([a-zA-Z]:)|~|(\\.\\.)|(\\w|-)*)/((\\w|-)+/)*adb");
-		if (p.matcher(adbLocation).matches())
+		if (p.matcher(adbLocation).matches()) {
 			Test.ADB_LOCATION = adbLocation;
-		else
-			throw new IllegalArgumentException();
-		logger.fine("Adb Location set successfully");
+			logger.info("Adb Location set successfully");
+		} else
+			throw new IllegalArgumentException("Adb Location Parameter Illegal");
 	}
 
-	public static void setLogger(String logFilePath, boolean appendLog) {
+	public static void setLogger(String logFilePath, boolean appendLog) throws SecurityException, IOException {
 		LogFormatter logFormatter = new LogFormatter();
 		logger = Logger.getLogger(Test.class.getName());
 		logger.setLevel(Level.FINEST);
 
-		FileHandler fileHandler;
-		try {
-			fileHandler = new FileHandler(logFilePath, appendLog);
-			fileHandler.setFormatter(logFormatter);
-			logger.addHandler(fileHandler);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		FileHandler fileHandler = new FileHandler(logFilePath, appendLog);
+		fileHandler.setFormatter(logFormatter);
+		logger.addHandler(fileHandler);
 	}
 
 	@Override
@@ -147,13 +137,11 @@ public class Test implements Runnable {
 	}
 
 	private void suspendAvailability() {
-		System.out.println("Test starts. Device suspended.");
 		logger.info("Test starts. Device suspended.");
 		PAIR.availability = false;
 	}
 
 	private void releaseAvailability() {
-		System.out.println("Test ends. Device released.");
 		logger.info("Test ends. Device released.");
 		PAIR.availability = true;
 	}
@@ -173,11 +161,12 @@ public class Test implements Runnable {
 			if (p.matcher(TEST_PACKAGE_NAME).matches())
 				this.TEST_PACKAGE_NAME = TEST_PACKAGE_NAME;
 			else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(
+						"TEST PACKAGE NAME Parameter Illegal");
 			if (pair.availability)
 				this.PAIR = pair;
 			else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Test Device is in use.");
 		}
 
 		public Builder testDurationThres(int durthr) {
@@ -185,7 +174,8 @@ public class Test implements Runnable {
 				this.testDurationThres = durthr;
 				return this;
 			} else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(
+						"Test Duration Threshold Parameter Illegal");
 		}
 
 		public Builder clearHistory(boolean clhis) {
@@ -202,7 +192,8 @@ public class Test implements Runnable {
 				this.appInstallPath = apinpa;
 				return this;
 			} else
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(
+						"App Install Path Parameter Illegal");
 		}
 
 		public Test build() {

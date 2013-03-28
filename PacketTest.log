@@ -16,3 +16,90 @@ OK (1 test)
 20130328131039->INFO->Tcpdump killed:
 20130328131041->INFO->Remove package:true
 20130328131041->INFO->Test ends. Device released.
+20130328141749->FINE->Adb Location set successfully
+20130328143229->FINE->Adb Location set successfully
+20130328143307->FINE->Adb Location set successfully
+20130328143736->FINE->Adb Location set successfully
+20130328143813->FINE->Adb Location set successfully
+20130328143813->INFO->Test starts. Device suspended.
+20130328143823->WARNING->if is writtern
+20130328143825->INFO->Install package:true
+20130328143850->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testDisplayBlackBox:
+junit.framework.AssertionFailedError: Button with index 2 is not available!
+	at com.jayway.android.robotium.solo.Waiter.waitForAndGetView(Waiter.java:362)
+	at com.jayway.android.robotium.solo.Clicker.clickOn(Clicker.java:374)
+	at com.jayway.android.robotium.solo.Solo.clickOnButton(Solo.java:944)
+	at com.renren.mobile.android.test.TestApk.testDisplayBlackBox(TestApk.java:56)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F
+Time: 17.274
+
+FAILURES!!!
+Tests run: 1,  Failures: 1,  Errors: 0
+
+
+
+20130328143850->INFO->Test Instrumentation finished
+20130328143850->INFO->Tcpdump has been killed.
+20130328143852->INFO->Remove package:true
+20130328143852->INFO->Test ends. Device released.
+20130328144200->FINE->Adb Location set successfully
+20130328144200->INFO->Test starts. Device suspended.
+20130328144210->WARNING->if is writtern
+20130328144210->INFO->Install package:true
+20130328144339->INFO->
+com.renren.mobile.android.test.TestApk:.
+Test results for InstrumentationTestRunner=.
+Time: 81.461
+
+OK (1 test)
+
+
+
+20130328144339->INFO->Test Instrumentation finished
+20130328144339->INFO->Tcpdump has been killed.
+20130328144341->INFO->Remove package:true
+20130328144341->INFO->Test ends. Device released.
+20130328152334->INFO->Adb Location set successfully
+20130328152334->INFO->Test starts. Device suspended.
+20130328152344->WARNING->if is writtern
+20130328152345->INFO->Install package:true
+20130328152514->INFO->
+com.renren.mobile.android.test.TestApk:.
+Test results for InstrumentationTestRunner=.
+Time: 81.875
+
+OK (1 test)
+
+
+
+20130328152514->INFO->Test Instrumentation finished
+20130328152514->INFO->Tcpdump has been killed.
+20130328152517->INFO->Remove package:true
+20130328152517->INFO->Test ends. Device released.
+20130328160919->INFO->Adb Location set successfully
+20130328160919->INFO->Test starts. Device suspended.
+20130328160930->INFO->Install package:true
+20130328161103->INFO->
+com.renren.mobile.android.test.TestApk:.
+Test results for InstrumentationTestRunner=.
+Time: 86.291
+
+OK (1 test)
+
+
+
+20130328161103->INFO->Test Instrumentation finished
+20130328161103->INFO->Tcpdump has been killed.
+20130328161106->INFO->Remove package:true
+20130328161106->INFO->Test ends. Device released.
