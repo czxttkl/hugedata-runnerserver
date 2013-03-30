@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import com.android.chimpchat.adb.AdbBackend;
 import com.czxttkl.hugedata.helper.LogFormatter;
 import com.czxttkl.hugedata.helper.NameDevicePair;
-import com.czxttkl.hugedata.helper.Test;
+import com.czxttkl.hugedata.helper.PacketTest;
 
 public class RunnerServer {
 
@@ -62,10 +62,11 @@ public class RunnerServer {
 		}
 
 		try {
-			Test a = new Test.Builder("com.renren.mobile.android.test",
+			PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 					deviceInfoMap.get("HTCT328W")).testDurationThres(999999)
 					.appInstallPath("c:/Android/mytools/renren.apk")
-					.clearHistory(true).build();
+					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+					.build();
 			new Thread(a).start();
 			//Test.tryLock();
 
@@ -98,8 +99,8 @@ public class RunnerServer {
 				new NameDevicePair("HC29GPG09471", adbBackend
 						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
 								"HC29GPG09471")));
-		Test.setLogger("PacketTest.log", true);
-		Test.setAdbLocation("c:/Android/platform-tools/adb");
+		PacketTest.setLogger("PacketTest.log", true);
+		PacketTest.setAdbLocation("c:/Android/platform-tools/adb");
 	}
 
 }
