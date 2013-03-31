@@ -51,11 +51,11 @@ public class PacketTest implements Runnable {
 			throw new IllegalArgumentException("Adb Location Parameter Illegal");
 	}
 
-	public static void setLogger(String logFilePath, boolean appendLog) throws SecurityException, IOException {
+	public static void setLogger(String logFilePath, boolean appendLog)
+			throws SecurityException, IOException {
 		LogFormatter logFormatter = new LogFormatter();
 		logger = Logger.getLogger(PacketTest.class.getName());
 		logger.setLevel(Level.FINEST);
-
 		FileHandler fileHandler = new FileHandler(logFilePath, appendLog);
 		fileHandler.setFormatter(logFormatter);
 		logger.addHandler(fileHandler);
@@ -65,30 +65,18 @@ public class PacketTest implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		suspendAvailability();
-
 		IChimpDevice myDevice = getDevice();
-		String testCmd = constructCmd();
-
+		String testCmd = constructTcpdumpCmd();
 		try {
-			Process tcpdump = Runtime.getRuntime().exec(testCmd);
 			/*
 			 * BufferedReader dumpResult = new BufferedReader( new
 			 * InputStreamReader(tcpdump.getInputStream())); String s; while ((s
 			 * = dumpResult.readLine()) != null) System.out.println(s);
 			 */
+			installPackage(APP_INSTALL_PATH, "APP");
+			installPackage(TEST_INSTALL_PATH, "Test");
 
-			if (APP_INSTALL_PATH != null)
-				logger.info("Install package:"
-						+ myDevice.installPackage(APP_INSTALL_PATH));
-			else
-				logger.info("No need to install app package");
-
-			if (TEST_INSTALL_PATH != null)
-				logger.info("Install test package:"
-						+ myDevice.installPackage(TEST_INSTALL_PATH));
-			else
-				logger.info("No need to install test package");
-			
+			Process tcpdump = Runtime.getRuntime().exec(testCmd);
 			logger.info(myDevice.startTestInstrumentation(TEST_PACKAGE_NAME,
 					TEST_DURATION_THRESHOLD));
 
@@ -97,17 +85,17 @@ public class PacketTest implements Runnable {
 			logger.info("Tcpdump has been killed."
 					+ myDevice.shell("busybox pkill -SIGINT tcpdump"));
 
-		} catch (IOException e1) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			e.printStackTrace();
 		} catch (ShellCommandUnresponsiveException e) {
-			System.out.println("Test timed out. ");
+			logger.info("Test timed out. ");
+		} catch (IllegalArgumentException e) {
+			logger.info("Install failed. Caused by " + e.getMessage());
 		} finally {
-			if (CLEAR_HISTORY){
-				logger.info("Remove app package:"
-						+ myDevice.removePackage(APP_PACKAGE_NAME));
-				logger.info("Remove test package:"
-						+ myDevice.removePackage(TEST_PACKAGE_NAME));
+			if (CLEAR_HISTORY) {
+				removePackage(APP_PACKAGE_NAME, "APP");
+				removePackage(TEST_PACKAGE_NAME, "Test");
 			} else
 				logger.info("No need to remove package"
 						+ myDevice.shell("am force-stop " + APP_PACKAGE_NAME));
@@ -115,7 +103,7 @@ public class PacketTest implements Runnable {
 		}
 	}
 
-	private String constructCmd() {
+	private String constructTcpdumpCmd() {
 		StringBuilder testCmd = new StringBuilder(ADB_LOCATION + " ");
 		testCmd.append("-s ");
 		testCmd.append(getDeviceName() + " ");
@@ -123,6 +111,36 @@ public class PacketTest implements Runnable {
 		testCmd.append("-p -vv -s 0 -w ");
 		testCmd.append("/sdcard/capture.pcap");
 		return testCmd.toString();
+	}
+
+	/**
+	 * @param installPath
+	 *            the install path of the package
+	 * @param installType
+	 *            the type for install(APP or Test)
+	 */
+	private void installPackage(String installPath, String installType) {
+		if (installPath != null) {
+			if (getDevice().installPackage(installPath))
+				logger.info("Install " + installType + " package successfully");
+			else
+				throw new IllegalArgumentException(installType
+						+ " Install Path Parameter Illegal");
+		} else
+			logger.info("No need to install " + installType + " package");
+	}
+
+	/**
+	 * @param packageName
+	 *            the name of the package to be removed
+	 * @param removeType
+	 *            the type for the removing package(APP or Test)
+	 */
+	private void removePackage(String packageName, String removeType) {
+		if (getDevice().removePackage(packageName))
+			logger.info("Remove " + removeType + " package successfully.");
+		else
+			logger.info("Remove " + removeType + " package failed.");
 	}
 
 	private IChimpDevice getDevice() {
@@ -195,8 +213,8 @@ public class PacketTest implements Runnable {
 				throw new IllegalArgumentException(
 						"App Install Path Parameter Illegal");
 		}
-		
-		public Builder testInstallPath(String tipa){
+
+		public Builder testInstallPath(String tipa) {
 			// windows c:/test.apk or linux ~/test.apk or ../test.apk or
 			// abc/test.apk or /test.apk
 			Pattern p = Pattern
@@ -208,7 +226,7 @@ public class PacketTest implements Runnable {
 				throw new IllegalArgumentException(
 						"Test Install Path Parameter Illegal");
 		}
-		
+
 		public PacketTest build() {
 			return new PacketTest(this);
 		}
