@@ -30,30 +30,31 @@ public class RunnerServer {
 			logger.addHandler(fileHandler);
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			logger.severe("File Handler Initialization Failed. Caused by SecurityException.");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			// e.printStackTrace();
 			logger.severe("File Handler Initialization Failed. Caused by IOException.");
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
 			initRunnerServer();
-			logger.info("Runner Server Initialization Completed.");
+			logger.info("Runner Server Initialization Completed. Server Starts.");
 		} catch (IllegalArgumentException e) {
-			logger.severe("Runner Server Initialization Failed. Caused by " + e.getMessage());
+			logger.severe("Runner Server Initialization Failed. Caused by "
+					+ e.getMessage());
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.severe("Runner Server Initialization Failed. Caused by SecurityException");
+			// e.printStackTrace();
+			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by SecurityException");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			logger.severe("Runner Server Initialization Failed. Caused by IOException");
+			// e.printStackTrace();
+			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by IOException");
 		}
 
 		System.out.println("Now Connecting Device:");
@@ -61,20 +62,13 @@ public class RunnerServer {
 			System.out.println(a);
 		}
 
-		try {
-			PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
-					deviceInfoMap.get("HTCT328W")).testDurationThres(999999)
-					.appInstallPath("c:/Android/mytools/renren.apk")
-					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
-					.build();
-			new Thread(a).start();
-			//Test.tryLock();
-
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-
-			// e.printStackTrace();
-		}
+		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
+				deviceInfoMap.get("HTCT328W")).testDurationThres(999999)
+				.appInstallPath("c:/Android/mytools/renren1.apk")
+				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+				.build();
+		new Thread(a).start();
+		// Test.tryLock();
 
 		/*
 		 * Collection<String> viewList = me.getViewIdList(); for(String a :
@@ -91,7 +85,8 @@ public class RunnerServer {
 
 	}
 
-	private static void initRunnerServer() throws SecurityException, IOException {
+	private static void initRunnerServer() throws SecurityException,
+			IOException {
 		// TODO Auto-generated method stub
 		adbBackend = new AdbBackend(ADB_LOCATION, false);
 		deviceInfoMap.put(

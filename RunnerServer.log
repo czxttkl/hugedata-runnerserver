@@ -14,3 +14,11 @@
 20130330221734->INFO->Runner Server Initialization Completed.
 20130330230006->INFO->Runner Server Initialization Completed.
 20130330230241->INFO->Runner Server Initialization Completed.
+20130331094255->INFO->Runner Server Initialization Completed.
+20130331094838->INFO->Runner Server Initialization Completed.
+20130331095011->SEVERE->Runner Server Initialization Failed. Caused by Adb Location Parameter Illegal
+20130331095323->INFO->Runner Server Initialization Completed.
+20130331095524->INFO->Runner Server Initialization Completed.
+20130331101118->INFO->Runner Server Initialization Completed.
+20130331102734->INFO->Runner Server Initialization Completed. Server Starts.
+20130331103804->INFO->Runner Server Initialization Completed. Server Starts.
