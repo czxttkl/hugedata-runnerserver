@@ -1,4 +1,4 @@
-package com.czxttkl.hugedata.test;
+package com.czxttkl.hugedata.server;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,6 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.android.chimpchat.adb.AdbBackend;
+import com.android.chimpchat.core.PhysicalButton;
+import com.android.chimpchat.core.TouchPressType;
 import com.czxttkl.hugedata.helper.LogFormatter;
 import com.czxttkl.hugedata.helper.NameDevicePair;
 import com.czxttkl.hugedata.helper.PacketTest;
@@ -64,10 +66,11 @@ public class RunnerServer {
 
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328W")).testDurationThres(999999)
-				.appInstallPath("c:/Android/mytools/renren1.apk")
+				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.build();
 		new Thread(a).start();
+		
 		// Test.tryLock();
 
 		/*

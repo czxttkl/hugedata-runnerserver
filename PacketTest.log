@@ -4,3 +4,780 @@
 20130331103805->INFO->Remove APP package successfully.
 20130331103806->INFO->Remove Test package successfully.
 20130331103806->INFO->Test ends. Device released.
+20130331104934->INFO->Adb Location set successfully
+20130331104934->INFO->Test starts. Device suspended.
+20130331104945->INFO->Install APP package successfully
+20130331104945->INFO->Install failed. Caused by Test Install Path Parameter Illegal
+20130331104947->INFO->Remove APP package successfully.
+20130331104948->INFO->Remove Test package successfully.
+20130331104948->INFO->Test ends. Device released.
+20130331110306->INFO->Adb Location set successfully
+20130331110306->INFO->Test starts. Device suspended.
+20130331110317->INFO->Install APP package successfully
+20130331110318->INFO->Install Test package successfully
+20130331110416->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: 3 Buttons are not found!
+	at com.jayway.android.robotium.solo.Waiter.waitForAndGetView(Waiter.java:488)
+	at com.jayway.android.robotium.solo.Clicker.clickOn(Clicker.java:373)
+	at com.jayway.android.robotium.solo.Solo.clickOnButton(Solo.java:1081)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:52)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 50.164
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130331110416->INFO->Test Instrumentation finished
+20130331110416->INFO->Tcpdump has been killed.
+20130331110418->INFO->Remove APP package successfully.
+20130331110420->INFO->Remove Test package successfully.
+20130331110420->INFO->Test ends. Device released.
+20130331153545->INFO->Adb Location set successfully
+20130331153545->INFO->Test starts. Device suspended.
+20130331153556->INFO->Install APP package successfully
+20130331153559->INFO->Install Test package successfully
+20130331153700->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: Procedure1:Welcome UI
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:50)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 49.613
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130331153700->INFO->Test Instrumentation finished
+20130331153700->INFO->Tcpdump has been killed.
+20130331153702->INFO->Remove APP package successfully.
+20130331153703->INFO->Remove Test package successfully.
+20130331153703->INFO->Test ends. Device released.
+20130331155434->INFO->Adb Location set successfully
+20130331155434->INFO->Test starts. Device suspended.
+20130331155446->INFO->Install APP package successfully
+20130331155448->INFO->Install Test package successfully
+20130331155545->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: 3 Buttons are not found!
+	at com.jayway.android.robotium.solo.Waiter.waitForAndGetView(Waiter.java:488)
+	at com.jayway.android.robotium.solo.Clicker.clickOn(Clicker.java:373)
+	at com.jayway.android.robotium.solo.Solo.clickOnButton(Solo.java:1081)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:52)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 49.993
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130331155545->INFO->Test Instrumentation finished
+20130331155546->INFO->Tcpdump has been killed.
+20130331155548->INFO->Remove APP package successfully.
+20130331155549->INFO->Remove Test package successfully.
+20130331155549->INFO->Test ends. Device released.
+20130331160128->INFO->Adb Location set successfully
+20130331160128->INFO->Test starts. Device suspended.
+20130331160138->INFO->Install APP package successfully
+20130331160140->INFO->Install Test package successfully
+20130331160239->INFO->
+com.renren.mobile.android.test.TestApk:...
+Test results for InstrumentationTestRunner=...
+Time: 51.725
+
+OK (3 tests)
+
+
+
+20130331160239->INFO->Test Instrumentation finished
+20130331160239->INFO->Tcpdump has been killed.
+20130331160242->INFO->Remove APP package successfully.
+20130331160244->INFO->Remove Test package successfully.
+20130331160244->INFO->Test ends. Device released.
+20130401142946->INFO->Adb Location set successfully
+20130401142946->INFO->Test starts. Device suspended.
+20130401142957->INFO->Install APP package successfully
+20130401142959->INFO->Install Test package successfully
+20130401143000->INFO->INSTRUMENTATION_STATUS: id=ActivityManagerService
+INSTRUMENTATION_STATUS: Error=Unable to find instrumentation info for: ComponentInfo{com.renren.mobile.andro_id.test/android.test.InstrumentationTestRunner}
+INSTRUMENTATION_STATUS_CODE: -1
+android.util.AndroidException: INSTRUMENTATION_FAILED: com.renren.mobile.andro_id.test/android.test.InstrumentationTestRunner
+	at com.android.commands.am.Am.runInstrument(Am.java:586)
+	at com.android.commands.am.Am.run(Am.java:117)
+	at com.android.commands.am.Am.main(Am.java:80)
+	at com.android.internal.os.RuntimeInit.finishInit(Native Method)
+	at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:260)
+	at dalvik.system.NativeStart.main(Native Method)
+
+20130401143000->INFO->Test Instrumentation finished
+20130401143000->INFO->Tcpdump has been killed.
+20130401143001->INFO->Remove APP package successfully.
+20130401143001->INFO->Remove Test package successfully.
+20130401143001->INFO->Test ends. Device released.
+20130401143102->INFO->Adb Location set successfully
+20130401143121->INFO->Adb Location set successfully
+20130401143121->INFO->Test starts. Device suspended.
+20130401143133->INFO->Install APP package successfully
+20130401143136->INFO->Install Test package successfully
+20130401143237->INFO->
+com.renren.mobile.android.test.TestApk:..
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=...F
+Time: 53.729
+
+FAILURES!!!
+Tests run: 3,  Failures: 1,  Errors: 0
+
+
+
+20130401143237->INFO->Test Instrumentation finished
+20130401143237->INFO->Tcpdump has been killed.
+20130401143242->INFO->Remove APP package successfully.
+20130401143245->INFO->Remove Test package successfully.
+20130401143245->INFO->Test ends. Device released.
+20130402145024->INFO->Adb Location set successfully
+20130402145024->INFO->Test starts. Device suspended.
+20130402145039->INFO->Install APP package successfully
+20130402145041->INFO->Install Test package successfully
+20130402145146->INFO->
+com.renren.mobile.android.test.TestApk:...
+Test results for InstrumentationTestRunner=...
+Time: 56.574
+
+OK (3 tests)
+
+
+
+20130402145146->INFO->Test Instrumentation finished
+20130402145146->INFO->Tcpdump has been killed.
+20130402145151->INFO->Remove APP package successfully.
+20130402145153->INFO->Remove Test package successfully.
+20130402145153->INFO->Test ends. Device released.
+20130402151432->INFO->Adb Location set successfully
+20130402151432->INFO->Test starts. Device suspended.
+20130402151704->INFO->Adb Location set successfully
+20130402151704->INFO->Test starts. Device suspended.
+20130402151717->INFO->Install APP package successfully
+20130402151721->INFO->Install Test package successfully
+20130402151819->INFO->Test Instrumentation finished
+20130402151819->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: Procedure1:Welcome UI
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:50)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+..
+Test results for InstrumentationTestRunner=.F..
+Time: 50.754
+
+FAILURES!!!
+Tests run: 3,  Failures: 1,  Errors: 0
+
+
+
+20130402151819->INFO->Tcpdump has been killed.
+20130402151823->INFO->Remove APP package successfully.
+20130402151825->INFO->Remove Test package successfully.
+20130402151825->INFO->Test ends. Device released.
+20130402152130->INFO->Adb Location set successfully
+20130402152130->INFO->Test starts. Device suspended.
+20130402152142->INFO->Install APP package successfully
+20130402152144->INFO->Install Test package successfully
+20130402152242->INFO->Test Instrumentation finished
+20130402152242->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: Procedure1:Welcome UI
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:50)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 50.271
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130402152242->INFO->Tcpdump has been killed.
+20130402152244->INFO->Remove APP package successfully.
+20130402152246->INFO->Remove Test package successfully.
+20130402152246->INFO->Test ends. Device released.
+20130402152427->INFO->Adb Location set successfully
+20130402152427->INFO->Test starts. Device suspended.
+20130402152440->INFO->Install APP package successfully
+20130402152442->INFO->Install Test package successfully
+20130402152542->INFO->Test Instrumentation finished
+20130402152542->INFO->
+com.renren.mobile.android.test.TestApk:.
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:refresh
+	at com.jayway.android.robotium.solo.Asserter.assertViewShown(Asserter.java:122)
+	at com.jayway.android.robotium.solo.Solo.assertViewShown(Solo.java:687)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:69)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+.
+Test results for InstrumentationTestRunner=..F.
+Time: 52.842
+
+FAILURES!!!
+Tests run: 3,  Failures: 1,  Errors: 0
+
+
+
+20130402152542->INFO->Tcpdump has been killed.
+20130402152547->INFO->Remove APP package successfully.
+20130402152550->INFO->Remove Test package successfully.
+20130402152550->INFO->Test ends. Device released.
+20130402152816->INFO->Adb Location set successfully
+20130402152816->INFO->Test starts. Device suspended.
+20130402152827->INFO->Install APP package successfully
+20130402152829->INFO->Install Test package successfully
+20130402152926->INFO->Test Instrumentation finished
+20130402152926->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: 3 Buttons are not found!
+	at com.jayway.android.robotium.solo.Waiter.waitForAndGetView(Waiter.java:488)
+	at com.jayway.android.robotium.solo.Clicker.clickOn(Clicker.java:373)
+	at com.jayway.android.robotium.solo.Solo.clickOnButton(Solo.java:1081)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:52)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 49.987
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130402152926->INFO->Tcpdump has been killed.
+20130402152929->INFO->Remove APP package successfully.
+20130402152931->INFO->Remove Test package successfully.
+20130402152931->INFO->Test ends. Device released.
+20130402153125->INFO->Adb Location set successfully
+20130402153125->INFO->Test starts. Device suspended.
+20130402153136->INFO->Install APP package successfully
+20130402153138->INFO->Install Test package successfully
+20130402153236->INFO->Test Instrumentation finished
+20130402153236->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: Procedure1:Welcome UI
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:50)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 49.91
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130402153236->INFO->Tcpdump has been killed.
+20130402153238->INFO->Remove APP package successfully.
+20130402153240->INFO->Remove Test package successfully.
+20130402153240->INFO->Test ends. Device released.
+20130402153536->INFO->Adb Location set successfully
+20130402153536->INFO->Test starts. Device suspended.
+20130402153547->INFO->Install APP package successfully
+20130402153549->INFO->Install Test package successfully
+20130402153647->INFO->Test Instrumentation finished
+20130402153647->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: Procedure1:Welcome UI
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:50)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 49.871
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130402153647->INFO->Tcpdump has been killed.
+20130402153649->INFO->Remove APP package successfully.
+20130402153651->INFO->Remove Test package successfully.
+20130402153651->INFO->Test ends. Device released.
+20130402154117->INFO->Adb Location set successfully
+20130402154117->INFO->Test starts. Device suspended.
+20130402154129->INFO->Install APP package successfully
+20130402154131->INFO->Install Test package successfully
+20130402154230->INFO->Test Instrumentation finished
+20130402154235->INFO->Remove APP package successfully.
+20130402154237->INFO->Remove Test package successfully.
+20130402154237->INFO->Test ends. Device released.
+20130402155951->INFO->Adb Location set successfully
+20130402155951->INFO->Test starts. Device suspended.
+20130402160003->INFO->Install APP package successfully
+20130402160005->INFO->Install Test package successfully
+20130402160109->INFO->Test Instrumentation finished
+20130402160109->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: Procedure1:Input UI
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:53)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 56.142
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130402160109->INFO->Tcpdump has been killed.
+20130402160111->INFO->Remove APP package successfully.
+20130402160113->INFO->Remove Test package successfully.
+20130402160113->INFO->Test ends. Device released.
+20130402160342->INFO->Adb Location set successfully
+20130402160342->INFO->Test starts. Device suspended.
+20130402160353->INFO->Install APP package successfully
+20130402160355->INFO->Install Test package successfully
+20130402160459->INFO->Test Instrumentation finished
+20130402160459->INFO->
+com.renren.mobile.android.test.TestApk:..
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: No TextView with text 发状态 is found!
+	at com.jayway.android.robotium.solo.Getter.getView(Getter.java:62)
+	at com.jayway.android.robotium.solo.Solo.getText(Solo.java:1745)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:80)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=...F
+Time: 55.916
+
+FAILURES!!!
+Tests run: 3,  Failures: 1,  Errors: 0
+
+
+
+20130402160459->INFO->Tcpdump has been killed.
+20130402160504->INFO->Remove APP package successfully.
+20130402160506->INFO->Remove Test package successfully.
+20130402160506->INFO->Test ends. Device released.
+20130402161613->INFO->Adb Location set successfully
+20130402161613->INFO->Test starts. Device suspended.
+20130402161624->INFO->Install APP package successfully
+20130402161626->INFO->Install Test package successfully
+20130402161727->INFO->Test Instrumentation finished
+20130402161727->INFO->
+com.renren.mobile.android.test.TestApk:...
+Test results for InstrumentationTestRunner=...
+Time: 53.294
+
+OK (3 tests)
+
+
+
+20130402161727->INFO->Tcpdump has been killed.
+20130402161732->INFO->Remove APP package successfully.
+20130402161735->INFO->Remove Test package successfully.
+20130402161735->INFO->Test ends. Device released.
+20130402164128->INFO->Adb Location set successfully
+20130402164128->INFO->Test starts. Device suspended.
+20130402164139->INFO->Install APP package successfully
+20130402164141->INFO->Install Test package successfully
+20130402164239->INFO->Test Instrumentation finished
+20130402164239->INFO->
+com.renren.mobile.android.test.TestApk:
+Failure in testProcedure1:
+junit.framework.AssertionFailedError: 3 Buttons are not found!
+	at com.jayway.android.robotium.solo.Waiter.waitForAndGetView(Waiter.java:488)
+	at com.jayway.android.robotium.solo.Clicker.clickOn(Clicker.java:373)
+	at com.jayway.android.robotium.solo.Solo.clickOnButton(Solo.java:1081)
+	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:52)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure2:
+junit.framework.AssertionFailedError: Procedure2:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:67)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Failure in testProcedure3:
+junit.framework.AssertionFailedError: Procedure3:mydesktop
+	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:52)
+	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:619)
+	at com.renren.mobile.android.test.TestApk.testProcedure3(TestApk.java:78)
+	at java.lang.reflect.Method.invokeNative(Native Method)
+	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
+	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
+	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
+	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
+	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
+	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
+
+Test results for InstrumentationTestRunner=.F.F.F
+Time: 49.977
+
+FAILURES!!!
+Tests run: 3,  Failures: 3,  Errors: 0
+
+
+
+20130402164239->INFO->Tcpdump has been killed.
+20130402164241->INFO->Remove APP package successfully.
+20130402164243->INFO->Remove Test package successfully.
+20130402164243->INFO->Test ends. Device released.
