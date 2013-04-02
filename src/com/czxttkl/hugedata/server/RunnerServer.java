@@ -1,6 +1,8 @@
 package com.czxttkl.hugedata.server;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
@@ -11,14 +13,15 @@ import com.android.chimpchat.adb.AdbBackend;
 import com.android.chimpchat.core.PhysicalButton;
 import com.android.chimpchat.core.TouchPressType;
 import com.czxttkl.hugedata.helper.LogFormatter;
-import com.czxttkl.hugedata.helper.NameDevicePair;
-import com.czxttkl.hugedata.helper.PacketTest;
+import com.czxttkl.hugedata.helper.DeviceInfo;
+import com.czxttkl.hugedata.test.PacketTest;
 
 public class RunnerServer {
 
 	private static final String ADB_LOCATION = "c:/Android/platform-tools/adb.exe";
 	private static final int ADB_CONNECTION_WAITTIME_THRESHOLD = 5000;
-	private static HashMap<String, NameDevicePair> deviceInfoMap = new HashMap<String, NameDevicePair>();
+	private static HashMap<String, DeviceInfo> deviceInfoMap = new HashMap<String, DeviceInfo>();
+
 	private static AdbBackend adbBackend;
 	public static LogFormatter logFormatter = new LogFormatter();
 	public static Logger logger;
@@ -65,12 +68,13 @@ public class RunnerServer {
 		}
 
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
-				deviceInfoMap.get("HTCT328W")).testDurationThres(999999)
-				.appInstallPath("c:/Android/mytools/renren.apk")
+				deviceInfoMap.get("HTCT328W"), new SimpleDateFormat(
+						"yyyyMMddHHmmss").format(new Date()).toString(), "TEL")
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
-				.build();
+				.appInstallPath("c:/Android/mytools/renren.apk")
+				.testDurationThres(999999).build();
 		new Thread(a).start();
-		
+
 		// Test.tryLock();
 
 		/*
@@ -94,11 +98,12 @@ public class RunnerServer {
 		adbBackend = new AdbBackend(ADB_LOCATION, false);
 		deviceInfoMap.put(
 				"HTCT328W",
-				new NameDevicePair("HC29GPG09471", adbBackend
+				new DeviceInfo("HTC", "T328W", "HC29GPG09471", adbBackend
 						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
 								"HC29GPG09471")));
 		PacketTest.setLogger("PacketTest.log", true);
 		PacketTest.setAdbLocation("c:/Android/platform-tools/adb");
+		PacketTest.setTestLocation(101010);
 	}
 
 }
