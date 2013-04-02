@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.android.chimpchat.core.IChimpDevice;
+import com.android.chimpchat.core.PhysicalButton;
+import com.android.chimpchat.core.TouchPressType;
 import com.android.ddmlib.ShellCommandUnresponsiveException;
 
 public class PacketTest implements Runnable {
@@ -77,10 +80,8 @@ public class PacketTest implements Runnable {
 			installPackage(TEST_INSTALL_PATH, "Test");
 
 			Process tcpdump = Runtime.getRuntime().exec(testCmd);
-			logger.info(myDevice.startTestInstrumentation(TEST_PACKAGE_NAME,
+			analyzeResult(myDevice.startTestInstrumentation(TEST_PACKAGE_NAME,
 					TEST_DURATION_THRESHOLD));
-
-			logger.info("Test Instrumentation finished");
 
 			logger.info("Tcpdump has been killed."
 					+ myDevice.shell("busybox pkill -SIGINT tcpdump"));
@@ -103,6 +104,53 @@ public class PacketTest implements Runnable {
 		}
 	}
 
+	private void analyzeResult(String testResult) {
+		// TODO Auto-generated method stub
+		logger.info("Test Instrumentation finished");
+		int totalProcedure;
+		double testTime;
+		
+		Scanner resultScanner = new Scanner(testResult);
+		while (resultScanner.hasNextLine()) {
+			String line = resultScanner.nextLine();
+			
+			//filter unrelated lines
+			if(line.length()<2)
+				continue;
+			
+			if (line.startsWith("Failure in testProcedure")) {
+				int procedureNum = Integer.valueOf(line.substring(24).split(":")[0]);
+				System.out.println(procedureNum);
+				
+				while (resultScanner.hasNextLine()){
+					String inLine = resultScanner.nextLine();
+					if(inLine.length()<2)
+						break;
+					System.out.println(inLine);
+				}
+			}
+
+			if (line.startsWith("Time: ")) {
+				testTime=Double.valueOf(line.substring(6));
+				System.out.println(testTime);
+			}
+			
+			if(line.startsWith("OK (")){
+				totalProcedure = Integer.valueOf(line.substring(4).split(" ")[0]);
+				System.out.println(totalProcedure);
+			}
+			
+			if(line.startsWith("Tests run: ")){
+				totalProcedure = Integer.valueOf(line.split(",")[0].split(" ")[2]);
+				System.out.println(totalProcedure);
+			}
+
+		}
+		resultScanner.close();
+		logger.info(testResult);
+	}
+
+	
 	private String constructTcpdumpCmd() {
 		StringBuilder testCmd = new StringBuilder(ADB_LOCATION + " ");
 		testCmd.append("-s ");
@@ -175,7 +223,7 @@ public class PacketTest implements Runnable {
 		private boolean clearHistory = true;
 
 		public Builder(String TEST_PACKAGE_NAME, NameDevicePair pair) {
-			Pattern p = Pattern.compile("((\\w+)\\.)+test");
+			Pattern p = Pattern.compile("(([a-zA-Z]+)\\.)+test");
 			if (p.matcher(TEST_PACKAGE_NAME).matches())
 				this.TEST_PACKAGE_NAME = TEST_PACKAGE_NAME;
 			else
