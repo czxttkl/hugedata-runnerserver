@@ -15,6 +15,7 @@ import com.android.chimpchat.core.TouchPressType;
 import com.czxttkl.hugedata.helper.LogFormatter;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.test.PacketTest;
+import com.czxttkl.hugedata.test.Test;
 
 public class RunnerServer {
 
@@ -101,9 +102,10 @@ public class RunnerServer {
 				new DeviceInfo("HTC", "T328W", "HC29GPG09471", adbBackend
 						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
 								"HC29GPG09471")));
-		PacketTest.setLogger("PacketTest.log", true);
-		PacketTest.setAdbLocation("c:/Android/platform-tools/adb");
-		PacketTest.setTestLocation(101010);
+		Class[] testClasses = {PacketTest.class};
+		Test.setLogger(testClasses, true);
+		Test.setAdbLocation("c:/Android/platform-tools/adb");
+		Test.setTestLocation(101010);
 	}
 
 }

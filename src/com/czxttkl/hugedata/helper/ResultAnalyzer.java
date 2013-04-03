@@ -72,8 +72,23 @@ public class ResultAnalyzer {
 		startTime.appendChild(packetTest.TEST_START_TIME);
 		Element duration = new Element("Duration");
 		duration.appendChild(String.valueOf((int)(testTime * 1000)));
+		Element location = new Element("Location");
+		location.appendChild(String.valueOf(packetTest.LOCATION_NUM));
+		Element phoneManufacturer = new Element("PhoneManufacturer");
+		phoneManufacturer.appendChild(packetTest.DEVICE_INFO.getManufacturer());
+		Element phoneType = new Element("PhoneType");
+		phoneType.appendChild(packetTest.DEVICE_INFO.getType());
+		Element platformName = new Element("PlatformName");
+		platformName.appendChild(packetTest.DEVICE_INFO.getPlatformName());
+		Element platformVer = new Element("PlatformVer");
+		platformVer.appendChild(packetTest.DEVICE_INFO.getPlatformVer());
+		
 		publicMetrics.appendChild(startTime);
 		publicMetrics.appendChild(duration);
+		publicMetrics.appendChild(location);
+		publicMetrics.appendChild(phoneType);
+		publicMetrics.appendChild(platformName);
+		publicMetrics.appendChild(platformVer);
 		
 		Document doc = new Document(publicMetrics);
 		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/task.xml")),doc);
