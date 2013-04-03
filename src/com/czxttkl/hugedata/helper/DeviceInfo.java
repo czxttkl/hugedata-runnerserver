@@ -1,5 +1,7 @@
 package com.czxttkl.hugedata.helper;
 
+import java.util.Scanner;
+
 import com.android.chimpchat.core.IChimpDevice;
 
 public class DeviceInfo {
@@ -26,7 +28,9 @@ public class DeviceInfo {
 
 	private String setPlatformVer(IChimpDevice device) {
 		// TODO Auto-generated method stub
-		return device.shell("getprop ro.build.version.release");
+		//Scanner ver = new Scanner(device.shell("getprop ro.build.version.release"));
+		//return ver.nextLine();
+		return device.shell("getprop ro.build.version.release").trim();
 	}
 
 	public String getManufacturer() {

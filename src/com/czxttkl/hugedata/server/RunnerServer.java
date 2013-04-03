@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.android.chimpchat.adb.AdbBackend;
+import com.android.chimpchat.core.IChimpDevice;
 import com.android.chimpchat.core.PhysicalButton;
 import com.android.chimpchat.core.TouchPressType;
 import com.czxttkl.hugedata.helper.LogFormatter;
@@ -63,10 +64,7 @@ public class RunnerServer {
 			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by IOException");
 		}
 
-		System.out.println("Now Connecting Device:");
-		for (String a : adbBackend.listAttachedDevice()) {
-			System.out.println(a);
-		}
+
 
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328W"), new SimpleDateFormat(
@@ -97,11 +95,26 @@ public class RunnerServer {
 			IOException {
 		// TODO Auto-generated method stub
 		adbBackend = new AdbBackend(ADB_LOCATION, false);
-		deviceInfoMap.put(
+/*		deviceInfoMap.put(
 				"HTCT328W",
 				new DeviceInfo("HTC", "T328W", "HC29GPG09471", adbBackend
 						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
-								"HC29GPG09471")));
+								"HC29GPG09471")));*/
+		System.out.println("Now Connecting Device:");
+		for (String deviceAdbName : adbBackend.listAttachedDevice()) {
+			System.out.println(deviceAdbName);
+			IChimpDevice device = adbBackend.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD, deviceAdbName);
+			if(device!=null){
+				String raw = device.shell("cat /sdcard/hugedata/deviceinfo").trim();
+				String manufacturer= raw.split(":")[0];
+				String type = raw.split(":")[1];
+				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type, deviceAdbName, device);
+				deviceInfoMap.put(manufacturer + type, deviceInfo);
+			}
+		}
+		
+		
+		
 		Class[] testClasses = {PacketTest.class};
 		Test.setLogger(testClasses, true);
 		Test.setAdbLocation("c:/Android/platform-tools/adb");
