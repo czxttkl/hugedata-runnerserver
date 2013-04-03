@@ -7,8 +7,11 @@ public class DeviceInfo {
 	private String type;
 	private String adbName;
 	private IChimpDevice me;
+	private String platformName;
+	private String platformVer;
+	
 	public boolean availability;
-
+	
 	public DeviceInfo(String manufacturer, String type, String adbName, IChimpDevice me) {
 		this.manufacturer = manufacturer;
 		this.type = type;
@@ -17,6 +20,13 @@ public class DeviceInfo {
 			this.me = me;
 			availability = true;
 		}
+		platformName = "AND";
+		platformVer = setPlatformVer(me);
+	}
+
+	private String setPlatformVer(IChimpDevice device) {
+		// TODO Auto-generated method stub
+		return device.shell("getprop ro.build.version.release");
 	}
 
 	public String getManufacturer() {
@@ -33,5 +43,13 @@ public class DeviceInfo {
 
 	public IChimpDevice getDevice() {
 		return this.me;
+	}
+	
+	public String getPlatformName(){
+		return this.platformName;
+	}
+	
+	public String getPlatformVer(){
+		return this.platformVer;
 	}
 }

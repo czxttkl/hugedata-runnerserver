@@ -20,11 +20,9 @@ import com.czxttkl.hugedata.helper.LogFormatter;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultAnalyzer;
 
-public class PacketTest implements Runnable {
+public class PacketTest extends Test implements Runnable {
 	//Parameters set in the static methods
-	public static String ADB_LOCATION;
-	public static Logger logger;
-	public static int locationNum;
+	public static Logger logger = Logger.getLogger(PacketTest.class.getName());
 	
 	// Mandatory Parameters
 	public final String TEST_PACKAGE_NAME;
@@ -55,39 +53,9 @@ public class PacketTest implements Runnable {
 				TEST_PACKAGE_NAME.length() - 5);
 		CLEAR_HISTORY = builder.clearHistory;
 
-		resultDirStr = locationNum + DEVICE_INFO.getManufacturer() + DEVICE_INFO.getType() + NETWORK + TEST_START_TIME;
+		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer() + DEVICE_INFO.getType() + NETWORK + TEST_START_TIME;
 		resultDir = new File(resultDirStr);
 		resultDir.mkdir();
-	}
-
-	public static void setAdbLocation(String adbLocation) {
-		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb
-		// No need to append ".exe"
-		Pattern p = Pattern
-				.compile("(([a-zA-Z]:)|~|(\\.\\.)|(\\w|-)*)/((\\w|-)+/)*adb");
-		if (p.matcher(adbLocation).matches()) {
-			PacketTest.ADB_LOCATION = adbLocation;
-			logger.info("Adb Location set successfully");
-		} else
-			throw new IllegalArgumentException("Adb Location Parameter Illegal");
-	}
-
-	public static void setLogger(String logFilePath, boolean appendLog)
-			throws SecurityException, IOException {
-		LogFormatter logFormatter = new LogFormatter();
-		logger = Logger.getLogger(PacketTest.class.getName());
-		logger.setLevel(Level.FINEST);
-		FileHandler fileHandler = new FileHandler(logFilePath, appendLog);
-		fileHandler.setFormatter(logFormatter);
-		logger.addHandler(fileHandler);
-	}
-	
-	public static void setTestLocation(int locationNum){
-		if (locationNum>=100000 && locationNum<=999999)
-			PacketTest.locationNum = locationNum;
-		else
-			throw new IllegalArgumentException("Location Number Parameter Illegal");
-			
 	}
 
 	@Override
@@ -107,7 +75,7 @@ public class PacketTest implements Runnable {
 
 			Process tcpdump = Runtime.getRuntime().exec(testCmd);
 
-			File resultXml = new File(resultDirStr + "/task.xml");
+			File resultXml = new File(resultDirStr + "/result.xml");
 			resultXml.createNewFile();
 	/*		
 			ResultAnalyzer.analyze(PacketTest.class, PAIR, logger, myDevice
@@ -142,7 +110,7 @@ public class PacketTest implements Runnable {
 	private String constructTcpdumpCmd() {
 		StringBuilder testCmd = new StringBuilder(ADB_LOCATION + " ");
 		testCmd.append("-s ");
-		testCmd.append(getDeviceName() + " ");
+		testCmd.append(getAdbName() + " ");
 		testCmd.append("shell tcpdump ");
 		testCmd.append("-p -vv -s 0 -w ");
 		testCmd.append("/sdcard/capture.pcap");
@@ -184,7 +152,7 @@ public class PacketTest implements Runnable {
 		return DEVICE_INFO.getDevice();
 	}
 
-	private String getDeviceName() {
+	private String getAdbName() {
 		// TODO Auto-generated method stub
 		return DEVICE_INFO.getAdbName();
 	}
