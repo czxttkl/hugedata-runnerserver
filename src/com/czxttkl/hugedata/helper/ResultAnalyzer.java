@@ -91,7 +91,7 @@ public class ResultAnalyzer {
 		publicMetrics.appendChild(platformVer);
 		
 		Document doc = new Document(publicMetrics);
-		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/task.xml")),doc);
+		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);
 		logger.info(testResult);
 
 	}

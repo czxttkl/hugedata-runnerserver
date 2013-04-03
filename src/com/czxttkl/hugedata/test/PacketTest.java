@@ -40,6 +40,7 @@ public class PacketTest extends Test implements Runnable {
 	public String resultDirStr;
 	private File resultDir;
 
+	
 	private PacketTest(Builder builder) {
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
@@ -74,9 +75,6 @@ public class PacketTest extends Test implements Runnable {
 			installPackage(TEST_INSTALL_PATH, "Test");
 
 			Process tcpdump = Runtime.getRuntime().exec(testCmd);
-
-			File resultXml = new File(resultDirStr + "/result.xml");
-			resultXml.createNewFile();
 	/*		
 			ResultAnalyzer.analyze(PacketTest.class, PAIR, logger, myDevice
 					.startTestInstrumentation(TEST_PACKAGE_NAME,
