@@ -46,25 +46,31 @@ public class RunnerServer {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException,
+			IOException {
 		// TODO Auto-generated method stub
 		try {
 			initRunnerServer();
 			logger.info("Runner Server Initialization Completed. Server Starts.");
+		} catch (InterruptedException e) {
+			logger.severe("Runner Server Initialization Failed. Caused by "
+					+ e.getMessage());
+			throw e;
 		} catch (IllegalArgumentException e) {
 			logger.severe("Runner Server Initialization Failed. Caused by "
 					+ e.getMessage());
+			throw e;
 		} catch (SecurityException e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by SecurityException");
+			throw e;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by IOException");
+			throw e;
 		}
-
-
 
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328W"), new SimpleDateFormat(
@@ -92,33 +98,44 @@ public class RunnerServer {
 	}
 
 	private static void initRunnerServer() throws SecurityException,
-			IOException {
+			IOException, InterruptedException {
 		// TODO Auto-generated method stub
+		
 		adbBackend = new AdbBackend(ADB_LOCATION, false);
-/*		deviceInfoMap.put(
-				"HTCT328W",
-				new DeviceInfo("HTC", "T328W", "HC29GPG09471", adbBackend
-						.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
-								"HC29GPG09471")));*/
+		Thread.sleep(5000);
+		/*
+		 * deviceInfoMap.put( "HTCT328W", new DeviceInfo("HTC", "T328W",
+		 * "HC29GPG09471", adbBackend
+		 * .waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
+		 * "HC29GPG09471")));
+		 */
+
 		System.out.println("Now Connecting Device:");
 		for (String deviceAdbName : adbBackend.listAttachedDevice()) {
 			System.out.println(deviceAdbName);
-			IChimpDevice device = adbBackend.waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD, deviceAdbName);
-			if(device!=null){
-				String raw = device.shell("cat /sdcard/hugedata/deviceinfo").trim();
-				String manufacturer= raw.split(":")[0];
+			IChimpDevice device = adbBackend.waitForConnection(
+					ADB_CONNECTION_WAITTIME_THRESHOLD, deviceAdbName);
+			if (device != null) {
+				device.startActivity(null, null, null, null, null, null,
+						"com.czxttkl.hugedata/.activity.MainActivity", 0);
+				Thread.sleep(5000);
+				String raw = device.shell("cat /sdcard/hugedata/deviceinfo")
+						.trim();
+				String manufacturer = raw.split(":")[0];
 				String type = raw.split(":")[1];
-				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type, deviceAdbName, device);
+				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type,
+						deviceAdbName, device);
 				deviceInfoMap.put(manufacturer + type, deviceInfo);
+				logger.info("Device Added, Manufacturer:" + manufacturer
+						+ ", Type:" + type + ", ADB Name:" + deviceAdbName);
 			}
 		}
-		
-		
-		
-		Class[] testClasses = {PacketTest.class};
+
+		Class[] testClasses = { PacketTest.class };
 		Test.setLogger(testClasses, true);
 		Test.setAdbLocation("c:/Android/platform-tools/adb");
 		Test.setTestLocation(101010);
+		logger.info("Test Configured Done.");
 	}
 
 }
