@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.FileHandler;
@@ -21,15 +22,15 @@ import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultAnalyzer;
 
 public class PacketTest extends Test implements Runnable {
-	//Parameters set in the static methods
+	// Parameters set in the static methods
 	public static Logger logger = Logger.getLogger(PacketTest.class.getName());
-	
+
 	// Mandatory Parameters
 	public final String TEST_PACKAGE_NAME;
 	public final DeviceInfo DEVICE_INFO;
 	public final String TEST_START_TIME;
 	public final String NETWORK;
-	
+
 	// Optional Parameters
 	private final String APP_PACKAGE_NAME;
 	private final int TEST_DURATION_THRESHOLD;
@@ -40,13 +41,12 @@ public class PacketTest extends Test implements Runnable {
 	public String resultDirStr;
 	private File resultDir;
 
-	
 	private PacketTest(Builder builder) {
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
 		TEST_START_TIME = builder.TEST_START_TIME;
 		NETWORK = builder.NETWORK;
-		
+
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
 		APP_INSTALL_PATH = builder.appInstallPath;
 		TEST_INSTALL_PATH = builder.testInstallPath;
@@ -54,7 +54,8 @@ public class PacketTest extends Test implements Runnable {
 				TEST_PACKAGE_NAME.length() - 5);
 		CLEAR_HISTORY = builder.clearHistory;
 
-		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer() + DEVICE_INFO.getType() + NETWORK + TEST_START_TIME;
+		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()
+				+ DEVICE_INFO.getType() + NETWORK + TEST_START_TIME;
 		resultDir = new File(resultDirStr);
 		resultDir.mkdir();
 	}
@@ -62,28 +63,19 @@ public class PacketTest extends Test implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		suspendAvailability();
+
+		logger.info("Test starts. Device suspended.");
 		IChimpDevice myDevice = getDevice();
 		String testCmd = constructTcpdumpCmd();
 		try {
-			/*
-			 * BufferedReader dumpResult = new BufferedReader( new
-			 * InputStreamReader(tcpdump.getInputStream())); String s; while ((s
-			 * = dumpResult.readLine()) != null) System.out.println(s);
-			 */
 			installPackage(APP_INSTALL_PATH, "APP");
 			installPackage(TEST_INSTALL_PATH, "Test");
 
 			Process tcpdump = Runtime.getRuntime().exec(testCmd);
-	/*		
-			ResultAnalyzer.analyze(PacketTest.class, PAIR, logger, myDevice
-					.startTestInstrumentation(TEST_PACKAGE_NAME,
-							TEST_DURATION_THRESHOLD), resultDirStr);*/
 
-			ResultAnalyzer.analyze(this,myDevice
-					.startTestInstrumentation(TEST_PACKAGE_NAME,
-							TEST_DURATION_THRESHOLD));
-			
+			ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
+					TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
+
 			logger.info("Tcpdump has been killed."
 					+ myDevice.shell("busybox pkill -SIGINT tcpdump"));
 
@@ -101,7 +93,8 @@ public class PacketTest extends Test implements Runnable {
 			} else
 				logger.info("No need to remove package"
 						+ myDevice.shell("am force-stop " + APP_PACKAGE_NAME));
-			releaseAvailability();
+			if (releaseDevice())
+				logger.info("Test ends. Device released.");
 		}
 	}
 
@@ -155,14 +148,12 @@ public class PacketTest extends Test implements Runnable {
 		return DEVICE_INFO.getAdbName();
 	}
 
-	private void suspendAvailability() {
-		logger.info("Test starts. Device suspended.");
-		DEVICE_INFO.availability = false;
+	private boolean suspendDevice() {
+		return DEVICE_INFO.suspendDevice();
 	}
 
-	private void releaseAvailability() {
-		logger.info("Test ends. Device released.");
-		DEVICE_INFO.availability = true;
+	private boolean releaseDevice() {
+		return DEVICE_INFO.releaseDevice();
 	}
 
 	public static class Builder {
@@ -171,26 +162,28 @@ public class PacketTest extends Test implements Runnable {
 		private final DeviceInfo DEVICE_INFO;
 		private final String TEST_START_TIME;
 		private final String NETWORK;
-		
+
 		// Optional Parameters
 		private int testDurationThres = 999999;
 		private String appInstallPath;
 		private String testInstallPath;
 		private boolean clearHistory = true;
 
-		public Builder(String TEST_PACKAGE_NAME, DeviceInfo pair, String testStartTime, String network) {
+		public Builder(String TEST_PACKAGE_NAME, DeviceInfo deviceinfo,
+				String network) {
+			// Validate Test Package Name
 			Pattern p = Pattern.compile("(([a-zA-Z]+)\\.)+test");
 			if (p.matcher(TEST_PACKAGE_NAME).matches())
 				this.TEST_PACKAGE_NAME = TEST_PACKAGE_NAME;
 			else
 				throw new IllegalArgumentException(
 						"TEST PACKAGE NAME Parameter Illegal");
-			if (pair.availability)
-				this.DEVICE_INFO = pair;
-			else
-				throw new IllegalArgumentException("Test Device is in use.");
-			
-			this.TEST_START_TIME = testStartTime;
+			// The device instance
+			this.DEVICE_INFO = deviceinfo;
+			// Initialize the test start time for logger
+			this.TEST_START_TIME = new SimpleDateFormat("yyyyMMddHHmmss")
+					.format(new Date()).toString();
+			// The network the device uses
 			this.NETWORK = network;
 		}
 
@@ -234,7 +227,6 @@ public class PacketTest extends Test implements Runnable {
 						"Test Install Path Parameter Illegal");
 		}
 
-		
 		public PacketTest build() {
 			return new PacketTest(this);
 		}
