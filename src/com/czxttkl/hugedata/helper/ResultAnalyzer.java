@@ -66,7 +66,7 @@ public class ResultAnalyzer {
 		}
 		resultScanner.close();
 
-		Element publicMetrics = new Element("publicMetrics");
+		Element root = new Element("Result");
 		
 		Element startTime = new Element("StartTime");
 		startTime.appendChild(packetTest.TEST_START_TIME);
@@ -83,14 +83,14 @@ public class ResultAnalyzer {
 		Element platformVer = new Element("PlatformVer");
 		platformVer.appendChild(packetTest.DEVICE_INFO.getPlatformVer());
 		
-		publicMetrics.appendChild(startTime);
-		publicMetrics.appendChild(duration);
-		publicMetrics.appendChild(location);
-		publicMetrics.appendChild(phoneType);
-		publicMetrics.appendChild(platformName);
-		publicMetrics.appendChild(platformVer);
+		root.appendChild(startTime);
+		root.appendChild(duration);
+		root.appendChild(location);
+		root.appendChild(phoneType);
+		root.appendChild(platformName);
+		root.appendChild(platformVer);
 		
-		Document doc = new Document(publicMetrics);
+		Document doc = new Document(root);
 		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);
 		logger.info(testResult);
 

@@ -73,8 +73,7 @@ public class RunnerServer {
 		}
 
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
-				deviceInfoMap.get("HTCT328W"), new SimpleDateFormat(
-						"yyyyMMddHHmmss").format(new Date()).toString(), "TEL")
+				deviceInfoMap.get("HTCT328W"), "TEL")
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testDurationThres(999999).build();
