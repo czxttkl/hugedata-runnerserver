@@ -86,6 +86,12 @@ public class ResultAnalyzer {
 		platformVer.appendChild(packetTest.DEVICE_INFO.getPlatformVer());
 		Element ipAddress = new Element("IpAddress");
 		ipAddress.appendChild(packetTest.DEVICE_INFO.getIpAddress());
+		Element primeDns = new Element("PrimeDns");
+		primeDns.appendChild(packetTest.DEVICE_INFO.getPrimeDns());
+		Element secondaryDns = new Element("SecondaryDns");
+		secondaryDns.appendChild(packetTest.DEVICE_INFO.getSecondaryDns());
+		
+		
 		
 		root.appendChild(startTime);
 		root.appendChild(duration);
@@ -95,6 +101,8 @@ public class ResultAnalyzer {
 		root.appendChild(platformName);
 		root.appendChild(platformVer);
 		root.appendChild(ipAddress);
+		root.appendChild(primeDns);
+		root.appendChild(secondaryDns);
 		
 		Document doc = new Document(root);
 		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);
