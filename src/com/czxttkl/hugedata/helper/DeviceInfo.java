@@ -16,7 +16,6 @@ public class DeviceInfo {
 	private String platformName;
 	private String platformVer;
 
-	private volatile String ipAddress;
 	private volatile boolean availability;
 
 	public DeviceInfo(String manufacturer, String type, String network,
@@ -29,7 +28,6 @@ public class DeviceInfo {
 		this.availability = true;
 		this.platformName = "AND";
 		this.platformVer = setPlatformVer();
-		this.ipAddress = setIpAddress();
 	}
 
 	private String setPlatformVer() {
@@ -89,17 +87,20 @@ public class DeviceInfo {
 		return availability;
 	}
 	
-	//Read operation doesn't need synchronized keyword
 	public String getIpAddress() {
-		return ipAddress;
-	}
-
-	public synchronized String setIpAddress() {
 		Matcher m = Pattern.compile("([0-9]{1,3}.){3}[0-9]{1,3}").matcher(
 				me.shell("ifconfig rmnet0"));
 		if (m.find())
 			return m.group().trim();
 		else
 			return null;
+	}
+
+	public String getPrimeDns() {
+		return me.shell("getprop net.dns1").trim();
+	}
+	
+	public String getSecondaryDns() {
+		return me.shell("getprop net.dns2").trim();
 	}
 }
