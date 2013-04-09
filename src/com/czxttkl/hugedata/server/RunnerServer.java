@@ -120,13 +120,15 @@ public class RunnerServer {
 				Thread.sleep(5000);
 				String raw = device.shell("cat /sdcard/hugedata/deviceinfo")
 						.trim();
-				String manufacturer = raw.split(":")[0];
-				String type = raw.split(":")[1];
-				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type,
+				String[] metrics = raw.split(":");
+				String manufacturer = metrics[0];
+				String type = metrics[1];
+				String network = metrics[2];
+				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type, network,
 						deviceAdbName, device);
 				deviceInfoMap.put(manufacturer + type, deviceInfo);
 				logger.info("Device Added, Manufacturer:" + manufacturer
-						+ ", Type:" + type + ", ADB Name:" + deviceAdbName);
+						+ ", Type:" + type + ", Network:" + network + ", ADB Name:" + deviceAdbName);
 			}
 		}
 
