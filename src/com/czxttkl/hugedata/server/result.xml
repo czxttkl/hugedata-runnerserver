@@ -3,7 +3,8 @@
    <Duration>60000</Duration><!-- 持续时间60秒 -->
    <Location>110000</Location><!-- 测试地点为北京 -->
    <PhoneManufacturer>HTC</PhoneManufacturer><!-- 生产厂商：HTC 可均用三位字母表示，如三星：SAM，苹果：IPH -->
-   <PhoneType>T328W</PhoneType><!-- 手机型号：T328w 可均用五位字母表示 -->
+   <PhoneType>T328W</PhoneType><!-- 手机型号：T328W 可均用五位字母表示 -->
+   <Network>UNI</Network> <!-- 手机所处网络，用三位字母表示 电信：TEL 联通：UNI 移动：MOB -->
    <PlatformName>AND</PlatformName> <!-- 手机所处平台：Android 可均用三位字母表示，如IOS，AND，BLA -->
    <PlatformVer>4.0.2</PlatformVer><!-- 平台版本号 -->
    <PackageName>com.renren.mobile.android</PackageName> <!-- 测量APP包名为com.renren.mobile.android -->

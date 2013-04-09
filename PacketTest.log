@@ -1,84 +1,16 @@
-20130404123355->INFO->Test starts. Device suspended.
-20130404123408->INFO->Install APP package successfully
-20130404123410->INFO->Install Test package successfully
-20130404123515->INFO->Test Instrumentation finished
-20130404123515->INFO->
+20130409123902->INFO->Test starts. Device suspended.
+20130409123913->INFO->Install APP package successfully
+20130409123915->INFO->Install Test package successfully
+20130409124020->INFO->Test Instrumentation finished
+20130409124020->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 57.863
+Time: 57.685
 
 OK (3 tests)
 
 
 
-20130404123515->INFO->Tcpdump has been killed.
-20130404123518->INFO->Remove APP package successfully.
-20130404123521->INFO->Remove Test package successfully.
-20130404123521->INFO->Test ends. Device released.
-20130404164429->INFO->Test starts. Device suspended.
-20130404164441->INFO->Install APP package successfully
-20130404164443->INFO->Install Test package successfully
-20130404164549->INFO->Test Instrumentation finished
-20130404164549->INFO->
-com.renren.mobile.android.test.TestApk:...
-Test results for InstrumentationTestRunner=...
-Time: 57.972
-
-OK (3 tests)
-
-
-
-20130404164549->INFO->Tcpdump has been killed.
-20130404164553->INFO->Remove APP package successfully.
-20130404164555->INFO->Remove Test package successfully.
-20130404164555->INFO->Test ends. Device released.
-20130404170239->INFO->Test starts. Device suspended.
-20130404170312->INFO->Install APP package successfully
-20130404170315->INFO->Install Test package successfully
-20130404170426->INFO->Test Instrumentation finished
-20130404170426->INFO->
-com.renren.mobile.android.test.TestApk:...
-Test results for InstrumentationTestRunner=...
-Time: 61.063
-
-OK (3 tests)
-
-
-
-20130404170426->INFO->Tcpdump has been killed.
-20130404170429->INFO->Remove APP package successfully.
-20130404170432->INFO->Remove Test package successfully.
-20130404170432->INFO->Test ends. Device released.
-20130404170453->INFO->Test starts. Device suspended.
-20130404170504->INFO->Install APP package successfully
-20130404170506->INFO->Install Test package successfully
-20130404170607->INFO->Test Instrumentation finished
-20130404170607->INFO->
-com.renren.mobile.android.test.TestApk:...
-Test results for InstrumentationTestRunner=...
-Time: 53.459
-
-OK (3 tests)
-
-
-
-20130404170607->INFO->Tcpdump has been killed.
-20130404170610->INFO->Remove APP package successfully.
-20130404170612->INFO->Remove Test package successfully.
-20130404170612->INFO->Test ends. Device released.
-20130408130936->INFO->Test starts. Device suspended.
-20130408130949->INFO->Install APP package successfully
-20130408130951->INFO->Install Test package successfully
-20130408131056->INFO->Test Instrumentation finished
-20130408131056->INFO->
-com.renren.mobile.android.test.TestApk:...
-Test results for InstrumentationTestRunner=...
-Time: 56.904
-
-OK (3 tests)
-
-
-
-20130408131056->INFO->Tcpdump has been killed.
-20130408131059->INFO->Remove APP package successfully.
-20130408131102->INFO->Remove Test package successfully.
+20130409124020->INFO->Tcpdump has been killed.
+20130409124024->INFO->Remove APP package successfully.
+20130409124026->INFO->Remove Test package successfully.

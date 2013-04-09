@@ -78,17 +78,23 @@ public class ResultAnalyzer {
 		phoneManufacturer.appendChild(packetTest.DEVICE_INFO.getManufacturer());
 		Element phoneType = new Element("PhoneType");
 		phoneType.appendChild(packetTest.DEVICE_INFO.getType());
+		Element network = new Element("Network");
+		network.appendChild(packetTest.DEVICE_INFO.getNetwork());
 		Element platformName = new Element("PlatformName");
 		platformName.appendChild(packetTest.DEVICE_INFO.getPlatformName());
 		Element platformVer = new Element("PlatformVer");
 		platformVer.appendChild(packetTest.DEVICE_INFO.getPlatformVer());
+		Element ipAddress = new Element("IpAddress");
+		ipAddress.appendChild(packetTest.DEVICE_INFO.getIpAddress());
 		
 		root.appendChild(startTime);
 		root.appendChild(duration);
 		root.appendChild(location);
 		root.appendChild(phoneType);
+		root.appendChild(network);
 		root.appendChild(platformName);
 		root.appendChild(platformVer);
+		root.appendChild(ipAddress);
 		
 		Document doc = new Document(root);
 		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);

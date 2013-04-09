@@ -1,38 +1,43 @@
 package com.czxttkl.hugedata.helper;
 
+import java.net.InetAddress;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.android.chimpchat.core.IChimpDevice;
 
 public class DeviceInfo {
 	private String manufacturer;
 	private String type;
+	private String network;
 	private String adbName;
 	private IChimpDevice me;
 	private String platformName;
 	private String platformVer;
 
+	private volatile String ipAddress;
 	private volatile boolean availability;
 
-	public DeviceInfo(String manufacturer, String type, String adbName,
-			IChimpDevice me) {
+	public DeviceInfo(String manufacturer, String type, String network,
+			String adbName, IChimpDevice me) {
 		this.manufacturer = manufacturer;
 		this.type = type;
+		this.network = network;
 		this.adbName = adbName;
-		if (me != null) {
-			this.me = me;
-			availability = true;
-		}
-		platformName = "AND";
-		platformVer = setPlatformVer(me);
+		this.me = me;
+		this.availability = true;
+		this.platformName = "AND";
+		this.platformVer = setPlatformVer();
+		this.ipAddress = setIpAddress();
 	}
 
-	private String setPlatformVer(IChimpDevice device) {
+	private String setPlatformVer() {
 		// TODO Auto-generated method stub
 		// Scanner ver = new
 		// Scanner(device.shell("getprop ro.build.version.release"));
 		// return ver.nextLine();
-		return device.shell("getprop ro.build.version.release").trim();
+		return me.shell("getprop ro.build.version.release").trim();
 	}
 
 	public String getManufacturer() {
@@ -41,6 +46,10 @@ public class DeviceInfo {
 
 	public String getType() {
 		return this.type;
+	}
+
+	public String getNetwork() {
+		return this.network;
 	}
 
 	public String getAdbName() {
@@ -68,14 +77,29 @@ public class DeviceInfo {
 	}
 
 	public synchronized boolean releaseDevice() {
-		if(!availability) {
+		if (!availability) {
 			availability = true;
-			return true;	
+			return true;
 		} else
 			return false;
 	}
-	
-	public boolean isAvailable(){
+
+	//Read operation doesn't need synchronized keyword
+	public boolean isAvailable() {
 		return availability;
+	}
+	
+	//Read operation doesn't need synchronized keyword
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public synchronized String setIpAddress() {
+		Matcher m = Pattern.compile("([0-9]{1,3}.){3}[0-9]{1,3}").matcher(
+				me.shell("ifconfig rmnet0"));
+		if (m.find())
+			return m.group().trim();
+		else
+			return null;
 	}
 }
