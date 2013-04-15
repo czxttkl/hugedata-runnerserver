@@ -75,7 +75,7 @@ public class RunnerServer {
 		//Judge if the device is suspended 
 		//suspend the device
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
-				deviceInfoMap.get("HTCT328W"), "TEL")
+				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testDurationThres(999999).build();
@@ -128,7 +128,7 @@ public class RunnerServer {
 				String network = metrics[2];
 				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type, network,
 						deviceAdbName, device);
-				deviceInfoMap.put(manufacturer + type, deviceInfo);
+				deviceInfoMap.put(manufacturer + type + network, deviceInfo);
 				logger.info("Device Added, Manufacturer:" + manufacturer
 						+ ", Type:" + type + ", Network:" + network + ", ADB Name:" + deviceAdbName);
 			}
