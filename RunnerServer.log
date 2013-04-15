@@ -1,9 +1,19 @@
-20130409123902->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130409123902->INFO->Test Configured Done.
-20130409123902->INFO->Runner Server Initialization Completed. Server Starts.
-20130409131846->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130409131846->INFO->Test Configured Done.
-20130409131846->INFO->Runner Server Initialization Completed. Server Starts.
-20130409132942->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130409132942->INFO->Test Configured Done.
-20130409132942->INFO->Runner Server Initialization Completed. Server Starts.
+20130415213300->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
+20130415213300->INFO->Test Configured Done.
+20130415213300->INFO->Runner Server Initialization Completed. Server Starts.
+20130415213300->INFO->Test starts. Device suspended.
+20130415213312->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130415213313->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130415213358->INFO->Test Instrumentation finished
+20130415213358->INFO->
+com.renren.mobile.android.test.TestApk:...
+Test results for InstrumentationTestRunner=...
+Time: 37.296
+
+OK (3 tests)
+
+
+
+20130415213359->INFO->Tcpdump has been killed.
+20130415213402->INFO->Remove APP package successfully.
+20130415213405->INFO->Remove Test package successfully.
