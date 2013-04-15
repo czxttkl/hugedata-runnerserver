@@ -17,7 +17,7 @@ import com.czxttkl.hugedata.test.PacketTest;
 
 public class ResultAnalyzer {
 
-	public static void analyze(PacketTest packetTest, String testResult) throws IOException {
+	public synchronized static void analyze(PacketTest packetTest, String testResult) throws IOException {
 		// TODO Auto-generated method stub
 		Logger logger = packetTest.logger;
 		logger.info("Test Instrumentation finished");
@@ -73,7 +73,7 @@ public class ResultAnalyzer {
 		Element duration = new Element("Duration");
 		duration.appendChild(String.valueOf((int)(testTime * 1000)));
 		Element location = new Element("Location");
-		location.appendChild(String.valueOf(packetTest.LOCATION_NUM));
+		location.appendChild(String.valueOf(PacketTest.LOCATION_NUM));
 		Element phoneManufacturer = new Element("PhoneManufacturer");
 		phoneManufacturer.appendChild(packetTest.DEVICE_INFO.getManufacturer());
 		Element phoneType = new Element("PhoneType");
@@ -106,6 +106,10 @@ public class ResultAnalyzer {
 		
 		Document doc = new Document(root);
 		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);
+		
+		
+		
+		
 		logger.info(testResult);
 
 	}

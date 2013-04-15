@@ -11,6 +11,7 @@ import com.czxttkl.hugedata.helper.LogFormatter;
 public abstract class Test {
 	public static String ADB_LOCATION;
 	public static int LOCATION_NUM;
+	public static Logger logger;
 
 	public static void setAdbLocation(String adbLocation) {
 		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb
@@ -32,7 +33,7 @@ public abstract class Test {
 
 	}
 
-	public static void setLogger(Class[] testClasses, boolean appendLog)
+/*	public static void setLogger(Class[] testClasses, boolean appendLog)
 			throws SecurityException, IOException {
 		for (Class test : testClasses) {
 			String logFilePath = test.getSimpleName() + ".log";
@@ -43,6 +44,18 @@ public abstract class Test {
 			fileHandler.setFormatter(logFormatter);
 			logger.addHandler(fileHandler);
 		}
+		FileHandler fileHandler = new FileHandler("RunnerServer.log", true);
+		LogFormatter logFormatter = new LogFormatter();
+		fileHandler.setFormatter(logFormatter);
+		logger.addHandler(fileHandler);
+		
+		Logger logger = Logger.getLogger(test.getName());
+		logger.setLevel(Level.FINEST);
+		FileHandler fileHandler = new FileHandler(logFilePath, appendLog);
+	}*/
+	
+	public static void setLogger(Logger lg){
+		logger = lg;
 	}
 
 }

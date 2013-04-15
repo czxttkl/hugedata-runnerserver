@@ -71,7 +71,9 @@ public class RunnerServer {
 			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by IOException");
 			throw e;
 		}
-
+		
+		//Judge if the device is suspended 
+		//suspend the device
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328W"), "TEL")
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
@@ -132,8 +134,9 @@ public class RunnerServer {
 			}
 		}
 
-		Class[] testClasses = { PacketTest.class };
-		Test.setLogger(testClasses, true);
+		//Class[] testClasses = { PacketTest.class };
+		//Test.setLogger(testClasses, true);
+		Test.setLogger(logger);
 		Test.setAdbLocation("c:/Android/platform-tools/adb");
 		Test.setTestLocation(101010);
 		logger.info("Test Configured Done.");

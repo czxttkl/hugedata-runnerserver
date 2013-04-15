@@ -10,6 +10,8 @@
    <PackageName>com.renren.mobile.android</PackageName> <!-- 测量APP包名为com.renren.mobile.android -->
    <PackageVer>5.7.1</PackageVer><!-- 测量APP包版本号 -->
    <IpAddress>56.45.65.67</IpAddress> <!-- 测试手机分配到的IP地址：56.45.65.67 -->
+   <PrimeDns>58.240.57.33</PrimeDns> <!-- 手机首选DNS地址 -->
+   <SecondaryDns>221.22.33.6</SecondaryDns> <!-- 手机备选DNS地址 -->
    <AverageSignalStrength></AverageSignalStrength> <!-- 平均信号强度，这我还没研究好，预留 -->
 
 <!-- 任务类型为警报型（Threshold），每个Procedure标签代表每个步骤的完成情况，当然Procedure标签的个数是不一定的 -->
