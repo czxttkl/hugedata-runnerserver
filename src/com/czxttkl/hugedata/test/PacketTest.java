@@ -22,14 +22,15 @@ import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultAnalyzer;
 
 public class PacketTest extends Test implements Runnable {
-	// Parameters set in the static methods
-	//public static Logger logger = Logger.getLogger(PacketTest.class.getName());
-
-	// Mandatory Parameters
-	public final String TEST_PACKAGE_NAME;
-	public final DeviceInfo DEVICE_INFO;
-	public final String TEST_START_TIME;
-	public final String NETWORK;
+	//Paramters set in static methods Extends from Test Class
+	/*	public static String ADB_LOCATION;
+		public static int LOCATION_NUM;
+		public static Logger logger;	*/
+	
+	// Mandatory Parameters Extends from Test Class
+	/*	public final String TEST_PACKAGE_NAME;
+		public final DeviceInfo DEVICE_INFO;
+		public final String TEST_START_TIME;	*/
 
 	// Optional Parameters
 	private final String APP_PACKAGE_NAME;
@@ -42,11 +43,9 @@ public class PacketTest extends Test implements Runnable {
 	private File resultDir;
 
 	private PacketTest(Builder builder) {
-		
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
 		TEST_START_TIME = builder.TEST_START_TIME;
-		NETWORK = builder.NETWORK;
 
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
 		APP_INSTALL_PATH = builder.appInstallPath;
@@ -56,7 +55,7 @@ public class PacketTest extends Test implements Runnable {
 		CLEAR_HISTORY = builder.clearHistory;
 
 		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()
-				+ DEVICE_INFO.getType() + NETWORK + TEST_START_TIME;
+				+ DEVICE_INFO.getType() + DEVICE_INFO.getNetwork() + TEST_START_TIME;
 		resultDir = new File(resultDirStr);
 		resultDir.mkdir();
 	}
@@ -89,7 +88,7 @@ public class PacketTest extends Test implements Runnable {
 			logger.info("Install failed. Caused by " + e.getMessage());
 		} finally {
 			
-			pullScreenshots();
+			pullScreenshots(myDevice, getAdbName(), resultDirStr);
 			
 			if (CLEAR_HISTORY) {
 				removePackage(myDevice, APP_PACKAGE_NAME, "APP");
@@ -102,23 +101,6 @@ public class PacketTest extends Test implements Runnable {
 		}
 	}
 
-	private void pullScreenshots() {
-		// TODO Auto-generated method stub
-		StringBuilder cmd = new StringBuilder(ADB_LOCATION + " ");
-		cmd.append("-s ");
-		cmd.append(getAdbName() + " ");
-		cmd.append("pull ");
-		cmd.append("/sdcard/Robotium-Screenshots ");
-		cmd.append(resultDirStr);
-		
-		try {
-			Runtime.getRuntime().exec(cmd.toString());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.info("IOException" + e.toString());
-		}
-		
-	}
 
 	/**
 	 * Construct the specified String command for starting tcpdump
@@ -132,36 +114,6 @@ public class PacketTest extends Test implements Runnable {
 		testCmd.append("-p -vv -s 0 -w ");
 		testCmd.append("/sdcard/hugedata/capture.pcap");
 		return testCmd.toString();
-	}
-
-	/**
-	 * @param installPath
-	 *            the install path of the package
-	 * @param installType
-	 *            the type for install(APP or Test)
-	 */
-	private static void installPackage(IChimpDevice me, String installPath, String installType) {
-		if (installPath != null) {
-			if (me.installPackage(installPath))
-				logger.info(installType + " install successfully:" + installPath);
-			else
-				throw new IllegalArgumentException(installType
-						+ " Install Path Parameter Illegal");
-		} else
-			logger.info("No need to install " + installType + " package");
-	}
-
-	/**
-	 * @param packageName
-	 *            the name of the package to be removed
-	 * @param removeType
-	 *            the type for the removing package(APP or Test)
-	 */
-	private static void removePackage(IChimpDevice me, String packageName, String removeType) {
-		if (me.removePackage(packageName))
-			logger.info("Remove " + removeType + " package successfully.");
-		else
-			logger.info("Remove " + removeType + " package failed.");
 	}
 
 	private IChimpDevice getDevice() {
@@ -187,7 +139,6 @@ public class PacketTest extends Test implements Runnable {
 		private final String TEST_PACKAGE_NAME;
 		private final DeviceInfo DEVICE_INFO;
 		private final String TEST_START_TIME;
-		private final String NETWORK;
 
 		// Optional Parameters
 		private int testDurationThres = 999999;
@@ -195,8 +146,7 @@ public class PacketTest extends Test implements Runnable {
 		private String testInstallPath;
 		private boolean clearHistory = true;
 
-		public Builder(String TEST_PACKAGE_NAME, DeviceInfo deviceinfo,
-				String network) {
+		public Builder(String TEST_PACKAGE_NAME, DeviceInfo deviceinfo) {
 			// Validate Test Package Name
 			Pattern p = Pattern.compile("(([a-zA-Z]+)\\.)+test");
 			if (p.matcher(TEST_PACKAGE_NAME).matches())
@@ -209,8 +159,6 @@ public class PacketTest extends Test implements Runnable {
 			// Initialize the test start time for logger
 			this.TEST_START_TIME = new SimpleDateFormat("yyyyMMddHHmmss")
 					.format(new Date()).toString();
-			// The network the device uses
-			this.NETWORK = network;
 		}
 
 		public Builder testDurationThres(int durthr) {
