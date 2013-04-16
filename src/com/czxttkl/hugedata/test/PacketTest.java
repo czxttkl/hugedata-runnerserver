@@ -22,15 +22,17 @@ import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultAnalyzer;
 
 public class PacketTest extends Test implements Runnable {
-	//Paramters set in static methods Extends from Test Class
-	/*	public static String ADB_LOCATION;
-		public static int LOCATION_NUM;
-		public static Logger logger;	*/
-	
+	// Paramters set in static methods Extends from Test Class
+	/*
+	 * public static String ADB_LOCATION; public static int LOCATION_NUM; public
+	 * static Logger logger;
+	 */
+
 	// Mandatory Parameters Extends from Test Class
-	/*	public final String TEST_PACKAGE_NAME;
-		public final DeviceInfo DEVICE_INFO;
-		public final String TEST_START_TIME;	*/
+	/*
+	 * public final String TEST_PACKAGE_NAME; public final DeviceInfo
+	 * DEVICE_INFO; public final String TEST_START_TIME;
+	 */
 
 	// Optional Parameters
 	private final String APP_PACKAGE_NAME;
@@ -55,7 +57,8 @@ public class PacketTest extends Test implements Runnable {
 		CLEAR_HISTORY = builder.clearHistory;
 
 		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()
-				+ DEVICE_INFO.getType() + DEVICE_INFO.getNetwork() + TEST_START_TIME;
+				+ DEVICE_INFO.getType() + DEVICE_INFO.getNetwork()
+				+ TEST_START_TIME;
 		resultDir = new File(resultDirStr);
 		resultDir.mkdir();
 	}
@@ -65,19 +68,16 @@ public class PacketTest extends Test implements Runnable {
 		// TODO Auto-generated method stub
 		logger.info("Test starts. Device suspended.");
 		IChimpDevice myDevice = getDevice();
-		String testCmd = constructTcpdumpCmd();
-		
+
 		try {
 			installPackage(myDevice, APP_INSTALL_PATH, "APP");
 			installPackage(myDevice, TEST_INSTALL_PATH, "Test");
-			
-			Process tcpdump = Runtime.getRuntime().exec(testCmd);
+
+			String testCmd = constructTcpdumpCmd();
+			startTcpdump(testCmd);
 
 			ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
 					TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
-			
-			logger.info("Tcpdump has been killed."
-					+ myDevice.shell("busybox pkill -SIGINT tcpdump"));
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -87,23 +87,58 @@ public class PacketTest extends Test implements Runnable {
 		} catch (IllegalArgumentException e) {
 			logger.info("Install failed. Caused by " + e.getMessage());
 		} finally {
-			
+
+			stopTcpdump();
 			pullScreenshots(myDevice, getAdbName(), resultDirStr);
-			
+
 			if (CLEAR_HISTORY) {
 				removePackage(myDevice, APP_PACKAGE_NAME, "APP");
 				removePackage(myDevice, TEST_PACKAGE_NAME, "Test");
 			} else
 				logger.info("No need to remove package"
 						+ myDevice.shell("am force-stop " + APP_PACKAGE_NAME));
+			
 			if (releaseDevice())
 				logger.info("Test ends. Device released.");
 		}
 	}
 
+	private void startTcpdump(String testCmd) throws IOException {
+		// TODO Auto-generated method stub
+		Process tcpdump = Runtime.getRuntime().exec(testCmd);
+	}
+
+	private void stopTcpdump() {
+		// TODO Auto-generated method stub
+		getDevice().shell("busybox pkill -SIGINT tcpdump");
+		StringBuilder cmd = new StringBuilder(ADB_LOCATION + " ");
+		cmd.append("-s ");
+		cmd.append(getAdbName() + " ");
+		cmd.append("pull ");
+		cmd.append("/sdcard/hugedata/capture.pcap ");
+		cmd.append(resultDirStr);
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec(cmd.toString());
+			p.waitFor();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			logger.info("IOException" + e.toString());
+		}
+		// wait for pulling images out
+		catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			logger.info("InterruptedException" + e.toString());
+		}
+		
+		getDevice().shell("rm /sdcard/hugedata/capture.pcap");
+		logger.info("Tcpdump has been killed.");
+
+	}
 
 	/**
 	 * Construct the specified String command for starting tcpdump
+	 * 
 	 * @return the String command for starting tcpdump
 	 */
 	private String constructTcpdumpCmd() {
