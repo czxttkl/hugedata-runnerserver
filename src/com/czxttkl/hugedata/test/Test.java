@@ -12,12 +12,13 @@ import java.util.regex.Pattern;
 import com.android.chimpchat.core.IChimpDevice;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.LogFormatter;
+import com.czxttkl.hugedata.server.RunnerServer;
 
 public abstract class Test implements Runnable, Comparable<Test>{
 	//Paramters set in static methods
 	public static String ADB_LOCATION;
 	public static int LOCATION_NUM;
-	public static Logger logger;
+	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
 
 	// Mandatory Parameters
 	public String TEST_PACKAGE_NAME;
@@ -57,10 +58,7 @@ public abstract class Test implements Runnable, Comparable<Test>{
 			throw new IllegalArgumentException(
 					"Location Number Parameter Illegal");
 	}
-	
-	public static void setLogger(Logger lg){
-		logger = lg;
-	}
+
 
 	
 	/**

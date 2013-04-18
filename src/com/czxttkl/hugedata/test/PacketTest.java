@@ -28,7 +28,7 @@ public class PacketTest extends Test implements Runnable {
 		DEVICE_INFO = builder.DEVICE_INFO;
 		TEST_START_TIME = builder.TEST_START_TIME;
 		priority = builder.priority;
-		
+
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
 		APP_INSTALL_PATH = builder.appInstallPath;
 		TEST_INSTALL_PATH = builder.testInstallPath;
@@ -39,24 +39,20 @@ public class PacketTest extends Test implements Runnable {
 		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()
 				+ DEVICE_INFO.getType() + DEVICE_INFO.getNetwork()
 				+ TEST_START_TIME;
-		resultDir = new File(resultDirStr);
-		resultDir.mkdir();
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		if (suspendDevice()) {
-			logger.info("Test starts. Device suspended.");
+			resultDir = new File(resultDirStr);
+			resultDir.mkdir();
+			
 			IChimpDevice myDevice = getDevice();
-
 			try {
 				installPackage(myDevice, APP_INSTALL_PATH, "APP");
 				installPackage(myDevice, TEST_INSTALL_PATH, "Test");
-
-				String testCmd = constructTcpdumpCmd();
-				startTcpdump(testCmd);
-
+				startTcpdump();
 				ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
 						TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
 
@@ -80,16 +76,15 @@ public class PacketTest extends Test implements Runnable {
 							+ myDevice.shell("am force-stop "
 									+ APP_PACKAGE_NAME));
 
-				if (releaseDevice())
-					logger.info("Test ends. Device released.");
+				releaseDevice();
+
 			}
-		} else {
-			logger.severe("Cannot suspend device");
 		}
 	}
 
-	private void startTcpdump(String testCmd) throws IOException {
+	private void startTcpdump() throws IOException {
 		// TODO Auto-generated method stub
+		String testCmd = constructTcpdumpCmd();
 		Process tcpdump = Runtime.getRuntime().exec(testCmd);
 	}
 
@@ -132,13 +127,12 @@ public class PacketTest extends Test implements Runnable {
 		testCmd.append(getAdbName() + " ");
 		testCmd.append("shell tcpdump ");
 		testCmd.append("-p -s 0 -w ");
-		/* testCmd.append("-p -vv -s 0 ");
-		* -p: Not in Promiscuous Mode. So tcpdump will only capture
-		* packets that intends to be received
-		* -w : Write raw packets to file rather than printing them
-		* testCmd.append("-p -w ");
-		* -s 0 set snaplength 65535
-		* */
+		/*
+		 * testCmd.append("-p -vv -s 0 "); -p: Not in Promiscuous Mode. So
+		 * tcpdump will only capture packets that intends to be received -w :
+		 * Write raw packets to file rather than printing them
+		 * testCmd.append("-p -w "); -s 0 set snaplength 65535
+		 */
 		testCmd.append("/sdcard/hugedata/capture.pcap");
 		return testCmd.toString();
 	}
@@ -172,7 +166,7 @@ public class PacketTest extends Test implements Runnable {
 		private String appInstallPath;
 		private String testInstallPath;
 		private boolean clearHistory = true;
-		//default priority:1
+		// default priority:1
 		private int priority = 1;
 
 		public Builder(String TEST_PACKAGE_NAME, DeviceInfo deviceinfo) {
@@ -234,7 +228,7 @@ public class PacketTest extends Test implements Runnable {
 			priority = pr;
 			return this;
 		}
-		
+
 		public PacketTest build() {
 			return new PacketTest(this);
 		}

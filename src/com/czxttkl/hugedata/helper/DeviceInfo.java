@@ -3,13 +3,18 @@ package com.czxttkl.hugedata.helper;
 import java.net.InetAddress;
 import java.util.Scanner;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.android.chimpchat.core.IChimpDevice;
+import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.test.Test;
 
 public class DeviceInfo implements Runnable {
+	
+	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
+	
 	private String manufacturer;
 	private String type;
 	private String network;
@@ -72,17 +77,23 @@ public class DeviceInfo implements Runnable {
 	public synchronized boolean suspendDevice() {
 		if (availability) {
 			availability = false;
+			logger.info("Test starts. " + this + " device suspended.");
 			return true;
-		} else
+		} else {
+			logger.info("Test can't start. " + this + " device is not released.");
 			return false;
+		}
 	}
 
 	public synchronized boolean releaseDevice() {
 		if (!availability) {
 			availability = true;
+			logger.info("Test ends. " + this + " device released.");
 			return true;
-		} else
+		} else {
+			logger.info("Test ends. " + this + " device is suspended.");
 			return false;
+		}
 	}
 
 	// Read operation doesn't need synchronized keyword
@@ -109,9 +120,15 @@ public class DeviceInfo implements Runnable {
 
 	public void addToTestQueue(Test test) {
 		testQueue.add(test);
-		System.out.println("test added");
+		logger.info("Test:" + test.resultDirStr + " added");
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return manufacturer + type + network;
+	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
