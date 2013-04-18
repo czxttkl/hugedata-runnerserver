@@ -22,33 +22,13 @@ import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultAnalyzer;
 
 public class PacketTest extends Test implements Runnable {
-	// Paramters set in static methods Extends from Test Class
-	/*
-	 * public static String ADB_LOCATION; public static int LOCATION_NUM; public
-	 * static Logger logger;
-	 */
-
-	// Mandatory Parameters Extends from Test Class
-	/*
-	 * public final String TEST_PACKAGE_NAME; public final DeviceInfo
-	 * DEVICE_INFO; public final String TEST_START_TIME;
-	 */
-
-	// Optional Parameters
-	private final String APP_PACKAGE_NAME;
-	private final int TEST_DURATION_THRESHOLD;
-	private final String APP_INSTALL_PATH;
-	private final String TEST_INSTALL_PATH;
-	private final boolean CLEAR_HISTORY;
-
-	public String resultDirStr;
-	private File resultDir;
 
 	private PacketTest(Builder builder) {
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
 		TEST_START_TIME = builder.TEST_START_TIME;
-
+		priority = builder.priority;
+		
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
 		APP_INSTALL_PATH = builder.appInstallPath;
 		TEST_INSTALL_PATH = builder.testInstallPath;
@@ -66,40 +46,45 @@ public class PacketTest extends Test implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		logger.info("Test starts. Device suspended.");
-		IChimpDevice myDevice = getDevice();
+		if (suspendDevice()) {
+			logger.info("Test starts. Device suspended.");
+			IChimpDevice myDevice = getDevice();
 
-		try {
-			installPackage(myDevice, APP_INSTALL_PATH, "APP");
-			installPackage(myDevice, TEST_INSTALL_PATH, "Test");
+			try {
+				installPackage(myDevice, APP_INSTALL_PATH, "APP");
+				installPackage(myDevice, TEST_INSTALL_PATH, "Test");
 
-			String testCmd = constructTcpdumpCmd();
-			startTcpdump(testCmd);
+				String testCmd = constructTcpdumpCmd();
+				startTcpdump(testCmd);
 
-			ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
-					TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
+				ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
+						TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.info("IOException" + e.toString());
-		} catch (ShellCommandUnresponsiveException e) {
-			logger.info("Test timed out. ");
-		} catch (IllegalArgumentException e) {
-			logger.info("Install failed. Caused by " + e.getMessage());
-		} finally {
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				logger.info("IOException" + e.toString());
+			} catch (ShellCommandUnresponsiveException e) {
+				logger.info("Test timed out. ");
+			} catch (IllegalArgumentException e) {
+				logger.info("Install failed. Caused by " + e.getMessage());
+			} finally {
 
-			stopTcpdump();
-			pullScreenshots(myDevice, getAdbName(), resultDirStr);
+				stopTcpdump();
+				pullScreenshots(myDevice, getAdbName(), resultDirStr);
 
-			if (CLEAR_HISTORY) {
-				removePackage(myDevice, APP_PACKAGE_NAME, "APP");
-				removePackage(myDevice, TEST_PACKAGE_NAME, "Test");
-			} else
-				logger.info("No need to remove package"
-						+ myDevice.shell("am force-stop " + APP_PACKAGE_NAME));
-			
-			if (releaseDevice())
-				logger.info("Test ends. Device released.");
+				if (CLEAR_HISTORY) {
+					removePackage(myDevice, APP_PACKAGE_NAME, "APP");
+					removePackage(myDevice, TEST_PACKAGE_NAME, "Test");
+				} else
+					logger.info("No need to remove package"
+							+ myDevice.shell("am force-stop "
+									+ APP_PACKAGE_NAME));
+
+				if (releaseDevice())
+					logger.info("Test ends. Device released.");
+			}
+		} else {
+			logger.severe("Cannot suspend device");
 		}
 	}
 
@@ -130,7 +115,7 @@ public class PacketTest extends Test implements Runnable {
 			// TODO Auto-generated catch block
 			logger.info("InterruptedException" + e.toString());
 		}
-		
+
 		getDevice().shell("rm /sdcard/hugedata/capture.pcap");
 		logger.info("Tcpdump has been killed.");
 
@@ -147,12 +132,13 @@ public class PacketTest extends Test implements Runnable {
 		testCmd.append(getAdbName() + " ");
 		testCmd.append("shell tcpdump ");
 		testCmd.append("-p -s 0 -w ");
-		//testCmd.append("-p -vv -s 0 ");
-		// -p: Not in Promiscuous Mode. So tcpdump will only capture 
-		// packets that intends to be received  
-		//-w : Write raw packets to file rather than printing them
-		//testCmd.append("-p -w ");
-		//-s 0 set snaplength 65535
+		/* testCmd.append("-p -vv -s 0 ");
+		* -p: Not in Promiscuous Mode. So tcpdump will only capture
+		* packets that intends to be received
+		* -w : Write raw packets to file rather than printing them
+		* testCmd.append("-p -w ");
+		* -s 0 set snaplength 65535
+		* */
 		testCmd.append("/sdcard/hugedata/capture.pcap");
 		return testCmd.toString();
 	}
@@ -186,6 +172,8 @@ public class PacketTest extends Test implements Runnable {
 		private String appInstallPath;
 		private String testInstallPath;
 		private boolean clearHistory = true;
+		//default priority:1
+		private int priority = 1;
 
 		public Builder(String TEST_PACKAGE_NAME, DeviceInfo deviceinfo) {
 			// Validate Test Package Name
@@ -242,6 +230,11 @@ public class PacketTest extends Test implements Runnable {
 						"Test Install Path Parameter Illegal");
 		}
 
+		public Builder priority(int pr) {
+			priority = pr;
+			return this;
+		}
+		
 		public PacketTest build() {
 			return new PacketTest(this);
 		}
