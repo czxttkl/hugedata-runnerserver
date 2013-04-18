@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -23,7 +25,8 @@ public class RunnerServer {
 	private static final String ADB_LOCATION = "c:/Android/platform-tools/adb.exe";
 	private static final int ADB_CONNECTION_WAITTIME_THRESHOLD = 5000;
 	private static HashMap<String, DeviceInfo> deviceInfoMap = new HashMap<String, DeviceInfo>();
-
+	private static ExecutorService exec = Executors.newCachedThreadPool();
+	
 	private static AdbBackend adbBackend;
 	public static LogFormatter logFormatter = new LogFormatter();
 	public static Logger logger;
@@ -49,38 +52,31 @@ public class RunnerServer {
 	public static void main(String[] args) throws InterruptedException,
 			IOException {
 		// TODO Auto-generated method stub
-		try {
-			initRunnerServer();
-			logger.info("Runner Server Initialization Completed. Server Starts.");
-		} catch (InterruptedException e) {
-			logger.severe("Runner Server Initialization Failed. Caused by "
-					+ e.getMessage());
-			throw e;
-		} catch (IllegalArgumentException e) {
-			logger.severe("Runner Server Initialization Failed. Caused by "
-					+ e.getMessage());
-			throw e;
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by SecurityException");
-			throw e;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by IOException");
-			throw e;
-		}
-		
-		//Judge if the device is suspended 
-		//suspend the device
+		initRunnerServer();
+
+		// Judge if the device is suspended
+		// suspend the device
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testDurationThres(999999).build();
-		new Thread(a).start();
-
+		Thread.sleep(5000);
+		PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
+				deviceInfoMap.get("HTCT328WUNI"))
+				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+				.appInstallPath("c:/Android/mytools/renren.apk")
+				.testDurationThres(999999).build();
+		Thread.sleep(5000);
+		PacketTest c = new PacketTest.Builder("com.renren.mobile.android.test",
+				deviceInfoMap.get("HTCT328WUNI"))
+				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+				.appInstallPath("c:/Android/mytools/renren.apk")
+				.testDurationThres(999999).build();
+		//new Thread(a).start();
+		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(a);
+		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
+		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
 		// Test.tryLock();
 
 		/*
@@ -98,19 +94,28 @@ public class RunnerServer {
 
 	}
 
-	private static void initRunnerServer() throws SecurityException,
-			IOException, InterruptedException {
+	private static void initRunnerServer() {
 		// TODO Auto-generated method stub
-		
-		adbBackend = new AdbBackend(ADB_LOCATION, false);
-		Thread.sleep(5000);
-		/*
-		 * deviceInfoMap.put( "HTCT328W", new DeviceInfo("HTC", "T328W",
-		 * "HC29GPG09471", adbBackend
-		 * .waitForConnection(ADB_CONNECTION_WAITTIME_THRESHOLD,
-		 * "HC29GPG09471")));
-		 */
+		try {
+			adbBackend = new AdbBackend(ADB_LOCATION, false);
+			Thread.sleep(5000);
 
+			checkOutDevice();
+			// Class[] testClasses = { PacketTest.class };
+			// Test.setLogger(testClasses, true);
+			Test.setLogger(logger);
+			Test.setAdbLocation("c:/Android/platform-tools/adb");
+			Test.setTestLocation(101010);
+			logger.info("Test Configured Done.");
+			logger.info("Runner Server Initialization Completed. Server Starts.");
+		} catch (Exception e) {
+			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by "
+					+ e.getMessage());
+		}
+	}
+
+	private static void checkOutDevice() {
+		// TODO Auto-generated method stub
 		System.out.println("Now Connecting Device:");
 		for (String deviceAdbName : adbBackend.listAttachedDevice()) {
 			System.out.println(deviceAdbName);
@@ -119,27 +124,28 @@ public class RunnerServer {
 			if (device != null) {
 				device.startActivity(null, null, null, null, null, null,
 						"com.czxttkl.hugedata/.activity.MainActivity", 0);
-				Thread.sleep(5000);
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				String raw = device.shell("cat /sdcard/hugedata/deviceinfo")
 						.trim();
 				String[] metrics = raw.split(":");
 				String manufacturer = metrics[0];
 				String type = metrics[1];
 				String network = metrics[2];
-				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type, network,
-						deviceAdbName, device);
+				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type,
+						network, deviceAdbName, device);
+				exec.execute(deviceInfo);
 				deviceInfoMap.put(manufacturer + type + network, deviceInfo);
 				logger.info("Device Added, Manufacturer:" + manufacturer
-						+ ", Type:" + type + ", Network:" + network + ", ADB Name:" + deviceAdbName);
+						+ ", Type:" + type + ", Network:" + network
+						+ ", ADB Name:" + deviceAdbName);
 			}
 		}
 
-		//Class[] testClasses = { PacketTest.class };
-		//Test.setLogger(testClasses, true);
-		Test.setLogger(logger);
-		Test.setAdbLocation("c:/Android/platform-tools/adb");
-		Test.setTestLocation(101010);
-		logger.info("Test Configured Done.");
 	}
 
 }

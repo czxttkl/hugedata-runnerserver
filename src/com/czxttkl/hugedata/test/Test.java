@@ -1,6 +1,7 @@
 package com.czxttkl.hugedata.test;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.FileHandler;
@@ -12,7 +13,7 @@ import com.android.chimpchat.core.IChimpDevice;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.LogFormatter;
 
-public abstract class Test implements Runnable {
+public abstract class Test implements Runnable, Comparable<Test>{
 	//Paramters set in static methods
 	public static String ADB_LOCATION;
 	public static int LOCATION_NUM;
@@ -22,6 +23,21 @@ public abstract class Test implements Runnable {
 	public String TEST_PACKAGE_NAME;
 	public DeviceInfo DEVICE_INFO;
 	public String TEST_START_TIME;
+	public int priority;
+	
+	// Optional Parameters
+	public String APP_PACKAGE_NAME;
+	public int TEST_DURATION_THRESHOLD;
+	public String APP_INSTALL_PATH;
+	public String TEST_INSTALL_PATH;
+	public boolean CLEAR_HISTORY;
+	public String resultDirStr;
+	public File resultDir;
+	
+	//Implement Camparable Interface
+	public int compareTo(Test arg){
+		return priority < arg.priority ? -1 : (priority > arg.priority ? 1 : 0);
+	}
 	
 	public static void setAdbLocation(String adbLocation) {
 		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb

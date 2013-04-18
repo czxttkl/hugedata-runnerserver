@@ -2,12 +2,14 @@ package com.czxttkl.hugedata.helper;
 
 import java.net.InetAddress;
 import java.util.Scanner;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.android.chimpchat.core.IChimpDevice;
+import com.czxttkl.hugedata.test.Test;
 
-public class DeviceInfo {
+public class DeviceInfo implements Runnable {
 	private String manufacturer;
 	private String type;
 	private String network;
@@ -17,6 +19,7 @@ public class DeviceInfo {
 	private String platformVer;
 
 	private volatile boolean availability;
+	public PriorityBlockingQueue<Test> testQueue = new PriorityBlockingQueue<Test>();
 
 	public DeviceInfo(String manufacturer, String type, String network,
 			String adbName, IChimpDevice me) {
@@ -82,11 +85,11 @@ public class DeviceInfo {
 			return false;
 	}
 
-	//Read operation doesn't need synchronized keyword
+	// Read operation doesn't need synchronized keyword
 	public boolean isAvailable() {
 		return availability;
 	}
-	
+
 	public String getIpAddress() {
 		Matcher m = Pattern.compile("([0-9]{1,3}.){3}[0-9]{1,3}").matcher(
 				me.shell("ifconfig rmnet0"));
@@ -99,8 +102,26 @@ public class DeviceInfo {
 	public String getPrimeDns() {
 		return me.shell("getprop net.dns1").trim();
 	}
-	
+
 	public String getSecondaryDns() {
 		return me.shell("getprop net.dns2").trim();
+	}
+
+	public void addToTestQueue(Test test) {
+		testQueue.add(test);
+		System.out.println("test added");
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while (!Thread.interrupted())
+			try {
+				testQueue.take().run();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 	}
 }
