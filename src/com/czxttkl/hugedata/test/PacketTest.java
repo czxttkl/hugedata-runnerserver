@@ -146,7 +146,13 @@ public class PacketTest extends Test implements Runnable {
 		testCmd.append("-s ");
 		testCmd.append(getAdbName() + " ");
 		testCmd.append("shell tcpdump ");
-		testCmd.append("-p -vv -s 0 -w ");
+		testCmd.append("-p -s 0 -w ");
+		//testCmd.append("-p -vv -s 0 ");
+		// -p: Not in Promiscuous Mode. So tcpdump will only capture 
+		// packets that intends to be received  
+		//-w : Write raw packets to file rather than printing them
+		//testCmd.append("-p -w ");
+		//-s 0 set snaplength 65535
 		testCmd.append("/sdcard/hugedata/capture.pcap");
 		return testCmd.toString();
 	}

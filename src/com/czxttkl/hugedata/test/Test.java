@@ -12,7 +12,7 @@ import com.android.chimpchat.core.IChimpDevice;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.LogFormatter;
 
-public class Test {
+public abstract class Test implements Runnable {
 	//Paramters set in static methods
 	public static String ADB_LOCATION;
 	public static int LOCATION_NUM;
