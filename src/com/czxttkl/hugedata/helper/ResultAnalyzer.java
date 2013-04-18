@@ -14,12 +14,16 @@ import nu.xom.Element;
 import nu.xom.Serializer;
 
 import com.czxttkl.hugedata.test.PacketTest;
+import com.czxttkl.hugedata.test.Test;
 
 public class ResultAnalyzer {
 
-	public synchronized static void analyze(PacketTest packetTest, String testResult) throws IOException {
+	public static Logger logger;
+	static {
+		logger = Test.logger;
+	}
+	public static void analyze(PacketTest packetTest, String testResult) throws IOException {
 		// TODO Auto-generated method stub
-		Logger logger = packetTest.logger;
 		logger.info("Test Instrumentation finished");
 
 		int totalProcedure;
