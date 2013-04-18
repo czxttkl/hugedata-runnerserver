@@ -13,15 +13,14 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
 
+import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.test.PacketTest;
 import com.czxttkl.hugedata.test.Test;
 
 public class ResultAnalyzer {
 
-	public static Logger logger;
-	static {
-		logger = Test.logger;
-	}
+	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
+
 	public static void analyze(PacketTest packetTest, String testResult) throws IOException {
 		// TODO Auto-generated method stub
 		logger.info("Test Instrumentation finished");

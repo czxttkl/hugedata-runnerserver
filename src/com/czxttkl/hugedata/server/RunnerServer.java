@@ -22,32 +22,16 @@ import com.czxttkl.hugedata.test.Test;
 
 public class RunnerServer {
 
-	private static final String ADB_LOCATION = "c:/Android/platform-tools/adb.exe";
-	private static final int ADB_CONNECTION_WAITTIME_THRESHOLD = 5000;
+	private static String ADB_LOCATION;
+	private static int ADB_CONNECTION_WAITTIME_THRESHOLD;
 	private static HashMap<String, DeviceInfo> deviceInfoMap = new HashMap<String, DeviceInfo>();
 	private static ExecutorService exec = Executors.newCachedThreadPool();
+	public static int locationNum;
 	
 	private static AdbBackend adbBackend;
-	public static LogFormatter logFormatter = new LogFormatter();
-	public static Logger logger;
-	static {
-		logger = Logger.getLogger(RunnerServer.class.getName());
-		logger.setLevel(Level.FINEST);
-		FileHandler fileHandler;
-		try {
-			fileHandler = new FileHandler("RunnerServer.log", true);
-			fileHandler.setFormatter(logFormatter);
-			logger.addHandler(fileHandler);
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			logger.severe("File Handler Initialization Failed. Caused by SecurityException.");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
-			logger.severe("File Handler Initialization Failed. Caused by IOException.");
-		}
-	}
+	public static LogFormatter logFormatter;
+	public static Logger logger = Logger
+			.getLogger(RunnerServer.class.getName());
 
 	public static void main(String[] args) throws InterruptedException,
 			IOException {
@@ -73,7 +57,7 @@ public class RunnerServer {
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testDurationThres(999999).build();
-		//new Thread(a).start();
+		// new Thread(a).start();
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(a);
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
@@ -96,20 +80,40 @@ public class RunnerServer {
 
 	private static void initRunnerServer() {
 		// TODO Auto-generated method stub
+		ADB_LOCATION = "c:/Android/platform-tools/adb.exe";
+		ADB_CONNECTION_WAITTIME_THRESHOLD = 5000;
+		locationNum = 101010;
+		logFormatter = new LogFormatter();
+		setServerLog();
+		
+		adbBackend = new AdbBackend(ADB_LOCATION, false);
 		try {
-			adbBackend = new AdbBackend(ADB_LOCATION, false);
 			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-			checkOutDevice();
-			// Class[] testClasses = { PacketTest.class };
-			// Test.setLogger(testClasses, true);
-			Test.setLogger(logger);
-			Test.setAdbLocation("c:/Android/platform-tools/adb");
-			Test.setTestLocation(101010);
-			logger.info("Test Configured Done.");
-			logger.info("Runner Server Initialization Completed. Server Starts.");
+		checkOutDevice();
+		// Class[] testClasses = { PacketTest.class };
+		// Test.setLogger(testClasses, true);
+		Test.setAdbLocation("c:/Android/platform-tools/adb");
+		Test.setTestLocation(locationNum);
+		logger.info("Test Configured Done.");
+		logger.info("Runner Server Initialization Completed. Server Starts.");
+
+	}
+
+	private static void setServerLog() {
+		// TODO Auto-generated method stub
+		logger.setLevel(Level.FINEST);
+		FileHandler fileHandler;
+		try {
+			fileHandler = new FileHandler("RunnerServer.log", true);
+			fileHandler.setFormatter(logFormatter);
+			logger.addHandler(fileHandler);
 		} catch (Exception e) {
-			logger.severe("Runner Server Initialization Failed in Logger Setup. Caused by "
+			logger.severe("File Handler Initialization Failed. Caused by "
 					+ e.getMessage());
 		}
 	}
@@ -117,6 +121,7 @@ public class RunnerServer {
 	private static void checkOutDevice() {
 		// TODO Auto-generated method stub
 		System.out.println("Now Connecting Device:");
+		
 		for (String deviceAdbName : adbBackend.listAttachedDevice()) {
 			System.out.println(deviceAdbName);
 			IChimpDevice device = adbBackend.waitForConnection(
@@ -124,18 +129,20 @@ public class RunnerServer {
 			if (device != null) {
 				device.startActivity(null, null, null, null, null, null,
 						"com.czxttkl.hugedata/.activity.MainActivity", 0);
+				//waiting for hugedata setting up
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				String raw = device.shell("cat /sdcard/hugedata/deviceinfo")
 						.trim();
 				String[] metrics = raw.split(":");
 				String manufacturer = metrics[0];
 				String type = metrics[1];
 				String network = metrics[2];
+				
 				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type,
 						network, deviceAdbName, device);
 				exec.execute(deviceInfo);
