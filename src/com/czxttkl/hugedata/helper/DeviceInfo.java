@@ -12,16 +12,17 @@ import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.test.Test;
 
 public class DeviceInfo implements Runnable {
-	
-	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
-	
-	private String manufacturer;
-	private String type;
-	private String network;
-	private String adbName;
-	private IChimpDevice me;
-	private String platformName;
-	private String platformVer;
+
+	public static Logger logger = Logger
+			.getLogger(RunnerServer.class.getName());
+
+	private final String manufacturer;
+	private final String type;
+	private final String network;
+	private final String adbName;
+	private final IChimpDevice me;
+	private final String platformName;
+	private final String platformVer;
 
 	private volatile boolean availability;
 	public PriorityBlockingQueue<Test> testQueue = new PriorityBlockingQueue<Test>();
@@ -74,24 +75,34 @@ public class DeviceInfo implements Runnable {
 		return this.platformVer;
 	}
 
-	public synchronized boolean suspendDevice() {
+	public synchronized boolean suspendDevice(Test test) {
 		if (availability) {
 			availability = false;
-			logger.info("Test starts. " + this + " device suspended.");
+			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
+					+ getType() + getNetwork() + " with priority"
+					+ test.priority + " starts. " + this + " device suspended.");
 			return true;
 		} else {
-			logger.info("Test can't start. " + this + " device is not released.");
+			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
+					+ getType() + getNetwork() + " with priority"
+					+ test.priority + " can't start. " + this
+					+ " device is not released.");
 			return false;
 		}
 	}
 
-	public synchronized boolean releaseDevice() {
+	public synchronized boolean releaseDevice(Test test) {
 		if (!availability) {
 			availability = true;
-			logger.info("Test ends. " + this + " device released.");
+			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
+					+ getType() + getNetwork() + " with priority"
+					+ test.priority + " ends. " + this + " device released.");
 			return true;
 		} else {
-			logger.info("Test ends. " + this + " device is suspended.");
+			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
+					+ getType() + getNetwork() + " with priority"
+					+ test.priority + " ends. " + this
+					+ " device is suspended.");
 			return false;
 		}
 	}
@@ -120,9 +131,10 @@ public class DeviceInfo implements Runnable {
 
 	public void addToTestQueue(Test test) {
 		testQueue.add(test);
-		logger.info("Test:" + test.resultDirStr + " added");
+		logger.info("Test:" + Test.LOCATION_NUM + getManufacturer() + getType()
+				+ getNetwork() + " with priority" + test.priority + " added. ");
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

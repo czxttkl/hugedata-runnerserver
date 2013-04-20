@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +39,7 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	
 	//Implement Camparable Interface
 	public int compareTo(Test arg){
-		return priority < arg.priority ? -1 : (priority > arg.priority ? 1 : 0);
+		return priority < arg.priority ? 1 : (priority > arg.priority ? -1 : 0);
 	}
 	
 	public static void setAdbLocation(String adbLocation) {
@@ -60,15 +62,29 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	}
 
 
+	/**
+	 * Create a folder to save result files
+	 */
+	public void createResultDir() {
+		TEST_START_TIME = new SimpleDateFormat("yyyyMMddHHmmss").format(
+				new Date()).toString();
+		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()
+				+ DEVICE_INFO.getType() + DEVICE_INFO.getNetwork()
+				+ TEST_START_TIME;
+		resultDir = new File(resultDirStr);
+		resultDir.mkdir();
+	}
 	
 	/**
 	 * Install the package to the phone.
+	 * @param me 
+	 * 			  the device under the test
 	 * @param installPath
 	 *            the install path of the package
 	 * @param installType
 	 *            the type for install(APP or Test)
 	 */
-	public static void installPackage(IChimpDevice me, String installPath, String installType) {
+	public void installPackage(IChimpDevice me, String installPath, String installType) {
 		if (installPath != null) {
 			if (me.installPackage(installPath))
 				logger.info(installType + " install successfully:" + installPath);
@@ -80,12 +96,14 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	
 	/**
 	 * Remove the package from the phone
+	 * @param me
+	 * 			  the device under the test
 	 * @param packageName
 	 *            the name of the package to be removed
 	 * @param removeType
 	 *            the type for the removing package(APP or Test)
 	 */
-	public static void removePackage(IChimpDevice me, String packageName, String removeType) {
+	public void removePackage(IChimpDevice me, String packageName, String removeType) {
 		if (me.removePackage(packageName))
 			logger.info("Remove " + removeType + " package successfully.");
 		else
@@ -95,8 +113,14 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	/**
 	 * Pull Screenshots Images from /sdcard/Robotium-Screenshots and then
 	 * delete the whole folder
-	 */
-	public static void pullScreenshots(IChimpDevice me, String adbName, String dir) {
+	 * @param me
+	 * 			the device under the test
+	 * @param adbName
+	 * 			the AdbName of the device under the test
+	 * @param dir
+	 * 			the String name of the folder that saves results
+	 */			
+	public void pullScreenshots(IChimpDevice me, String adbName, String dir) {
 		// TODO Auto-generated method stub
 		StringBuilder cmd = new StringBuilder(ADB_LOCATION + " ");
 		cmd.append("-s ");
