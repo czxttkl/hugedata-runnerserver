@@ -26,7 +26,6 @@ public class PacketTest extends Test implements Runnable {
 	private PacketTest(Builder builder) {
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
-		TEST_START_TIME = builder.TEST_START_TIME;
 		priority = builder.priority;
 
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
@@ -35,34 +34,26 @@ public class PacketTest extends Test implements Runnable {
 		APP_PACKAGE_NAME = TEST_PACKAGE_NAME.substring(0,
 				TEST_PACKAGE_NAME.length() - 5);
 		CLEAR_HISTORY = builder.clearHistory;
-
-		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()
-				+ DEVICE_INFO.getType() + DEVICE_INFO.getNetwork()
-				+ TEST_START_TIME;
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		
 		if (suspendDevice()) {
-			resultDir = new File(resultDirStr);
-			resultDir.mkdir();
 			
+			createResultDir();
 			IChimpDevice myDevice = getDevice();
+			
 			try {
 				installPackage(myDevice, APP_INSTALL_PATH, "APP");
 				installPackage(myDevice, TEST_INSTALL_PATH, "Test");
 				startTcpdump();
 				ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
 						TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				logger.info("IOException" + e.toString());
-			} catch (ShellCommandUnresponsiveException e) {
-				logger.info("Test timed out. ");
-			} catch (IllegalArgumentException e) {
-				logger.info("Install failed. Caused by " + e.getMessage());
+				
+			} catch (Exception e) {
+				logger.info("Test:" + resultDirStr + " failed. Caused by " + e.getMessage());
 			} finally {
 
 				stopTcpdump();
@@ -148,18 +139,17 @@ public class PacketTest extends Test implements Runnable {
 	}
 
 	private boolean suspendDevice() {
-		return DEVICE_INFO.suspendDevice();
+		return DEVICE_INFO.suspendDevice(this);
 	}
 
 	private boolean releaseDevice() {
-		return DEVICE_INFO.releaseDevice();
+		return DEVICE_INFO.releaseDevice(this);
 	}
 
 	public static class Builder {
 		// Mandatory Parameters
 		private final String TEST_PACKAGE_NAME;
 		private final DeviceInfo DEVICE_INFO;
-		private final String TEST_START_TIME;
 
 		// Optional Parameters
 		private int testDurationThres = 999999;
@@ -180,8 +170,6 @@ public class PacketTest extends Test implements Runnable {
 			// The device instance
 			this.DEVICE_INFO = deviceinfo;
 			// Initialize the test start time for logger
-			this.TEST_START_TIME = new SimpleDateFormat("yyyyMMddHHmmss")
-					.format(new Date()).toString();
 		}
 
 		public Builder testDurationThres(int durthr) {

@@ -27,7 +27,7 @@ public class RunnerServer {
 	private static HashMap<String, DeviceInfo> deviceInfoMap = new HashMap<String, DeviceInfo>();
 	private static ExecutorService exec = Executors.newCachedThreadPool();
 	public static int locationNum;
-	
+
 	private static AdbBackend adbBackend;
 	public static LogFormatter logFormatter;
 	public static Logger logger = Logger
@@ -36,6 +36,7 @@ public class RunnerServer {
 	public static void main(String[] args) throws InterruptedException,
 			IOException {
 		// TODO Auto-generated method stub
+
 		initRunnerServer();
 
 		// Judge if the device is suspended
@@ -50,13 +51,13 @@ public class RunnerServer {
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
-				.testDurationThres(999999).build();
+				.testDurationThres(999999).priority(5).build();
 		Thread.sleep(5000);
 		PacketTest c = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
-				.testDurationThres(999999).build();
+				.testDurationThres(999999).priority(6).build();
 		// new Thread(a).start();
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(a);
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
@@ -85,7 +86,10 @@ public class RunnerServer {
 		locationNum = 101010;
 		logFormatter = new LogFormatter();
 		setServerLog();
-		
+
+		logger.info("----------------------------------------------------------------");
+		logger.info("Runner Server Initialization Starts");
+
 		adbBackend = new AdbBackend(ADB_LOCATION, false);
 		try {
 			Thread.sleep(5000);
@@ -93,14 +97,15 @@ public class RunnerServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		logger.info("AdbBackend Established and Connected. ");
 
 		checkOutDevice();
 		// Class[] testClasses = { PacketTest.class };
 		// Test.setLogger(testClasses, true);
 		Test.setAdbLocation("c:/Android/platform-tools/adb");
 		Test.setTestLocation(locationNum);
-		logger.info("Test Configured Done.");
-		logger.info("Runner Server Initialization Completed. Server Starts.");
+		logger.info("Runner Server Initialization Completed.");
+		logger.info("----------------------------------------------------------------");
 
 	}
 
@@ -121,7 +126,7 @@ public class RunnerServer {
 	private static void checkOutDevice() {
 		// TODO Auto-generated method stub
 		System.out.println("Now Connecting Device:");
-		
+
 		for (String deviceAdbName : adbBackend.listAttachedDevice()) {
 			System.out.println(deviceAdbName);
 			IChimpDevice device = adbBackend.waitForConnection(
@@ -129,20 +134,20 @@ public class RunnerServer {
 			if (device != null) {
 				device.startActivity(null, null, null, null, null, null,
 						"com.czxttkl.hugedata/.activity.MainActivity", 0);
-				//waiting for hugedata setting up
+				// waiting for hugedata setting up
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
+
 				String raw = device.shell("cat /sdcard/hugedata/deviceinfo")
 						.trim();
 				String[] metrics = raw.split(":");
 				String manufacturer = metrics[0];
 				String type = metrics[1];
 				String network = metrics[2];
-				
+
 				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type,
 						network, deviceAdbName, device);
 				exec.execute(deviceInfo);
