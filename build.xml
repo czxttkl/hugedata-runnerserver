@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tryMonkeyRunner" basedir="." default="jar">
+	<description>${ant.project.name}</description>
+
+	<property name="builddir" value="${basedir}/classes" />
+	<property name="jar-dest" value="${basedir}/lib" />
+	<property environment="env"/> 
+
+	<presetdef name="javac">
+		<javac includeantruntime="true" />
+	</presetdef>
+	
+	<target name="init"
+		description="Initialize the package for compilation and distribution">
+		<mkdir dir="${builddir}" />
+		<mkdir dir="${jar-dest}" />
+	</target>
+
+	<target name="clean" description="Delete the build directory and dist target">
+		<delete dir="${builddir}" />
+		 <delete file="${jar-dest}/runnerserver.jar"/>
+	</target>
+
+	<target name="compile" depends="clean,init"
+		description="Compiles Runner Server Java Code">
+		<javac srcdir="${basedir}/src" destdir="${builddir}">
+			<classpath>
+				<fileset dir="${jar-dest}">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="${env.ANDROID_HOME}/tools/lib/">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile" description="Build the Runner Server jar">
+		<jar destfile="${jar-dest}/runnerserver.jar" basedir="${builddir}">
+		    <zipgroupfileset dir="${jar-dest}" includes="*.jar" excludes=""/>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+		</jar>
+	</target>
+
+<!-- 	<target name="run" depends="jar">
+		<java jar="${jar-dest}/runnerserver.jar" fork="true" />
+	</target> -->
+
+<!-- 	<target name="main" depends="clean,run" /> -->
+
+</project>
