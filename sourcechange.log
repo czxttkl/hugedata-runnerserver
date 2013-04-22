@@ -1,0 +1,99 @@
+android4.2.2_r1版本及之前，chimpchat源码位于SOURCE_ROOT/sdk/chimpchat中
+而在android4.2.2AOSP版本之后，chimpchat源码位于SOURCE_ROOT/tools/swt/chimpchat中
+
+.../chimpchat/src/com/android/chimpchat/adb/AdbBackend.java
+加入：
+public List<String> listAttachedDevice(){
+        List<String> deviceList = Lists.newArrayList();
+	//ArrayList<String> deviceList = new ArrayList<String>();	
+	for (IDevice device : bridge.getDevices()) {
+	    deviceList.add(device.getSerialNumber());
+	}	
+	return deviceList;
+    }
+
+.../chimpchat/src/com/android/chimpchat/adb/AdbChimpDevice.java
+加入：
+	private static <T> boolean isNullOrEmpty(@Nullable Collection<T> string){
+		return string == null || string.isEmpty();
+	}
+	private static <T, E> boolean isNullOrEmpty(@Nullable Map<T,E> string){
+		return string == null || string.isEmpty();
+	}
+	@Override
+	public String startTestInstrumentation(String packageName, int testTimeout) throws ShellCommandUnresponsiveException{
+		String cmd = "am instrument -w " + packageName + "/android.test.InstrumentationTestRunner";
+		CommandOutputCapture capture = new CommandOutputCapture();
+		try {
+			device.executeShellCommand(cmd, capture, testTimeout);
+		} catch (TimeoutException e) {
+			LOG.log(Level.SEVERE, "Error executing command: " + cmd, e);
+			return null;
+		} 
+/*		catch (ShellCommandUnresponsiveException e) {
+			LOG.log(Level.SEVERE, "Error executing command: " + cmd, e);
+			return null;
+		} */
+		catch (AdbCommandRejectedException e) {
+			LOG.log(Level.SEVERE, "Error executing command: " + cmd, e);
+			return null;
+		} catch (IOException e) {
+			LOG.log(Level.SEVERE, "Error executing command: " + cmd, e);
+			return null;
+		}
+		return capture.toString();
+	}
+
+修改：
+		// Handle categories
+		if (!isNullOrEmpty(categories)) {
+			for (String category : categories) {
+				parts.add("-c");
+				parts.add(category);
+			}
+		}
+
+		// Handle extras
+		if (!isNullOrEmpty(extras)) {
+			for (Entry<String, Object> entry : extras.entrySet()) {
+				// Extras are either boolean, string, or int. See which we have
+				Object value = entry.getValue();
+				String valueString;
+				String arg;
+				if (value instanceof Integer) {
+					valueString = Integer.toString((Integer) value);
+					arg = "--ei";
+				} else if (value instanceof Boolean) {
+					valueString = Boolean.toString((Boolean) value);
+					arg = "--ez";
+				} else {
+					// treat is as a string.
+					valueString = value.toString();
+					arg = "--es";
+				}
+				parts.add(arg);
+				parts.add(entry.getKey());
+				parts.add(valueString);
+			}
+		}
+
+.../chimpchat/src/com/android/chimpchat/core/IChimpDevice.java
+加入：
+import com.android.ddmlib.ShellCommandUnresponsiveException;
+/**
+	 * Start test instrumentation by execute shell command: "am instrument -w package.name/android.test.InstrumentationTestRunner"
+	 * 
+	 * @param testPackageName 
+	 * 				the name of package in the test project
+	 * @param testTimeout 
+	 * 				the max timeout of the test(ms)
+	 * @return String 
+	 * 				the result of the shell execution 
+	 */
+String startTestInstrumentation(String testPackageName, int testTimeout) throws ShellCommandUnresponsiveException;
+修改：
+void startActivity(@Nullable String uri, @Nullable String action,
+			@Nullable String data, @Nullable String mimeType,
+			@Nullable Collection<String> categories,
+			@Nullable Map<String, Object> extras, @Nullable String component, int flags);
+
