@@ -29,7 +29,8 @@
 					<include name="*.jar" />
 				</fileset>
 				<fileset dir="${env.ANDROID_HOME}/tools/lib/">
-					<include name="*.jar" />
+					<include name="chimpchat.jar" />
+					<include name="ddmlib.jar" />
 				</fileset>
 			</classpath>
 		</javac>
