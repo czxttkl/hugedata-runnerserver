@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="tryMonkeyRunner" basedir="." default="jar">
+<project name="RunnerServer" basedir="." default="jar">
 	<description>${ant.project.name}</description>
 
 	<property name="builddir" value="${basedir}/classes" />
