@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="RunnerServer" basedir="." default="jar">
+<project name="hugedata-runnerserver" basedir="." default="jar">
 	<description>${ant.project.name}</description>
 
 	<property name="builddir" value="${basedir}/classes" />
