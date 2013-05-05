@@ -19,7 +19,7 @@ import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.test.PacketTest;
 import com.czxttkl.hugedata.test.Test;
 
-public class ResultAnalyzer {
+public class ResultCollector {
 
 	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
 
@@ -75,10 +75,9 @@ public class ResultAnalyzer {
 		Element root = appendPublicMetrics(packetTest, testTime);
 		
 		Element test = new Element("Test");
-		Element testType = new Element("TestType");
-		testType.appendChild("Packet");
 		Element packetFileName = new Element("PacketFileName");
 		packetFileName.appendChild(packetTest.PACKET_FILE_NAME);
+		test.appendChild(packetFileName);
 		
 		for(int i=0; i<totalProcedure; i++){
 			Element procedure = new Element("Procedure");
