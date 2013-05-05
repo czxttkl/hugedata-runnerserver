@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 import com.android.chimpchat.core.IChimpDevice;
 import com.czxttkl.hugedata.helper.DeviceInfo;
-import com.czxttkl.hugedata.helper.ResultAnalyzer;
+import com.czxttkl.hugedata.helper.ResultCollector;
 
 public class PacketTest extends Test implements Runnable {
 
@@ -27,14 +27,14 @@ public class PacketTest extends Test implements Runnable {
 
 		if (suspendDevice()) {
 
-			createResultDir();
+			createResultDir("Packet");
 			IChimpDevice myDevice = getDevice();
 
 			try {
 				installPackage(myDevice, APP_INSTALL_PATH, "APP");
 				installPackage(myDevice, TEST_INSTALL_PATH, "Test");
 				startTcpdump();
-				ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
+				ResultCollector.analyze(this, myDevice.startTestInstrumentation(
 						TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
 
 			} catch (Exception e) {
