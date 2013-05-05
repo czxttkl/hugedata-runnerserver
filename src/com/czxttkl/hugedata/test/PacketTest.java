@@ -11,7 +11,6 @@ public class PacketTest extends Test implements Runnable {
 	private PacketTest(Builder builder) {
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
-		priority = builder.priority;
 
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
 		APP_INSTALL_PATH = builder.appInstallPath;
@@ -19,26 +18,28 @@ public class PacketTest extends Test implements Runnable {
 		APP_PACKAGE_NAME = TEST_PACKAGE_NAME.substring(0,
 				TEST_PACKAGE_NAME.length() - 5);
 		CLEAR_HISTORY = builder.clearHistory;
+		PRIORITY = builder.priority;
+		PACKET_FILE_NAME = builder.packetFileName;
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+
 		if (suspendDevice()) {
-			
+
 			createResultDir();
 			IChimpDevice myDevice = getDevice();
-			
+
 			try {
 				installPackage(myDevice, APP_INSTALL_PATH, "APP");
 				installPackage(myDevice, TEST_INSTALL_PATH, "Test");
 				startTcpdump();
 				ResultAnalyzer.analyze(this, myDevice.startTestInstrumentation(
 						TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
-				
+
 			} catch (Exception e) {
-				logger.info("Test:" + resultDirStr + " failed. Caused by " + e.getMessage());
+				logger.info("Test:" + resultDirStr + " failed. Caused by "
+						+ e.getMessage());
 			} finally {
 
 				stopTcpdump();
@@ -71,7 +72,8 @@ public class PacketTest extends Test implements Runnable {
 		cmd.append("-s ");
 		cmd.append(getAdbName() + " ");
 		cmd.append("pull ");
-		cmd.append("/sdcard/hugedata/capture.pcap ");
+		cmd.append("/sdcard/hugedata/");
+		cmd.append(PACKET_FILE_NAME + " ");
 		cmd.append(resultDirStr);
 		Process p;
 		try {
@@ -87,7 +89,7 @@ public class PacketTest extends Test implements Runnable {
 			logger.info("InterruptedException" + e.toString());
 		}
 
-		getDevice().shell("rm /sdcard/hugedata/capture.pcap");
+		getDevice().shell("rm /sdcard/hugedata/" + PACKET_FILE_NAME);
 		logger.info("Tcpdump has been killed.");
 
 	}
@@ -98,19 +100,20 @@ public class PacketTest extends Test implements Runnable {
 	 * @return the String command for starting tcpdump
 	 */
 	private String constructTcpdumpCmd() {
-		StringBuilder testCmd = new StringBuilder(ADB_LOCATION + " ");
-		testCmd.append("-s ");
-		testCmd.append(getAdbName() + " ");
-		testCmd.append("shell tcpdump ");
-		testCmd.append("-p -s 0 -w ");
+		StringBuilder cmd = new StringBuilder(ADB_LOCATION + " ");
+		cmd.append("-s ");
+		cmd.append(getAdbName() + " ");
+		cmd.append("shell tcpdump ");
+		cmd.append("-p -s 0 -w ");
 		/*
 		 * testCmd.append("-p -vv -s 0 "); -p: Not in Promiscuous Mode. So
 		 * tcpdump will only capture packets that intends to be received -w :
 		 * Write raw packets to file rather than printing them
 		 * testCmd.append("-p -w "); -s 0 set snaplength 65535
 		 */
-		testCmd.append("/sdcard/hugedata/capture.pcap");
-		return testCmd.toString();
+		cmd.append("/sdcard/hugedata/");
+		cmd.append(PACKET_FILE_NAME);
+		return cmd.toString();
 	}
 
 	private IChimpDevice getDevice() {
@@ -143,6 +146,7 @@ public class PacketTest extends Test implements Runnable {
 		private boolean clearHistory = true;
 		// default priority:1
 		private int priority = 1;
+		private String packetFileName = "capture.pcap";
 
 		public Builder(String TEST_PACKAGE_NAME, DeviceInfo deviceinfo) {
 			// Validate Test Package Name
@@ -199,6 +203,11 @@ public class PacketTest extends Test implements Runnable {
 
 		public Builder priority(int pr) {
 			priority = pr;
+			return this;
+		}
+
+		public Builder packetFileName(String name) {
+			packetFileName = name;
 			return this;
 		}
 

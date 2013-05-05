@@ -44,7 +44,7 @@ public class RunnerServer {
 				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testDurationThres(999999).build();
 		Thread.sleep(5000);
-		PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
+/*		PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
@@ -54,11 +54,11 @@ public class RunnerServer {
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
-				.testDurationThres(999999).priority(6).build();
+				.testDurationThres(999999).priority(6).build();*/
 		// new Thread(a).start();
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(a);
-		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
-		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
+		//deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
+		//deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
 		// Test.tryLock();
 
 		/*

@@ -25,21 +25,25 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	// Mandatory Parameters
 	public String TEST_PACKAGE_NAME;
 	public DeviceInfo DEVICE_INFO;
-	public String TEST_START_TIME;
-	public int priority;
-	
+
 	// Optional Parameters
 	public String APP_PACKAGE_NAME;
 	public int TEST_DURATION_THRESHOLD;
 	public String APP_INSTALL_PATH;
 	public String TEST_INSTALL_PATH;
 	public boolean CLEAR_HISTORY;
+	public String PACKET_FILE_NAME;
+	public int PRIORITY;
+	
+	//Auto Generated Parameters
 	public String resultDirStr;
 	public File resultDir;
+	public String TEST_START_TIME;
+
 	
 	//Implement Camparable Interface
 	public int compareTo(Test arg){
-		return priority < arg.priority ? 1 : (priority > arg.priority ? -1 : 0);
+		return PRIORITY < arg.PRIORITY ? 1 : (PRIORITY > arg.PRIORITY ? -1 : 0);
 	}
 	
 	public static void setAdbLocation(String adbLocation) {

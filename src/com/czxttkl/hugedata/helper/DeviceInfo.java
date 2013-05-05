@@ -80,12 +80,12 @@ public class DeviceInfo implements Runnable {
 			availability = false;
 			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
 					+ getType() + getNetwork() + " with priority"
-					+ test.priority + " starts. " + this + " device suspended.");
+					+ test.PRIORITY + " starts. " + this + " device suspended.");
 			return true;
 		} else {
 			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
 					+ getType() + getNetwork() + " with priority"
-					+ test.priority + " can't start. " + this
+					+ test.PRIORITY + " can't start. " + this
 					+ " device is not released.");
 			return false;
 		}
@@ -96,12 +96,12 @@ public class DeviceInfo implements Runnable {
 			availability = true;
 			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
 					+ getType() + getNetwork() + " with priority"
-					+ test.priority + " ends. " + this + " device released.");
+					+ test.PRIORITY + " ends. " + this + " device released.");
 			return true;
 		} else {
 			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
 					+ getType() + getNetwork() + " with priority"
-					+ test.priority + " ends. " + this
+					+ test.PRIORITY + " ends. " + this
 					+ " device is suspended.");
 			return false;
 		}
@@ -132,7 +132,7 @@ public class DeviceInfo implements Runnable {
 	public void addToTestQueue(Test test) {
 		testQueue.add(test);
 		logger.info("Test:" + Test.LOCATION_NUM + getManufacturer() + getType()
-				+ getNetwork() + " with priority" + test.priority + " added. ");
+				+ getNetwork() + " with priority" + test.PRIORITY + " added. ");
 	}
 
 	@Override

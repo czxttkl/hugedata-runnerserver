@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -25,9 +27,10 @@ public class ResultAnalyzer {
 		// TODO Auto-generated method stub
 		logger.info("Test Instrumentation finished");
 
-		int totalProcedure;
+		int totalProcedure = 0;
 		double testTime = 0;
-
+		List<Integer> failureProcedureNums = new ArrayList<Integer>();
+		
 		Scanner resultScanner = new Scanner(testResult);
 		while (resultScanner.hasNextLine()) {
 			String line = resultScanner.nextLine();
@@ -39,13 +42,13 @@ public class ResultAnalyzer {
 			if (line.startsWith("Failure in testProcedure")) {
 				int procedureNum = Integer.valueOf(line.substring(24)
 						.split(":")[0]);
-				System.out.println(procedureNum);
+				failureProcedureNums.add(procedureNum);
 
 				while (resultScanner.hasNextLine()) {
-					String inLine = resultScanner.nextLine();
-					if (inLine.length() < 4)
+					String exception = resultScanner.nextLine();
+					if (exception.length() < 4)
 						break;
-					System.out.println(inLine);
+					//System.out.println(exception);
 				}
 			}
 
@@ -69,32 +72,61 @@ public class ResultAnalyzer {
 		}
 		resultScanner.close();
 
+		Element root = appendPublicMetrics(packetTest, testTime);
+		
+		Element test = new Element("Test");
+		Element testType = new Element("TestType");
+		testType.appendChild("Packet");
+		Element packetFileName = new Element("PacketFileName");
+		packetFileName.appendChild(packetTest.PACKET_FILE_NAME);
+		
+		for(int i=0; i<totalProcedure; i++){
+			Element procedure = new Element("Procedure");
+			Element completed = new Element("Completed");
+			if(failureProcedureNums.contains(i+1))
+				completed.appendChild("False");
+			else
+				completed.appendChild("True");
+			procedure.appendChild(completed);
+			test.appendChild(procedure);
+		}
+		
+		root.appendChild(test);
+		
+
+		
+		Document doc = new Document(root);
+		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);
+		logger.info(testResult);
+
+	}
+	
+	private static Element appendPublicMetrics(Test test, double testTime) {
+		
 		Element root = new Element("Result");
 		
 		Element startTime = new Element("StartTime");
-		startTime.appendChild(packetTest.TEST_START_TIME);
+		startTime.appendChild(test.TEST_START_TIME);
 		Element duration = new Element("Duration");
 		duration.appendChild(String.valueOf((int)(testTime * 1000)));
 		Element location = new Element("Location");
 		location.appendChild(String.valueOf(PacketTest.LOCATION_NUM));
 		Element phoneManufacturer = new Element("PhoneManufacturer");
-		phoneManufacturer.appendChild(packetTest.DEVICE_INFO.getManufacturer());
+		phoneManufacturer.appendChild(test.DEVICE_INFO.getManufacturer());
 		Element phoneType = new Element("PhoneType");
-		phoneType.appendChild(packetTest.DEVICE_INFO.getType());
+		phoneType.appendChild(test.DEVICE_INFO.getType());
 		Element network = new Element("Network");
-		network.appendChild(packetTest.DEVICE_INFO.getNetwork());
+		network.appendChild(test.DEVICE_INFO.getNetwork());
 		Element platformName = new Element("PlatformName");
-		platformName.appendChild(packetTest.DEVICE_INFO.getPlatformName());
+		platformName.appendChild(test.DEVICE_INFO.getPlatformName());
 		Element platformVer = new Element("PlatformVer");
-		platformVer.appendChild(packetTest.DEVICE_INFO.getPlatformVer());
+		platformVer.appendChild(test.DEVICE_INFO.getPlatformVer());
 		Element ipAddress = new Element("IpAddress");
-		ipAddress.appendChild(packetTest.DEVICE_INFO.getIpAddress());
+		ipAddress.appendChild(test.DEVICE_INFO.getIpAddress());
 		Element primeDns = new Element("PrimeDns");
-		primeDns.appendChild(packetTest.DEVICE_INFO.getPrimeDns());
+		primeDns.appendChild(test.DEVICE_INFO.getPrimeDns());
 		Element secondaryDns = new Element("SecondaryDns");
-		secondaryDns.appendChild(packetTest.DEVICE_INFO.getSecondaryDns());
-		
-		
+		secondaryDns.appendChild(test.DEVICE_INFO.getSecondaryDns());
 		
 		root.appendChild(startTime);
 		root.appendChild(duration);
@@ -107,20 +139,13 @@ public class ResultAnalyzer {
 		root.appendChild(primeDns);
 		root.appendChild(secondaryDns);
 		
-		Document doc = new Document(root);
-		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);
-		
-		
-		
-		
-		logger.info(testResult);
-
+		return root;
 	}
-	
+
 	public static void format(OutputStream os, Document doc) throws IOException{
 		Serializer serializer = new Serializer(os,"utf-8");
 		serializer.setIndent(4);
-		serializer.setMaxLength(60);
+		serializer.setMaxLength(600);
 		serializer.write(doc);
 		serializer.flush();
 	}
