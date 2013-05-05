@@ -18,7 +18,7 @@
 
 	<target name="clean" description="Delete the build directory and dist target">
 		<delete dir="${builddir}" />
-		 <delete file="${jar-dest}/runnerserver.jar"/>
+		<delete file="${jar-dest}/runnerserver.jar"/>
 	</target>
 
 	<target name="compile" depends="clean,init"
