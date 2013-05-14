@@ -54,19 +54,19 @@ public class ResultCollector {
 
 			if (line.startsWith("Time: ")) {
 				testTime = Double.valueOf(line.substring(6));
-				System.out.println(testTime);
+				//System.out.println(testTime);
 			}
 
 			if (line.startsWith("OK (")) {
 				totalProcedure = Integer
 						.valueOf(line.substring(4).split(" ")[0]);
-				System.out.println(totalProcedure);
+				//System.out.println(totalProcedure);
 			}
 
 			if (line.startsWith("Tests run: ")) {
 				totalProcedure = Integer
 						.valueOf(line.split(",")[0].split(" ")[2]);
-				System.out.println(totalProcedure);
+				//System.out.println(totalProcedure);
 			}
 
 		}

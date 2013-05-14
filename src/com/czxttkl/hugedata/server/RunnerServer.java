@@ -1,6 +1,7 @@
 package com.czxttkl.hugedata.server;
 
 import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,6 +18,11 @@ import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.test.PacketTest;
 import com.czxttkl.hugedata.test.Test;
 
+/**
+ * @author Zhengxing Chen
+ * 
+ * See reference on: https://code.google.com/p/hugedata-runner-server/
+ */
 public class RunnerServer {
 
 	private static String ADB_LOCATION;
@@ -38,13 +44,14 @@ public class RunnerServer {
 
 		// Judge if the device is suspended
 		// suspend the device
+		
 		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testDurationThres(999999).build();
 		Thread.sleep(5000);
-/*		PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
+		PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
@@ -54,11 +61,11 @@ public class RunnerServer {
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
-				.testDurationThres(999999).priority(6).build();*/
+				.testDurationThres(999999).priority(6).build();
 		// new Thread(a).start();
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(a);
-		//deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
-		//deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
+		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
+		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
 		// Test.tryLock();
 
 		/*
@@ -74,19 +81,33 @@ public class RunnerServer {
 		// Thread.sleep(3000);
 		// me.press(PhysicalButton.HOME,TouchPressType.DOWN_AND_UP);
 
+		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			@Override
+			public void uncaughtException(Thread t, Throwable e) {
+				e.printStackTrace();
+				if (e instanceof OutOfMemoryError) 
+					logger.log(Level.SEVERE, "Out of memory error", e);
+				 else 
+					logger.log(Level.SEVERE, "Uncaught exception", e);
+			}
+		});
 	}
 
+	/**
+	 * Initialize the runner server
+	 */
 	private static void initRunnerServer() {
-		// TODO Auto-generated method stub
+		//Set the Log 
+		logFormatter = new LogFormatter();
+		setServerLog();
+		logger.info("----------------------------------------------------------------");
+		logger.info("Runner Server Initialization Starts");
+		//Initialize the basic parameters
 		ADB_LOCATION = "c:/Android/platform-tools/adb.exe";
 		ADB_CONNECTION_WAITTIME_THRESHOLD = 5000;
 		locationNum = 101010;
-		logFormatter = new LogFormatter();
-		setServerLog();
-
-		logger.info("----------------------------------------------------------------");
-		logger.info("Runner Server Initialization Starts");
-
+		Test.setAdbLocation("c:/Android/platform-tools/adb");
+		Test.setTestLocation(locationNum);
 		adbBackend = new AdbBackend(ADB_LOCATION, false);
 		try {
 			Thread.sleep(5000);
@@ -95,19 +116,16 @@ public class RunnerServer {
 			e.printStackTrace();
 		}
 		logger.info("AdbBackend Established and Connected. ");
-
+		//Check out currently connected devices 
 		checkOutDevice();
-		// Class[] testClasses = { PacketTest.class };
-		// Test.setLogger(testClasses, true);
-		Test.setAdbLocation("c:/Android/platform-tools/adb");
-		Test.setTestLocation(locationNum);
 		logger.info("Runner Server Initialization Completed.");
 		logger.info("----------------------------------------------------------------");
-
 	}
 
+	/**
+	 * Set the log
+	 */
 	private static void setServerLog() {
-		// TODO Auto-generated method stub
 		logger.setLevel(Level.FINEST);
 		FileHandler fileHandler;
 		try {
@@ -120,10 +138,12 @@ public class RunnerServer {
 		}
 	}
 
+	/**
+	 * Check out currently connected devices 
+	 */
 	private static void checkOutDevice() {
-		// TODO Auto-generated method stub
 		System.out.println("Now Connecting Device:");
-
+		
 		for (String deviceAdbName : adbBackend.listAttachedDevice()) {
 			System.out.println(deviceAdbName);
 			IChimpDevice device = adbBackend.waitForConnection(
