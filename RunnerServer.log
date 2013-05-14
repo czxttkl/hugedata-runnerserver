@@ -1,252 +1,124 @@
-20130422121040->101010->INFO->----------------------------------------------------------------
-20130422121040->101010->INFO->Runner Server Initialization Starts
-20130422121045->101010->INFO->AdbBackend Established and Connected. 
-20130422121053->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130422121053->101010->INFO->Runner Server Initialization Completed.
-20130422121053->101010->INFO->----------------------------------------------------------------
-20130422121103->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130422121103->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130422121103->101010->INFO->Test:101010HTCT328WUNI with priority5 added. 
-20130422121103->101010->INFO->Test:101010HTCT328WUNI with priority6 added. 
-20130422121114->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130422121116->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130422121150->101010->INFO->Test Instrumentation finished
-20130422121150->101010->INFO->
-com.renren.mobile.android.test.TestApk:.
-Failure in testProcedure2:
-junit.framework.AssertionFailedError: Procedure2_Go_My_Desktop
-	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:53)
-	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:621)
-	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:72)
-	at java.lang.reflect.Method.invokeNative(Native Method)
-	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
-	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
-	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
-	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
-	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
-.
-Test results for InstrumentationTestRunner=..F.
-Time: 26.197
-
-FAILURES!!!
-Tests run: 3,  Failures: 1,  Errors: 0
-
-
-
-20130422121150->101010->INFO->Tcpdump has been killed.
-20130422121150->101010->INFO->Pull Screenshots Successfully.
-20130422121153->101010->INFO->Remove APP package successfully.
-20130422121154->101010->INFO->Remove Test package successfully.
-20130422121154->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
-20130422121154->101010->INFO->Test:101010HTCT328WUNI with priority6 starts. HTCT328WUNI device suspended.
-20130422121205->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130422121207->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130422121249->101010->INFO->Test Instrumentation finished
-20130422121249->101010->INFO->
+20130510101911->101010->INFO->----------------------------------------------------------------
+20130510101911->101010->INFO->Runner Server Initialization Starts
+20130510101922->101010->INFO->AdbBackend Established and Connected. 
+20130510101930->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
+20130510101930->101010->INFO->Runner Server Initialization Completed.
+20130510101930->101010->INFO->----------------------------------------------------------------
+20130510101935->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
+20130510101935->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
+20130510101949->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510101954->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510102046->101010->INFO->Test Instrumentation finished
+20130510102047->101010->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 34.447
+Time: 43.545
 
 OK (3 tests)
 
 
 
-20130422121249->101010->INFO->Tcpdump has been killed.
-20130422121250->101010->INFO->Pull Screenshots Successfully.
-20130422121252->101010->INFO->Remove APP package successfully.
-20130422121254->101010->INFO->Remove Test package successfully.
-20130422121254->101010->INFO->Test:101010HTCT328WUNI with priority6 ends. HTCT328WUNI device released.
-20130422121254->101010->INFO->Test:101010HTCT328WUNI with priority5 starts. HTCT328WUNI device suspended.
-20130422121305->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130422121306->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130422121348->101010->INFO->Test Instrumentation finished
-20130422121349->101010->INFO->
+20130510102047->101010->INFO->Tcpdump has been killed.
+20130510102047->101010->INFO->Pull Screenshots Successfully.
+20130510102051->101010->INFO->Remove APP package successfully.
+20130510102054->101010->INFO->Remove Test package successfully.
+20130510102054->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
+20130510105015->101010->INFO->AdbBackend Established and Connected. 
+20130510105023->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
+20130510105023->101010->INFO->Runner Server Initialization Completed.
+20130510105023->101010->INFO->----------------------------------------------------------------
+20130510105028->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
+20130510105028->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
+20130510105042->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510105044->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510105132->101010->INFO->Test Instrumentation finished
+20130510105133->101010->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 34.633
+Time: 39.824
 
 OK (3 tests)
 
 
 
-20130422121349->101010->INFO->Tcpdump has been killed.
-20130422121349->101010->INFO->Pull Screenshots Successfully.
-20130422121351->101010->INFO->Remove APP package successfully.
-20130422121353->101010->INFO->Remove Test package successfully.
-20130422121353->101010->INFO->Test:101010HTCT328WUNI with priority5 ends. HTCT328WUNI device released.
-20130424100257->101010->INFO->----------------------------------------------------------------
-20130424100257->101010->INFO->Runner Server Initialization Starts
-20130424100307->101010->INFO->AdbBackend Established and Connected. 
-20130424100316->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130424100316->101010->INFO->Runner Server Initialization Completed.
-20130424100316->101010->INFO->----------------------------------------------------------------
-20130424100326->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130424100326->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130424100326->101010->INFO->Test:101010HTCT328WUNI with priority5 added. 
-20130424100326->101010->INFO->Test:101010HTCT328WUNI with priority6 added. 
-20130424100337->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130424100339->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130424100421->101010->INFO->Test Instrumentation finished
-20130424100421->101010->INFO->
-com.renren.mobile.android.test.TestApk:.
-Failure in testProcedure2:
-junit.framework.AssertionFailedError: Procedure2_Reloaded Feeds
-	at com.jayway.android.robotium.solo.Asserter.assertViewShown(Asserter.java:155)
-	at com.jayway.android.robotium.solo.Solo.assertViewShown(Solo.java:723)
-	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:83)
-	at java.lang.reflect.Method.invokeNative(Native Method)
-	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
-	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
-	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
-	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
-	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
-.
-Test results for InstrumentationTestRunner=..F.
-Time: 34.75
-
-FAILURES!!!
-Tests run: 3,  Failures: 1,  Errors: 0
-
-
-
-20130424100422->101010->INFO->Tcpdump has been killed.
-20130424100422->101010->INFO->Pull Screenshots Successfully.
-20130424100424->101010->INFO->Remove APP package successfully.
-20130424100425->101010->INFO->Remove Test package successfully.
-20130424100425->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
-20130424100425->101010->INFO->Test:101010HTCT328WUNI with priority6 starts. HTCT328WUNI device suspended.
-20130424100436->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130424100438->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130424100522->101010->INFO->Test Instrumentation finished
-20130424100522->101010->INFO->
+20130510105133->101010->INFO->Tcpdump has been killed.
+20130510105133->101010->INFO->Pull Screenshots Successfully.
+20130510105137->101010->INFO->Remove APP package successfully.
+20130510105141->101010->INFO->Remove Test package successfully.
+20130510105141->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
+20130510110623->101010->INFO->AdbBackend Established and Connected. 
+20130510110631->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
+20130510110631->101010->INFO->Runner Server Initialization Completed.
+20130510110631->101010->INFO->----------------------------------------------------------------
+20130510110641->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
+20130510110641->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
+20130510110641->101010->INFO->Test:101010HTCT328WUNI with priority5 added. 
+20130510110641->101010->INFO->Test:101010HTCT328WUNI with priority6 added. 
+20130510110654->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510110658->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510110748->101010->INFO->Test Instrumentation finished
+20130510110749->101010->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 36.045
+Time: 42.577
 
 OK (3 tests)
 
 
 
-20130424100522->101010->INFO->Tcpdump has been killed.
-20130424100522->101010->INFO->Pull Screenshots Successfully.
-20130424100525->101010->INFO->Remove APP package successfully.
-20130424100526->101010->INFO->Remove Test package successfully.
-20130424100526->101010->INFO->Test:101010HTCT328WUNI with priority6 ends. HTCT328WUNI device released.
-20130424100526->101010->INFO->Test:101010HTCT328WUNI with priority5 starts. HTCT328WUNI device suspended.
-20130424100538->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130424100539->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130424100622->101010->INFO->Test Instrumentation finished
-20130424100622->101010->INFO->
+20130510110749->101010->INFO->Tcpdump has been killed.
+20130510110749->101010->INFO->Pull Screenshots Successfully.
+20130510110754->101010->INFO->Remove APP package successfully.
+20130510110758->101010->INFO->Remove Test package successfully.
+20130510110758->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
+20130510110758->101010->INFO->Test:101010HTCT328WUNI with priority6 starts. HTCT328WUNI device suspended.
+20130510110813->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510110815->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510110906->101010->INFO->Test Instrumentation finished
+20130510110906->101010->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 35.093
+Time: 42.994
 
 OK (3 tests)
 
 
 
-20130424100622->101010->INFO->Tcpdump has been killed.
-20130424100622->101010->INFO->Pull Screenshots Successfully.
-20130424100625->101010->INFO->Remove APP package successfully.
-20130424100626->101010->INFO->Remove Test package successfully.
-20130424100626->101010->INFO->Test:101010HTCT328WUNI with priority5 ends. HTCT328WUNI device released.
-20130428141708->101010->INFO->----------------------------------------------------------------
-20130428141708->101010->INFO->Runner Server Initialization Starts
-20130428141713->101010->INFO->AdbBackend Established and Connected. 
-20130428141723->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130428141723->101010->INFO->Runner Server Initialization Completed.
-20130428141723->101010->INFO->----------------------------------------------------------------
-20130428141728->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130428141728->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130428141757->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130428141815->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130428141919->101010->INFO->Test Instrumentation finished
-20130428141920->101010->INFO->
+20130510110907->101010->INFO->Tcpdump has been killed.
+20130510110907->101010->INFO->Pull Screenshots Successfully.
+20130510110911->101010->INFO->Remove APP package successfully.
+20130510110915->101010->INFO->Remove Test package successfully.
+20130510110915->101010->INFO->Test:101010HTCT328WUNI with priority6 ends. HTCT328WUNI device released.
+20130510110915->101010->INFO->Test:101010HTCT328WUNI with priority5 starts. HTCT328WUNI device suspended.
+20130510110929->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510110931->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510111021->101010->INFO->Test Instrumentation finished
+20130510111021->101010->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 49.309
+Time: 41.955
 
 OK (3 tests)
 
 
 
-20130428141922->101010->INFO->Tcpdump has been killed.
-20130428141923->101010->INFO->Pull Screenshots Successfully.
-20130428141945->101010->INFO->Remove APP package successfully.
-20130428141958->101010->INFO->Remove Test package successfully.
-20130428141958->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
-20130505084503->101010->INFO->----------------------------------------------------------------
-20130505084503->101010->INFO->Runner Server Initialization Starts
-20130505084508->101010->INFO->AdbBackend Established and Connected. 
-20130505084517->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130505084517->101010->INFO->Runner Server Initialization Completed.
-20130505084517->101010->INFO->----------------------------------------------------------------
-20130505084522->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130505084522->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130505084539->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130505084543->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130505084615->101010->INFO->Test Instrumentation finished
-20130505084615->101010->INFO->
-com.renren.mobile.android.test.TestApk:
-Failure in testProcedure1:
-junit.framework.AssertionFailedError: Procedure1_WelcomeUI
-	at com.jayway.android.robotium.solo.Asserter.assertCurrentActivity(Asserter.java:53)
-	at com.jayway.android.robotium.solo.Solo.assertCurrentActivity(Solo.java:621)
-	at com.renren.mobile.android.test.TestApk.testProcedure1(TestApk.java:52)
-	at java.lang.reflect.Method.invokeNative(Native Method)
-	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
-	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
-	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
-	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
-	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
-
-com.renren.mobile.android.test.TestApk2:
-Failure in testProcedure2:
-junit.framework.AssertionFailedError: Procedure2_Reloading Feeds
-	at com.jayway.android.robotium.solo.Asserter.assertViewShown(Asserter.java:144)
-	at com.jayway.android.robotium.solo.Solo.assertViewShown(Solo.java:709)
-	at com.renren.mobile.android.test.TestApk2.testProcedure2(TestApk2.java:54)
-	at java.lang.reflect.Method.invokeNative(Native Method)
-	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
-	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
-	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
-	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
-	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
-
-com.renren.mobile.android.test.TestApk3:.
-Test results for InstrumentationTestRunner=.F.F.
-Time: 23.581
-
-FAILURES!!!
-Tests run: 3,  Failures: 2,  Errors: 0
-
-
-
-20130505084615->101010->INFO->Tcpdump has been killed.
-20130505084616->101010->INFO->Pull Screenshots Successfully.
-20130505084622->101010->INFO->Remove APP package successfully.
-20130505084625->101010->INFO->Remove Test package successfully.
-20130505084625->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
-20130505090404->101010->INFO->----------------------------------------------------------------
-20130505090404->101010->INFO->Runner Server Initialization Starts
-20130505090409->101010->INFO->AdbBackend Established and Connected. 
-20130505090417->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130505090417->101010->INFO->Runner Server Initialization Completed.
-20130505090417->101010->INFO->----------------------------------------------------------------
-20130505090422->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130505090422->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130505090439->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130505090443->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130505090516->101010->INFO->Test Instrumentation finished
-20130505090517->101010->INFO->
+20130510111022->101010->INFO->Tcpdump has been killed.
+20130510111022->101010->INFO->Pull Screenshots Successfully.
+20130510111027->101010->INFO->Remove APP package successfully.
+20130510111030->101010->INFO->Remove Test package successfully.
+20130510111030->101010->INFO->Test:101010HTCT328WUNI with priority5 ends. HTCT328WUNI device released.
+20130510165746->101010->INFO->AdbBackend Established and Connected. 
+20130510165754->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
+20130510165754->101010->INFO->Runner Server Initialization Completed.
+20130510165754->101010->INFO->----------------------------------------------------------------
+20130510165804->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
+20130510165804->101010->INFO->Test:101010HTCT328WUNI with priority5 added. 
+20130510165804->101010->INFO->Test:101010HTCT328WUNI with priority6 added. 
+20130510165804->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
+20130510165819->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510165823->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510165859->101010->INFO->Test Instrumentation finished
+20130510165900->101010->INFO->
 com.renren.mobile.android.test.TestApk:
 Failure in testProcedure1:
 junit.framework.AssertionFailedError: Procedure1_WelcomeUI
@@ -277,105 +149,51 @@ junit.framework.AssertionFailedError: Procedure2_Reloading Feeds
 	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
 .
 Test results for InstrumentationTestRunner=.F.F.
-Time: 24.533
+Time: 28.205
 
 FAILURES!!!
 Tests run: 3,  Failures: 2,  Errors: 0
 
 
 
-20130505090517->101010->INFO->Tcpdump has been killed.
-20130505090517->101010->INFO->Pull Screenshots Successfully.
-20130505090522->101010->INFO->Remove APP package successfully.
-20130505090526->101010->INFO->Remove Test package successfully.
-20130505090526->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
-20130505094820->101010->INFO->----------------------------------------------------------------
-20130505094820->101010->INFO->Runner Server Initialization Starts
-20130505094825->101010->INFO->AdbBackend Established and Connected. 
-20130505094833->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130505094833->101010->INFO->Runner Server Initialization Completed.
-20130505094833->101010->INFO->----------------------------------------------------------------
-20130505094838->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130505094838->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130505094851->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130505094854->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130505094944->101010->INFO->Test Instrumentation finished
-20130505094945->101010->INFO->
-com.renren.mobile.android.test.TestApk:.
-Failure in testProcedure2:
-junit.framework.AssertionFailedError: Procedure2_Reloaded Feeds
-	at com.jayway.android.robotium.solo.Asserter.assertViewShown(Asserter.java:155)
-	at com.jayway.android.robotium.solo.Solo.assertViewShown(Solo.java:723)
-	at com.renren.mobile.android.test.TestApk.testProcedure2(TestApk.java:82)
-	at java.lang.reflect.Method.invokeNative(Native Method)
-	at android.test.InstrumentationTestCase.runMethod(InstrumentationTestCase.java:214)
-	at android.test.InstrumentationTestCase.runTest(InstrumentationTestCase.java:199)
-	at android.test.ActivityInstrumentationTestCase2.runTest(ActivityInstrumentationTestCase2.java:186)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:169)
-	at android.test.AndroidTestRunner.runTest(AndroidTestRunner.java:154)
-	at android.test.InstrumentationTestRunner.onStart(InstrumentationTestRunner.java:537)
-	at android.app.Instrumentation$InstrumentationThread.run(Instrumentation.java:1677)
-.
-Test results for InstrumentationTestRunner=..F.
-Time: 42.27
-
-FAILURES!!!
-Tests run: 3,  Failures: 1,  Errors: 0
-
-
-
-20130505094945->101010->INFO->Tcpdump has been killed.
-20130505094945->101010->INFO->Pull Screenshots Successfully.
-20130505094951->101010->INFO->Remove APP package successfully.
-20130505094955->101010->INFO->Remove Test package successfully.
-20130505094955->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
-20130505095413->101010->INFO->----------------------------------------------------------------
-20130505095413->101010->INFO->Runner Server Initialization Starts
-20130505095419->101010->INFO->AdbBackend Established and Connected. 
-20130505095427->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130505095427->101010->INFO->Runner Server Initialization Completed.
-20130505095427->101010->INFO->----------------------------------------------------------------
-20130505095432->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130505095432->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130505095446->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130505095448->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130505095532->101010->INFO->Test Instrumentation finished
-20130505095533->101010->INFO->
+20130510165900->101010->INFO->Tcpdump has been killed.
+20130510165900->101010->INFO->Pull Screenshots Successfully.
+20130510165905->101010->INFO->Remove APP package successfully.
+20130510165909->101010->INFO->Remove Test package successfully.
+20130510165909->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
+20130510165909->101010->INFO->Test:101010HTCT328WUNI with priority6 starts. HTCT328WUNI device suspended.
+20130510165924->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510165927->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510170010->101010->INFO->Test Instrumentation finished
+20130510170010->101010->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 36.349
+Time: 35.445
 
 OK (3 tests)
 
 
 
-20130505095533->101010->INFO->Tcpdump has been killed.
-20130505095533->101010->INFO->Pull Screenshots Successfully.
-20130505095539->101010->INFO->Remove APP package successfully.
-20130505095543->101010->INFO->Remove Test package successfully.
-20130505095543->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
-20130505101231->101010->INFO->----------------------------------------------------------------
-20130505101231->101010->INFO->Runner Server Initialization Starts
-20130505101236->101010->INFO->AdbBackend Established and Connected. 
-20130505101244->101010->INFO->Device Added, Manufacturer:HTC, Type:T328W, Network:UNI, ADB Name:HC29GPG09471
-20130505101244->101010->INFO->Runner Server Initialization Completed.
-20130505101244->101010->INFO->----------------------------------------------------------------
-20130505101249->101010->INFO->Test:101010HTCT328WUNI with priority1 added. 
-20130505101249->101010->INFO->Test:101010HTCT328WUNI with priority1 starts. HTCT328WUNI device suspended.
-20130505101303->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
-20130505101306->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
-20130505101349->101010->INFO->Test Instrumentation finished
-20130505101349->101010->INFO->
+20130510170011->101010->INFO->Tcpdump has been killed.
+20130510170011->101010->INFO->Pull Screenshots Successfully.
+20130510170016->101010->INFO->Remove APP package successfully.
+20130510170019->101010->INFO->Remove Test package successfully.
+20130510170019->101010->INFO->Test:101010HTCT328WUNI with priority6 ends. HTCT328WUNI device released.
+20130510170019->101010->INFO->Test:101010HTCT328WUNI with priority5 starts. HTCT328WUNI device suspended.
+20130510170034->101010->INFO->APP install successfully:c:/Android/mytools/renren.apk
+20130510170037->101010->INFO->Test install successfully:c:/Android/mytools/RenrenTestProject1.apk
+20130510170123->101010->INFO->Test Instrumentation finished
+20130510170123->101010->INFO->
 com.renren.mobile.android.test.TestApk:...
 Test results for InstrumentationTestRunner=...
-Time: 35.563
+Time: 37.795
 
 OK (3 tests)
 
 
 
-20130505101349->101010->INFO->Tcpdump has been killed.
-20130505101350->101010->INFO->Pull Screenshots Successfully.
-20130505101355->101010->INFO->Remove APP package successfully.
-20130505101359->101010->INFO->Remove Test package successfully.
-20130505101359->101010->INFO->Test:101010HTCT328WUNI with priority1 ends. HTCT328WUNI device released.
+20130510170123->101010->INFO->Tcpdump has been killed.
+20130510170123->101010->INFO->Pull Screenshots Successfully.
+20130510170129->101010->INFO->Remove APP package successfully.
+20130510170132->101010->INFO->Remove Test package successfully.
+20130510170132->101010->INFO->Test:101010HTCT328WUNI with priority5 ends. HTCT328WUNI device released.
