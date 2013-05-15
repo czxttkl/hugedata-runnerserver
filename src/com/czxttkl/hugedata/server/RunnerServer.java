@@ -2,6 +2,7 @@ package com.czxttkl.hugedata.server;
 
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,9 +28,12 @@ public class RunnerServer {
 
 	private static String ADB_LOCATION;
 	private static int ADB_CONNECTION_WAITTIME_THRESHOLD;
-	private static HashMap<String, DeviceInfo> deviceInfoMap = new HashMap<String, DeviceInfo>();
-	private static ExecutorService exec = Executors.newCachedThreadPool();
+	private static int webSocketPort;
 	public static int locationNum;
+	
+	public static HashMap<String, ArrayList<DeviceInfo>> deviceInfoMap = new HashMap<String, ArrayList<DeviceInfo>>();
+	private static ExecutorService exec = Executors.newCachedThreadPool();
+
 
 	private static AdbBackend adbBackend;
 	public static LogFormatter logFormatter;
@@ -38,14 +42,14 @@ public class RunnerServer {
 
 	public static void main(String[] args) throws InterruptedException,
 			IOException {
-		// TODO Auto-generated method stub
-
+		
 		initRunnerServer();
-
+		new TaskListener(webSocketPort).startListen();
+		
 		// Judge if the device is suspended
 		// suspend the device
 		
-		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
+/*		PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 				deviceInfoMap.get("HTCT328WUNI"))
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
@@ -62,10 +66,10 @@ public class RunnerServer {
 				.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 				.appInstallPath("c:/Android/mytools/renren.apk")
 				.testDurationThres(999999).priority(6).build();
-		// new Thread(a).start();
+
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(a);
 		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
-		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
+		deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);*/
 		// Test.tryLock();
 
 		/*
@@ -100,30 +104,36 @@ public class RunnerServer {
 		//Set the Log 
 		logFormatter = new LogFormatter();
 		setServerLog();
+		
 		logger.info("----------------------------------------------------------------");
 		logger.info("Runner Server Initialization Starts");
+		
 		//Initialize the basic parameters
-		ADB_LOCATION = "c:/Android/platform-tools/adb.exe";
+		ADB_LOCATION = "c:/Android/platform-tools/adb";
 		ADB_CONNECTION_WAITTIME_THRESHOLD = 5000;
 		locationNum = 101010;
-		Test.setAdbLocation("c:/Android/platform-tools/adb");
+		webSocketPort = 9999;
+		Test.setAdbLocation(ADB_LOCATION);
 		Test.setTestLocation(locationNum);
+		
+		//Initialize AdbBackend
 		adbBackend = new AdbBackend(ADB_LOCATION, false);
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		logger.info("AdbBackend Established and Connected. ");
+		
 		//Check out currently connected devices 
 		checkOutDevice();
+		
 		logger.info("Runner Server Initialization Completed.");
 		logger.info("----------------------------------------------------------------");
 	}
 
 	/**
-	 * Set the log
+	 * Set and format the log
 	 */
 	private static void setServerLog() {
 		logger.setLevel(Level.FINEST);
@@ -142,33 +152,51 @@ public class RunnerServer {
 	 * Check out currently connected devices 
 	 */
 	private static void checkOutDevice() {
-		System.out.println("Now Connecting Device:");
-		
 		for (String deviceAdbName : adbBackend.listAttachedDevice()) {
+			//deviceAdbName is the serialno in build.prop on the phone
+			//Ensure that different phones have different SerialNo in build.prop
 			System.out.println(deviceAdbName);
+			
 			IChimpDevice device = adbBackend.waitForConnection(
 					ADB_CONNECTION_WAITTIME_THRESHOLD, deviceAdbName);
+			
 			if (device != null) {
+				
+				//Start Maintenance Helper on the device
 				device.startActivity(null, null, null, null, null, null,
 						"com.czxttkl.hugedata/.activity.MainActivity", 0);
-				// waiting for hugedata setting up
+				
+				// waiting for Maintenance Helper launching
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-
+				
+				//Extract device info from Maintenance Helper
 				String raw = device.shell("cat /sdcard/hugedata/deviceinfo")
 						.trim();
 				String[] metrics = raw.split(":");
 				String manufacturer = metrics[0];
 				String type = metrics[1];
 				String network = metrics[2];
-
+				
+				//Create DeviceInfo instance
+				//DeviceInfo implements Runnable interface
 				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type,
 						network, deviceAdbName, device);
 				exec.execute(deviceInfo);
-				deviceInfoMap.put(manufacturer + type + network, deviceInfo);
+				//deviceInfoMap.put(manufacturer + type + network, deviceInfo);
+				String key = manufacturer + type + network;
+				if(! deviceInfoMap.containsKey(key)) {
+					ArrayList<DeviceInfo> arr = new ArrayList<DeviceInfo>();
+					arr.add(deviceInfo);
+					deviceInfoMap.put(key, arr);
+				} else {
+					ArrayList<DeviceInfo> arr = deviceInfoMap.get(key);
+					arr.add(deviceInfo);
+				}
+				
 				logger.info("Device Added, Manufacturer:" + manufacturer
 						+ ", Type:" + type + ", Network:" + network
 						+ ", ADB Name:" + deviceAdbName);
