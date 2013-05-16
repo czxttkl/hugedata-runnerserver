@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -16,13 +17,19 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import com.czxttkl.hugedata.helper.DeviceInfo;
+import com.czxttkl.hugedata.test.PacketTest;
 
-
+/**
+ * @author Zhengxing Chen
+ * @see WebSocket Reference at:http://tools.ietf.org/html/rfc6455
+ * 
+ */
 public class TaskListener {
 	private ServerSocket serverSocket;
-	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
-	
-	public TaskListener(int port){
+	public static Logger logger = Logger
+			.getLogger(RunnerServer.class.getName());
+
+	public TaskListener(int port) {
 		logger.info("----------------------------------------------------------------");
 		logger.info("Task Listener Initialization Starts");
 		try {
@@ -35,26 +42,27 @@ public class TaskListener {
 
 	public void startListen() {
 		Socket socket = null;
+		logger.info("Task Listener Initialization Completed.");
+		logger.info("----------------------------------------------------------------");
 		while (true) {
 			try {
-				logger.info("Task Listener Initialization Completed.");
-				logger.info("----------------------------------------------------------------");
 				socket = serverSocket.accept();
 				Thread workThread = new Thread(new Handler(socket));
 				workThread.start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
 
 	class Handler implements Runnable {
 		private HashMap<String, ArrayList<DeviceInfo>> deviceInfoMap = RunnerServer.deviceInfoMap;
 		private Socket socket;
-		private boolean hasHandshake = false;
+		private boolean hasHandshaked = false;
+		private InputStream socketInputStream;
 		Charset charset = Charset.forName("UTF-8");
-		
+
 		public Handler(Socket socket) {
 			this.socket = socket;
 		}
@@ -64,27 +72,23 @@ public class TaskListener {
 			return new PrintWriter(socketOut, true);
 		}
 
-		public String echo(String msg) {
-			return "echo:" + msg;
-		}
-
 		public void run() {
-
 			try {
-				System.out.println("New connection accepted"
-						+ socket.getInetAddress() + ":" + socket.getPort());
-				InputStream in = socket.getInputStream();
+				logger.info("New connection accepted" + socket.getInetAddress()
+						+ ":" + socket.getPort());
 
+				socketInputStream = socket.getInputStream();
 				PrintWriter pw = getWriter(socket);
-				// 读入缓存
+
+				// Read Buffer
 				byte[] buf = new byte[1024];
-				// 读到字节
-				int len = in.read(buf, 0, 1024);
-				// 读到字节数组
+				int len = socketInputStream.read(buf, 0, 1024);
+				// Copy Array
 				byte[] res = new byte[len];
 				System.arraycopy(buf, 0, res, 0, len);
+
 				String key = new String(res);
-				if (!hasHandshake && key.indexOf("Key") > 0) {
+				if (!hasHandshaked && key.indexOf("Key") > 0) {
 					// 握手
 					key = key.substring(0, key.indexOf("==") + 2);
 					key = key.substring(key.indexOf("Key") + 4, key.length())
@@ -101,26 +105,39 @@ public class TaskListener {
 					pw.println("Sec-WebSocket-Accept: " + key);
 					pw.println();
 					pw.flush();
-					hasHandshake = true;
+					hasHandshaked = true;
 
-					// 接收数据
 					byte[] first = new byte[1];
-					// 这里会阻塞
-					int read = in.read(first, 0, 1);
+					int read = socketInputStream.read(first, 0, 1);
+					
 					while (read > 0) {
-						int b = first[0] & 0xFF;
-						// 1为字符数据，8为关闭socket
-						byte opCode = (byte) (b & 0x0F);
+						// opCode:
+						// 1:denotes a text frame
+						// 8:denotes a connection close
+						// A:denotes a pong
+						byte opCode = (byte) (first[0] & 0x0F);
+						System.out.println("opcode:" + opCode);
 
 						if (opCode == 8) {
 							socket.getOutputStream().close();
 							break;
 						}
-						b = in.read();
+
+						int b = socketInputStream.read();
+						int mask = (b & 0x80) >> 7;
+						System.out.println("mask:" + mask);
+						/*
+						 * The length of the "Payload data", in bytes: if 0-125,
+						 * that is the payload length. If 126, the following 2
+						 * bytes interpreted as a 16-bit unsigned integer are
+						 * the payload length. If 127, the following 8 bytes
+						 * interpreted as a 64-bit unsigned integer (the most
+						 * significant bit MUST be 0) are the payload length.
+						 */
 						int payloadLength = b & 0x7F;
 						if (payloadLength == 126) {
 							byte[] extended = new byte[2];
-							in.read(extended, 0, 2);
+							socketInputStream.read(extended, 0, 2);
 							int shift = 0;
 							payloadLength = 0;
 							for (int i = extended.length - 1; i >= 0; i--) {
@@ -128,10 +145,9 @@ public class TaskListener {
 										+ ((extended[i] & 0xFF) << shift);
 								shift += 8;
 							}
-
 						} else if (payloadLength == 127) {
 							byte[] extended = new byte[8];
-							in.read(extended, 0, 8);
+							socketInputStream.read(extended, 0, 8);
 							int shift = 0;
 							payloadLength = 0;
 							for (int i = extended.length - 1; i >= 0; i--) {
@@ -142,39 +158,50 @@ public class TaskListener {
 						}
 
 						// 掩码
-	/*					ByteBuffer byteBuf = ByteBuffer.allocate(20);
-						byteBuf.put("successful".getBytes("UTF-8"));
-						byte[] tradeoff = new byte[payloadLength + 4];
-						in.read(tradeoff, 0, payloadLength + 4);*/
+						/*
+						 * ByteBuffer byteBuf = ByteBuffer.allocate(20);
+						 * byteBuf.put("successful".getBytes("UTF-8")); byte[]
+						 * tradeoff = new byte[payloadLength + 4];
+						 * in.read(tradeoff, 0, payloadLength + 4);
+						 */
 
 						/*
 						 * 以下注释段为echo功能，读出来自网页的信息并回复给网页相同的内容，目前我的代码是
 						 * 直接回复给网页“successful”字符串
 						 */
 
-						byte[] mask = new byte[4];
-						in.read(mask, 0, 4);
-						int readThisFragment = 1;
-						ByteBuffer byteBuf = ByteBuffer
-								.allocate(payloadLength + 10);
-						byteBuf.put("echo: ".getBytes("UTF-8"));
-						while (payloadLength > 0) {
-							int masked = in.read();
-							masked = masked
-									^ (mask[(int) ((readThisFragment - 1) % 4)] & 0xFF);
-							byteBuf.put((byte) masked);
-							payloadLength--;
-							readThisFragment++;
+						/*
+						 * Defines whether the "Payload data" is masked. If set
+						 * to 1, a masking key is present in masking-key, and
+						 * this is used to unmask the "Payload data". All frames
+						 * sent from client to server have this bit set to 1.
+						 */
+						byte[] maskingkey = new byte[4];
+						if (mask == 1)
+							socketInputStream.read(maskingkey, 0, 4);
+						
+						if (opCode == 1) {
+							ByteBuffer byteBuf = parseTestData(payloadLength);
+							
+//							int readThisBit = 1;
+//							ByteBuffer byteBuf = ByteBuffer
+//									.allocate(payloadLength + 10);
+//							byteBuf.put("echo: ".getBytes("UTF-8"));
+//							while (payloadLength > 0) {
+//								int raw = socketInputStream.read();
+//								byte masked = (byte) (raw ^ (maskingkey[(readThisBit - 1) % 4]));
+//								byteBuf.put((byte) masked);
+//								payloadLength--;
+//								readThisBit++;
+//							}
+							byteBuf.flip();
+							responseClient(byteBuf, true);
 						}
-
-						byteBuf.flip();
-						responseClient(byteBuf, true);
-						printRes(byteBuf.array());
-						in.read(first, 0, 1);
+						
+						socketInputStream.read(first, 0, 1);
 					}
-
 				}
-				in.close();
+				socketInputStream.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -185,6 +212,43 @@ public class TaskListener {
 					e.printStackTrace();
 				}
 			}
+		}
+
+		private ByteBuffer parseTestData(int payloadLength) {
+			byte[] testData = new byte[payloadLength];
+			ByteBuffer byteBuf = null;
+			
+			try {
+			socketInputStream.read(testData, 0, payloadLength);
+//			PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
+//					deviceInfoMap.get("HTCT328WUNI"))
+//					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+//					.appInstallPath("c:/Android/mytools/renren.apk")
+//					.testDurationThres(999999).build();
+//			Thread.sleep(5000);
+//			PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
+//					deviceInfoMap.get("HTCT328WUNI"))
+//					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+//					.appInstallPath("c:/Android/mytools/renren.apk")
+//					.testDurationThres(999999).priority(5).build();
+//			Thread.sleep(5000);
+//			PacketTest c = new PacketTest.Builder("com.renren.mobile.android.test",
+//					deviceInfoMap.get("HTCT328WUNI"))
+//					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+//					.appInstallPath("c:/Android/mytools/renren.apk")
+//					.testDurationThres(999999).priority(6).build();
+
+//			deviceInfoMap.get("HTCT328WUNI").get(0).addToTestQueue(a);
+			/*deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
+			deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);			*/
+			
+			byteBuf= ByteBuffer.allocate(10);
+			byteBuf.put("successful".getBytes("UTF-8"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.info("UnsupportedEncodingException");
+			}
+			return byteBuf;
 		}
 
 		private void responseClient(ByteBuffer byteBuf, boolean finalFragment)
@@ -215,29 +279,13 @@ public class TaskListener {
 				out.write(byteBuf.limit() >>> 16);
 				out.write(byteBuf.limit() >>> 8);
 				out.write(byteBuf.limit() & 0xFF);
-
 			}
 
 			// Write the content
 			out.write(byteBuf.array(), 0, byteBuf.limit());
 			out.flush();
 		}
-
-		private void printRes(byte[] array) {
-			ByteArrayInputStream byteIn = new ByteArrayInputStream(array);
-			InputStreamReader reader = new InputStreamReader(byteIn,
-					charset.newDecoder());
-			int b = 0;
-			String res = "";
-			try {
-				while ((b = reader.read()) > 0) {
-					res += (char) b;
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			System.out.println(res);
-		}
+		
 	}
 
 }
