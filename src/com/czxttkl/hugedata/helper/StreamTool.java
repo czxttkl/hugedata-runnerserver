@@ -1,11 +1,14 @@
 package com.czxttkl.hugedata.helper;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PushbackInputStream;
+import java.nio.charset.Charset;
 
 public class StreamTool {
 	 
@@ -15,7 +18,13 @@ public class StreamTool {
 		 outStream.close();
 	 }
 	 
-	 public static String readLine(PushbackInputStream in) throws IOException {
+	 
+	 /**
+	 * @param in
+	 * @return String represents the next line
+	 * @throws IOException
+	 */
+	public static String readLine(PushbackInputStream in) throws IOException {
 			char buf[] = new char[128];
 			int room = buf.length;
 			int offset = 0;
@@ -46,9 +55,9 @@ loop:		while (true) {
 	}
 	 
 	/**
-	* ��ȡ��
+	* convert Inputstream to String
 	* @param inStream
-	* @return �ֽ�����
+	* @return String
 	* @throws Exception
 	*/
 	public static String readStream(InputStream inStream) throws Exception{
@@ -61,6 +70,24 @@ loop:		while (true) {
 			outSteam.close();
 			inStream.close();
 			return outSteam.toString();
-			
 	}
+
+	public static String byteToString(byte[] array, String charsetName) {
+		Charset charset = Charset.forName(charsetName);
+		ByteArrayInputStream byteIn = new ByteArrayInputStream(array);
+		InputStreamReader reader = new InputStreamReader(byteIn,
+				charset.newDecoder());
+		int b = 0;
+		String res = "";
+		try {
+			while ((b = reader.read()) > 0) {
+				res += (char) b;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+
 }

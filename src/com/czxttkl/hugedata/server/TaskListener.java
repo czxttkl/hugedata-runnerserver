@@ -17,7 +17,9 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import com.czxttkl.hugedata.helper.DeviceInfo;
+import com.czxttkl.hugedata.helper.StreamTool;
 import com.czxttkl.hugedata.test.PacketTest;
+import com.sun.xml.internal.fastinfoset.util.CharArray;
 
 /**
  * @author Zhengxing Chen
@@ -61,7 +63,7 @@ public class TaskListener {
 		private Socket socket;
 		private boolean hasHandshaked = false;
 		private InputStream socketInputStream;
-		Charset charset = Charset.forName("UTF-8");
+		
 
 		public Handler(Socket socket) {
 			this.socket = socket;
@@ -157,19 +159,6 @@ public class TaskListener {
 							}
 						}
 
-						// 掩码
-						/*
-						 * ByteBuffer byteBuf = ByteBuffer.allocate(20);
-						 * byteBuf.put("successful".getBytes("UTF-8")); byte[]
-						 * tradeoff = new byte[payloadLength + 4];
-						 * in.read(tradeoff, 0, payloadLength + 4);
-						 */
-
-						/*
-						 * 以下注释段为echo功能，读出来自网页的信息并回复给网页相同的内容，目前我的代码是
-						 * 直接回复给网页“successful”字符串
-						 */
-
 						/*
 						 * Defines whether the "Payload data" is masked. If set
 						 * to 1, a masking key is present in masking-key, and
@@ -181,7 +170,7 @@ public class TaskListener {
 							socketInputStream.read(maskingkey, 0, 4);
 						
 						if (opCode == 1) {
-							ByteBuffer byteBuf = parseTestData(payloadLength);
+							ByteBuffer byteBuf = parseTestData(payloadLength, maskingkey);
 							
 //							int readThisBit = 1;
 //							ByteBuffer byteBuf = ByteBuffer
@@ -214,17 +203,30 @@ public class TaskListener {
 			}
 		}
 
-		private ByteBuffer parseTestData(int payloadLength) {
-			byte[] testData = new byte[payloadLength];
-			ByteBuffer byteBuf = null;
+		private ByteBuffer parseTestData(int payloadLength, byte[] maskingkey) {
+			ByteBuffer byteBuf = ByteBuffer.allocate(payloadLength);
+			ByteBuffer returnByteBuf = ByteBuffer.allocate(10);
 			
 			try {
-			socketInputStream.read(testData, 0, payloadLength);
-//			PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
-//					deviceInfoMap.get("HTCT328WUNI"))
-//					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
-//					.appInstallPath("c:/Android/mytools/renren.apk")
-//					.testDurationThres(999999).build();
+			//socketInputStream.read(testData, 0, payloadLength);
+				int readThisBit = 1;
+				//byteBuf.put("echo: ".getBytes("UTF-8"));
+				while (payloadLength > 0) {
+					int raw = socketInputStream.read();
+					byte masked = (byte) (raw ^ (maskingkey[(readThisBit - 1) % 4]));
+					byteBuf.put((byte) masked);
+					payloadLength--;
+					readThisBit++;
+				}
+				System.out.println(StreamTool.byteToString(byteBuf.array(), "UTF-8"));
+				
+			//System.out.println(StreamTool.byteToString(testData, "UTF-8"));
+			
+			PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
+					deviceInfoMap.get("HTCT328WUNI").get(0))
+					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+					.appInstallPath("c:/Android/mytools/renren.apk")
+					.testDurationThres(999999).build();
 //			Thread.sleep(5000);
 //			PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
 //					deviceInfoMap.get("HTCT328WUNI"))
@@ -238,17 +240,19 @@ public class TaskListener {
 //					.appInstallPath("c:/Android/mytools/renren.apk")
 //					.testDurationThres(999999).priority(6).build();
 
-//			deviceInfoMap.get("HTCT328WUNI").get(0).addToTestQueue(a);
+			deviceInfoMap.get("HTCT328WUNI").get(0).addToTestQueue(a);
 			/*deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
 			deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);			*/
 			
-			byteBuf= ByteBuffer.allocate(10);
-			byteBuf.put("successful".getBytes("UTF-8"));
+			
+			returnByteBuf.put("Successful".getBytes("UTF-8"));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				logger.info("UnsupportedEncodingException");
+				e.printStackTrace();
+				logger.info(e.getMessage());
 			}
-			return byteBuf;
+
+			return returnByteBuf;
 		}
 
 		private void responseClient(ByteBuffer byteBuf, boolean finalFragment)
@@ -287,5 +291,6 @@ public class TaskListener {
 		}
 		
 	}
+	
 
 }
