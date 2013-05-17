@@ -10,7 +10,7 @@ import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.server.TaskListener;
 
 public class Launcher {
-	public static ResourceBundle InitBundle = ResourceBundle.getBundle("InitBundle");
+	public static final ResourceBundle InitBundle = ResourceBundle.getBundle("InitBundle");
 	
 	public static void main(String... args) {
 		
@@ -19,8 +19,6 @@ public class Launcher {
 		int webSocketPort = Integer.valueOf(InitBundle.getString("WebSocket.Server.Port"));
 		final TaskListener taskListener = new TaskListener(webSocketPort);
 		taskListener.startListen();
-		
-		final ApplicationResourceOptimizer aro = new ApplicationResourceOptimizer();
 		
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 			@Override

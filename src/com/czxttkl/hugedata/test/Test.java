@@ -17,11 +17,12 @@ import com.czxttkl.hugedata.helper.LogFormatter;
 import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
-public abstract class Test implements Runnable, Comparable<Test>{
-	//Paramters set in static methods
+public abstract class Test implements Runnable, Comparable<Test> {
+	// Paramters set in static methods
 	public static String ADB_LOCATION;
 	public static int LOCATION_NUM;
-	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
+	public static Logger logger = Logger
+			.getLogger(RunnerServer.class.getName());
 
 	// Mandatory Parameters
 	public String TEST_PACKAGE_NAME;
@@ -36,18 +37,17 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	public String PACKET_FILE_NAME;
 	public int PRIORITY;
 	public TaskListenerHandler TASK_LISTENER_HANDLER;
-	
-	//Auto Generated Parameters
+
+	// Auto Generated Parameters
 	public String resultDirStr;
 	public File resultDir;
 	public String TEST_START_TIME;
 
-	
-	//Implement Camparable Interface
-	public int compareTo(Test arg){
+	// Implement Camparable Interface
+	public int compareTo(Test arg) {
 		return PRIORITY < arg.PRIORITY ? 1 : (PRIORITY > arg.PRIORITY ? -1 : 0);
 	}
-	
+
 	public static void setAdbLocation(String adbLocation) {
 		// windows c:/adb or linux ~/adb or ../adb or a-bc/adb or /adb
 		// No need to append ".exe"
@@ -67,7 +67,6 @@ public abstract class Test implements Runnable, Comparable<Test>{
 					"Location Number Parameter Illegal");
 	}
 
-
 	/**
 	 * Create a folder to save result files
 	 */
@@ -80,8 +79,10 @@ public abstract class Test implements Runnable, Comparable<Test>{
 				+ TEST_START_TIME + testType;
 		resultDir = new File(resultDirStr);
 		resultDir.mkdir();
+		logger.info("Test:" + this.resultDirStr + " with priority "
+				+ this.PRIORITY + " starts.");
 	}
-	
+
 	/**
 	 * Create a folder to save result files
 	 */
@@ -95,52 +96,58 @@ public abstract class Test implements Runnable, Comparable<Test>{
 		resultDir = new File(resultDirStr);
 		resultDir.mkdir();
 	}
-	
+
 	/**
 	 * Install the package to the phone.
-	 * @param me 
-	 * 			  the device under the test
+	 * 
+	 * @param me
+	 *            the device under the test
 	 * @param installPath
 	 *            the install path of the package
 	 * @param installType
 	 *            the type for install(APP or Test)
 	 */
-	public void installPackage(IChimpDevice me, String installPath, String installType) {
+	public void installPackage(IChimpDevice me, String installPath,
+			String installType) {
 		if (installPath != null) {
 			if (me.installPackage(installPath))
-				logger.info(installType + " install successfully:" + installPath);
+				logger.info(installType + " install successfully:"
+						+ installPath);
 			else
 				logger.info(installType + " install failed:" + installPath);
 		} else
 			logger.info("No need to install " + installType + " package");
 	}
-	
+
 	/**
 	 * Remove the package from the phone
+	 * 
 	 * @param me
-	 * 			  the device under the test
+	 *            the device under the test
 	 * @param packageName
 	 *            the name of the package to be removed
 	 * @param removeType
 	 *            the type for the removing package(APP or Test)
 	 */
-	public void removePackage(IChimpDevice me, String packageName, String removeType) {
+	public void removePackage(IChimpDevice me, String packageName,
+			String removeType) {
 		if (me.removePackage(packageName))
 			logger.info("Remove " + removeType + " package successfully.");
 		else
 			logger.info("Remove " + removeType + " package failed.");
 	}
-	
+
 	/**
-	 * Pull Screenshots Images from /sdcard/Robotium-Screenshots and then
-	 * delete the whole folder
+	 * Pull Screenshots Images from /sdcard/Robotium-Screenshots and then delete
+	 * the whole folder
+	 * 
 	 * @param me
-	 * 			the device under the test
+	 *            the device under the test
 	 * @param adbName
-	 * 			the AdbName of the device under the test
+	 *            the AdbName of the device under the test
 	 * @param dir
-	 * 			the String name of the folder that saves results
-	 */			
+	 *            the String name of the folder that saves results
+	 */
 	public void pullScreenshots(IChimpDevice me, String adbName, String dir) {
 		// TODO Auto-generated method stub
 		StringBuilder cmd = new StringBuilder(ADB_LOCATION + " ");
@@ -149,15 +156,15 @@ public abstract class Test implements Runnable, Comparable<Test>{
 		cmd.append("pull ");
 		cmd.append("/sdcard/Robotium-Screenshots ");
 		cmd.append(dir);
-		
+
 		try {
-			 Process p = Runtime.getRuntime().exec(cmd.toString());
-			 //wait for pulling images out
-			 p.waitFor();
+			Process p = Runtime.getRuntime().exec(cmd.toString());
+			// wait for pulling images out
+			p.waitFor();
 		} catch (Exception e) {
 			logger.info("Pull Screenshots failed. Caused by: " + e.getMessage());
 		}
-		
+
 		me.shell("rm -r /sdcard/Robotium-Screenshots");
 		logger.info("Pull Screenshots Successfully.");
 	}

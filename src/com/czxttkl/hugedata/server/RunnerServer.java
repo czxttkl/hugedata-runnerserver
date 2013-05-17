@@ -28,7 +28,7 @@ import com.czxttkl.hugedata.test.Test;
  */
 public class RunnerServer {
 
-	ResourceBundle InitBundle = ResourceBundle.getBundle("InitBundle");
+	public static final ResourceBundle InitBundle = ResourceBundle.getBundle("InitBundle");
 
 	private String ADB_LOCATION;
 	private int ADB_CONNECTION_WAITTIME_THRESHOLD;
