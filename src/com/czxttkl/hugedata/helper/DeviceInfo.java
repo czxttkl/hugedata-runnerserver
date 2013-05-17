@@ -79,13 +79,10 @@ public class DeviceInfo implements Runnable {
 	public synchronized boolean suspendDevice(Test test) {
 		if (availability) {
 			availability = false;
-			logger.info("Test:" + test.resultDirStr + " with priority"
-					+ test.PRIORITY + " starts. " + this + " device suspended.");
+			logger.info(this + " device suspended.");
 			return true;
 		} else {
-			logger.info("Test:" + test.resultDirStr + " with priority"
-					+ test.PRIORITY + " can't start. " + this
-					+ " device is not released.");
+			logger.info(this + " device is not released.");
 			return false;
 		}
 	}

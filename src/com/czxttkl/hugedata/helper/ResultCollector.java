@@ -89,8 +89,9 @@ public class ResultCollector {
 				+ " has been analyzed.");
 		
 		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(
-				packetTest.TASK_LISTENER_HANDLER);
+				packetTest.resultDirStr, packetTest.TASK_LISTENER_HANDLER);
 		RunnerServer.executor.execute(packetTestAnalyzer);
+		
 		return packetTestAnalyzer;
 	}
 

@@ -1,14 +1,20 @@
 package com.czxttkl.hugedata.analyze;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
+import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public class TestAnalyzer {
+	
+	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
 
-	ResourceBundle resultBundle;
-	TaskListenerHandler taskListenerHandler;
+	public String resultDirStr;
+	public static final ResourceBundle resultBundle = ResourceBundle.getBundle("ResultBundle", Locale.CHINA);
+	public TaskListenerHandler taskListenerHandler;
 
 	/**
 	 * Return keyvalue in ResultBundle.properties. By default, JDK reads
