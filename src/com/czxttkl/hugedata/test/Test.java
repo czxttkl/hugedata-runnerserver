@@ -154,12 +154,8 @@ public abstract class Test implements Runnable, Comparable<Test>{
 			 Process p = Runtime.getRuntime().exec(cmd.toString());
 			 //wait for pulling images out
 			 p.waitFor();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.info("IOException" + e.toString());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			logger.info("InterruptedException" + e.toString());
+		} catch (Exception e) {
+			logger.info("Pull Screenshots failed. Caused by: " + e.getMessage());
 		}
 		
 		me.shell("rm -r /sdcard/Robotium-Screenshots");

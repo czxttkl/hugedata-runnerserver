@@ -62,7 +62,6 @@ public class TaskListener {
 		private Socket socket;
 		private boolean hasHandshaked = false;
 		private InputStream socketInputStream;
-		
 
 		public TaskListenerHandler(Socket socket) {
 			this.socket = socket;
@@ -110,14 +109,14 @@ public class TaskListener {
 
 					byte[] first = new byte[1];
 					int read = socketInputStream.read(first, 0, 1);
-					
+
 					while (read > 0) {
 						// opCode:
 						// 1:denotes a text frame
 						// 8:denotes a connection close
 						// A:denotes a pong
 						byte opCode = (byte) (first[0] & 0x0F);
-						System.out.println("opcode:" + opCode);
+						// System.out.println("opcode:" + opCode);
 
 						if (opCode == 8) {
 							socket.getOutputStream().close();
@@ -126,7 +125,7 @@ public class TaskListener {
 
 						int b = socketInputStream.read();
 						int mask = (b & 0x80) >> 7;
-						System.out.println("mask:" + mask);
+						// System.out.println("mask:" + mask);
 						/*
 						 * The length of the "Payload data", in bytes: if 0-125,
 						 * that is the payload length. If 126, the following 2
@@ -167,25 +166,27 @@ public class TaskListener {
 						byte[] maskingkey = new byte[4];
 						if (mask == 1)
 							socketInputStream.read(maskingkey, 0, 4);
-						
+
 						if (opCode == 1) {
-							ByteBuffer byteBuf = parseTestData(payloadLength, maskingkey);
-							
-//							int readThisBit = 1;
-//							ByteBuffer byteBuf = ByteBuffer
-//									.allocate(payloadLength + 10);
-//							byteBuf.put("echo: ".getBytes("UTF-8"));
-//							while (payloadLength > 0) {
-//								int raw = socketInputStream.read();
-//								byte masked = (byte) (raw ^ (maskingkey[(readThisBit - 1) % 4]));
-//								byteBuf.put((byte) masked);
-//								payloadLength--;
-//								readThisBit++;
-//							}
+							ByteBuffer byteBuf = parseTestData(payloadLength,
+									maskingkey);
+
+							// int readThisBit = 1;
+							// ByteBuffer byteBuf = ByteBuffer
+							// .allocate(payloadLength + 10);
+							// byteBuf.put("echo: ".getBytes("UTF-8"));
+							// while (payloadLength > 0) {
+							// int raw = socketInputStream.read();
+							// byte masked = (byte) (raw ^
+							// (maskingkey[(readThisBit - 1) % 4]));
+							// byteBuf.put((byte) masked);
+							// payloadLength--;
+							// readThisBit++;
+							// }
 							byteBuf.flip();
 							responseClient(byteBuf, true);
 						}
-						
+
 						socketInputStream.read(first, 0, 1);
 					}
 				}
@@ -205,11 +206,11 @@ public class TaskListener {
 		private ByteBuffer parseTestData(int payloadLength, byte[] maskingkey) {
 			ByteBuffer byteBuf = ByteBuffer.allocate(payloadLength);
 			ByteBuffer returnByteBuf = ByteBuffer.allocate(10);
-			
+
 			try {
-			//socketInputStream.read(testData, 0, payloadLength);
+				// socketInputStream.read(testData, 0, payloadLength);
 				int readThisBit = 1;
-				//byteBuf.put("echo: ".getBytes("UTF-8"));
+				// byteBuf.put("echo: ".getBytes("UTF-8"));
 				while (payloadLength > 0) {
 					int raw = socketInputStream.read();
 					byte masked = (byte) (raw ^ (maskingkey[(readThisBit - 1) % 4]));
@@ -217,76 +218,86 @@ public class TaskListener {
 					payloadLength--;
 					readThisBit++;
 				}
-			System.out.println(StreamTool.byteArrayToString(byteBuf.array(), "UTF-8"));
-			
-			PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
-					deviceInfoMap.get("HTCT328WUNI").get(0))
-					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
-					.appInstallPath("c:/Android/mytools/renren.apk")
-					.testDurationThres(999999).taskListernerHandler(this).build();
-//			Thread.sleep(5000);
-//			PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
-//					deviceInfoMap.get("HTCT328WUNI"))
-//					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
-//					.appInstallPath("c:/Android/mytools/renren.apk")
-//					.testDurationThres(999999).priority(5).build();
-//			Thread.sleep(5000);
-//			PacketTest c = new PacketTest.Builder("com.renren.mobile.android.test",
-//					deviceInfoMap.get("HTCT328WUNI"))
-//					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
-//					.appInstallPath("c:/Android/mytools/renren.apk")
-//					.testDurationThres(999999).priority(6).build();
+				System.out.println(StreamTool.byteArrayToString(
+						byteBuf.array(), "UTF-8"));
 
-			deviceInfoMap.get("HTCT328WUNI").get(0).addToTestQueue(a);
-			/*deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
-			deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);			*/
-			
-			
-			returnByteBuf.put("Successful".getBytes("UTF-8"));
+				PacketTest a = new PacketTest.Builder(
+						"com.renren.mobile.android.test", deviceInfoMap.get(
+								"HTCT328WUNI").get(0))
+						.testInstallPath(
+								"c:/Android/mytools/RenrenTestProject1.apk")
+						.appInstallPath("c:/Android/mytools/renren.apk")
+						.testDurationThres(999999).taskListernerHandler(this)
+						.build();
+				// Thread.sleep(5000);
+				// PacketTest b = new
+				// PacketTest.Builder("com.renren.mobile.android.test",
+				// deviceInfoMap.get("HTCT328WUNI"))
+				// .testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+				// .appInstallPath("c:/Android/mytools/renren.apk")
+				// .testDurationThres(999999).priority(5).build();
+				// Thread.sleep(5000);
+				// PacketTest c = new
+				// PacketTest.Builder("com.renren.mobile.android.test",
+				// deviceInfoMap.get("HTCT328WUNI"))
+				// .testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
+				// .appInstallPath("c:/Android/mytools/renren.apk")
+				// .testDurationThres(999999).priority(6).build();
+
+				deviceInfoMap.get("HTCT328WUNI").get(0).addToTestQueue(a);
+				/*
+				 * deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
+				 * deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
+				 */
+
+				returnByteBuf.put("Successful".getBytes("UTF-8"));
 			} catch (Exception e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 				logger.info(e.getMessage());
 			}
 
 			return returnByteBuf;
 		}
 
-		public void responseClient(ByteBuffer byteBuf, boolean finalFragment)
-				throws IOException {
-			OutputStream out = socket.getOutputStream();
-			int first = 0x00;
-			// 是否是输出最后的WebSocket响应片段
-			if (finalFragment) {
-				first = first + 0x80;
-				first = first + 0x1;
-			}
-			out.write(first);
+		public void responseClient(ByteBuffer byteBuf, boolean finalFragment) {
+			try {
+				OutputStream out = socket.getOutputStream();
+				int first = 0x00;
+				// 是否是输出最后的WebSocket响应片段
+				if (finalFragment) {
+					first = first + 0x80;
+					first = first + 0x1;
+				}
+				out.write(first);
 
-			if (byteBuf.limit() < 126) {
-				out.write(byteBuf.limit());
-			} else if (byteBuf.limit() < 65536) {
-				out.write(126);
-				out.write(byteBuf.limit() >>> 8);
-				out.write(byteBuf.limit() & 0xFF);
-			} else {
-				// Will never be more than 2^31-1
-				out.write(127);
-				out.write(0);
-				out.write(0);
-				out.write(0);
-				out.write(0);
-				out.write(byteBuf.limit() >>> 24);
-				out.write(byteBuf.limit() >>> 16);
-				out.write(byteBuf.limit() >>> 8);
-				out.write(byteBuf.limit() & 0xFF);
-			}
+				if (byteBuf.limit() < 126) {
+					out.write(byteBuf.limit());
+				} else if (byteBuf.limit() < 65536) {
+					out.write(126);
+					out.write(byteBuf.limit() >>> 8);
+					out.write(byteBuf.limit() & 0xFF);
+				} else {
+					// Will never be more than 2^31-1
+					out.write(127);
+					out.write(0);
+					out.write(0);
+					out.write(0);
+					out.write(0);
+					out.write(byteBuf.limit() >>> 24);
+					out.write(byteBuf.limit() >>> 16);
+					out.write(byteBuf.limit() >>> 8);
+					out.write(byteBuf.limit() & 0xFF);
+				}
 
-			// Write the content
-			out.write(byteBuf.array(), 0, byteBuf.limit());
-			out.flush();
+				// Write the content
+				out.write(byteBuf.array(), 0, byteBuf.limit());
+				out.flush();
+			} catch (Exception e) {
+				logger.info("WebSocket Response Failed. Caused by:"
+						+ e.getMessage());
+			}
 		}
-		
+
 	}
-	
 
 }
