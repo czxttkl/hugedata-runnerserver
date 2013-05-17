@@ -49,8 +49,9 @@ public class TaskListener {
 		while (true) {
 			try {
 				socket = serverSocket.accept();
-				Thread workThread = new Thread(new Handler(socket));
-				workThread.start();
+//				Thread workThread = new Thread(new TaskListenerHandler(socket));
+//				workThread.start();
+				RunnerServer.executor.execute(new TaskListenerHandler(socket));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -58,14 +59,14 @@ public class TaskListener {
 		}
 	}
 
-	class Handler implements Runnable {
+	public class TaskListenerHandler implements Runnable {
 		private HashMap<String, ArrayList<DeviceInfo>> deviceInfoMap = RunnerServer.deviceInfoMap;
 		private Socket socket;
 		private boolean hasHandshaked = false;
 		private InputStream socketInputStream;
 		
 
-		public Handler(Socket socket) {
+		public TaskListenerHandler(Socket socket) {
 			this.socket = socket;
 		}
 
@@ -218,15 +219,13 @@ public class TaskListener {
 					payloadLength--;
 					readThisBit++;
 				}
-				System.out.println(StreamTool.byteToString(byteBuf.array(), "UTF-8"));
-				
-			//System.out.println(StreamTool.byteToString(testData, "UTF-8"));
+			System.out.println(StreamTool.byteArrayToString(byteBuf.array(), "UTF-8"));
 			
 			PacketTest a = new PacketTest.Builder("com.renren.mobile.android.test",
 					deviceInfoMap.get("HTCT328WUNI").get(0))
 					.testInstallPath("c:/Android/mytools/RenrenTestProject1.apk")
 					.appInstallPath("c:/Android/mytools/renren.apk")
-					.testDurationThres(999999).build();
+					.testDurationThres(999999).taskListernerHandler(this).build();
 //			Thread.sleep(5000);
 //			PacketTest b = new PacketTest.Builder("com.renren.mobile.android.test",
 //					deviceInfoMap.get("HTCT328WUNI"))
@@ -247,15 +246,14 @@ public class TaskListener {
 			
 			returnByteBuf.put("Successful".getBytes("UTF-8"));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 				logger.info(e.getMessage());
 			}
 
 			return returnByteBuf;
 		}
 
-		private void responseClient(ByteBuffer byteBuf, boolean finalFragment)
+		public void responseClient(ByteBuffer byteBuf, boolean finalFragment)
 				throws IOException {
 			OutputStream out = socket.getOutputStream();
 			int first = 0x00;

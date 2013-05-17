@@ -15,6 +15,7 @@ import com.android.chimpchat.core.IChimpDevice;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.LogFormatter;
 import com.czxttkl.hugedata.server.RunnerServer;
+import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public abstract class Test implements Runnable, Comparable<Test>{
 	//Paramters set in static methods
@@ -34,6 +35,7 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	public boolean CLEAR_HISTORY;
 	public String PACKET_FILE_NAME;
 	public int PRIORITY;
+	public TaskListenerHandler TASK_LISTENER_HANDLER;
 	
 	//Auto Generated Parameters
 	public String resultDirStr;
@@ -70,6 +72,20 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	 * Create a folder to save result files
 	 */
 	public void createResultDir(String testType) {
+		TEST_START_TIME = new SimpleDateFormat("yyyyMMddHHmmss").format(
+				new Date()).toString();
+		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()
+				+ DEVICE_INFO.getType() + DEVICE_INFO.getNetwork()
+				+ TEST_START_TIME + testType;
+		resultDir = new File(resultDirStr);
+		resultDir.mkdir();
+	}
+	
+	/**
+	 * Create a folder to save result files
+	 */
+	public void createResultDir(Test test) {
+		String testType = test.getClass().getName();
 		TEST_START_TIME = new SimpleDateFormat("yyyyMMddHHmmss").format(
 				new Date()).toString();
 		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()

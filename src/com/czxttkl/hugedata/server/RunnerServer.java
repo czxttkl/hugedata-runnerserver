@@ -32,7 +32,7 @@ public class RunnerServer {
 	public static int locationNum;
 	
 	public static HashMap<String, ArrayList<DeviceInfo>> deviceInfoMap = new HashMap<String, ArrayList<DeviceInfo>>();
-	private static ExecutorService exec = Executors.newCachedThreadPool();
+	public static ExecutorService executor = Executors.newCachedThreadPool();
 
 
 	private static AdbBackend adbBackend;
@@ -185,7 +185,7 @@ public class RunnerServer {
 				//DeviceInfo implements Runnable interface
 				DeviceInfo deviceInfo = new DeviceInfo(manufacturer, type,
 						network, deviceAdbName, device);
-				exec.execute(deviceInfo);
+				executor.execute(deviceInfo);
 				//deviceInfoMap.put(manufacturer + type + network, deviceInfo);
 				String key = manufacturer + type + network;
 				if(! deviceInfoMap.containsKey(key)) {
