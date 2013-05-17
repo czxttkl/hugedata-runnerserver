@@ -226,7 +226,7 @@ public class TaskListener {
 								"HTCT328WUNI").get(0))
 						.testInstallPath(
 								"c:/Android/mytools/RenrenTestProject1.apk")
-						.appInstallPath("c:/Android/mytools/renren.apk")
+						.appInstallPath("c:/Android/mytools/renren1.apk")
 						.testDurationThres(999999).taskListernerHandler(this)
 						.build();
 				// Thread.sleep(5000);
