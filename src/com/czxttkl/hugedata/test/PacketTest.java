@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.regex.Pattern;
 import com.android.chimpchat.core.IChimpDevice;
+import com.czxttkl.hugedata.analyze.PacketTestAnalyzer;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultCollector;
 import com.czxttkl.hugedata.helper.StreamTool;
@@ -11,14 +12,16 @@ import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public class PacketTest extends Test implements Runnable {
 
-	
-	/**PacketTest should be constructed only by its builder.
+	/**
+	 * PacketTest should be constructed only by its builder.
+	 * 
 	 * @param builder
 	 */
 	private PacketTest(Builder builder) {
-		//Mandatory parameters
+		// Mandatory parameters
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
+
 		// Optional Parameters
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
 		APP_INSTALL_PATH = builder.appInstallPath;
@@ -37,31 +40,38 @@ public class PacketTest extends Test implements Runnable {
 		if (suspendDevice()) {
 			IChimpDevice myDevice = getDevice();
 			createResultDir();
-			
-			if(TASK_LISTENER_HANDLER != null) {
-				ByteBuffer byteBuf = StreamTool.stringToByteBuffer("StartTest", "UTF-8");
-				try {
-					TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+
+			if (TASK_LISTENER_HANDLER != null) {
+				ByteBuffer byteBuf = StreamTool.stringToByteBuffer("StartTest",
+						"UTF-8");
+				TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
+
 			}
-			
+
+			PacketTestAnalyzer packetTestAnalyzer = null;
+
 			try {
+
 				installPackage(myDevice, APP_INSTALL_PATH, "APP");
 				installPackage(myDevice, TEST_INSTALL_PATH, "Test");
 				startTcpdump();
-				ResultCollector.analyze(this, myDevice.startTestInstrumentation(
-						TEST_PACKAGE_NAME, TEST_DURATION_THRESHOLD));
+				packetTestAnalyzer = ResultCollector.analyze(this, myDevice
+						.startTestInstrumentation(TEST_PACKAGE_NAME,
+								TEST_DURATION_THRESHOLD));
 
+				logger.info("Test:" + resultDirStr + " succeeded.");
+				
 			} catch (Exception e) {
 				logger.info("Test:" + resultDirStr + " failed. Caused by "
 						+ e.getMessage());
 			} finally {
+
 				stopTcpdump();
-	
+
 				pullScreenshots(myDevice, getAdbName(), resultDirStr);
+
+				if (packetTestAnalyzer != null)
+					packetTestAnalyzer.notifyForTestFinish();
 
 				if (CLEAR_HISTORY) {
 					removePackage(myDevice, APP_PACKAGE_NAME, "APP");
@@ -72,23 +82,20 @@ public class PacketTest extends Test implements Runnable {
 									+ APP_PACKAGE_NAME));
 
 				releaseDevice();
-				
-				if(TASK_LISTENER_HANDLER != null) {
-					ByteBuffer byteBuf = StreamTool.stringToByteBuffer("EndTest", "UTF-8");
-					try {
-						TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+
+				if (TASK_LISTENER_HANDLER != null) {
+					ByteBuffer byteBuf = StreamTool.stringToByteBuffer(
+							"EndTest", "UTF-8");
+					TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
 				}
 
-			}
-		}
+			}// finally
+		}// if suspenddevice
 	}
 
 	/**
 	 * Start the tcpdump process
+	 * 
 	 * @throws IOException
 	 */
 	private void startTcpdump() throws IOException {
@@ -98,6 +105,9 @@ public class PacketTest extends Test implements Runnable {
 
 	/**
 	 * Stop the tcpdump process
+	 * 
+	 * @throws IOException
+	 * @throws InterruptedException
 	 */
 	private void stopTcpdump() {
 		getDevice().shell("busybox pkill -SIGINT tcpdump");
@@ -112,16 +122,10 @@ public class PacketTest extends Test implements Runnable {
 		try {
 			p = Runtime.getRuntime().exec(cmd.toString());
 			p.waitFor();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			logger.info("IOException" + e.toString());
+		} catch (Exception e) {
+			logger.info("Stop Tcpdump failed. Caused by: " + e.getMessage());
 		}
-		// wait for pulling images out
-		catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			logger.info("InterruptedException" + e.toString());
-		}
-
+		// Remove the pcap file after pulling
 		getDevice().shell("rm /sdcard/hugedata/" + PACKET_FILE_NAME);
 		logger.info("Tcpdump has been killed.");
 
@@ -176,7 +180,7 @@ public class PacketTest extends Test implements Runnable {
 		private int testDurationThres = 999999;
 		private String appInstallPath;
 		private String testInstallPath;
-		// By default, remove app completely after test 
+		// By default, remove app completely after test
 		private boolean clearHistory = true;
 		// Default priority:1
 		private int priority = 1;
@@ -250,7 +254,7 @@ public class PacketTest extends Test implements Runnable {
 			taskListenerHandler = tlh;
 			return this;
 		}
-		
+
 		public PacketTest build() {
 			return new PacketTest(this);
 		}

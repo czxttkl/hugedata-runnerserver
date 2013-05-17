@@ -25,8 +25,8 @@ public class ResultCollector {
 	public static Logger logger = Logger
 			.getLogger(RunnerServer.class.getName());
 
-	public static void analyze(PacketTest packetTest, String testResult)
-			throws IOException {
+	public static PacketTestAnalyzer analyze(PacketTest packetTest,
+			String testResult) throws IOException {
 		// TODO Auto-generated method stub
 		logger.info("Test Instrumentation finished");
 
@@ -83,15 +83,15 @@ public class ResultCollector {
 		Document doc = new Document(root);
 		format(new BufferedOutputStream(new FileOutputStream(
 				packetTest.resultDirStr + "/result.xml")), doc);
-		logger.info("The result of " + Test.LOCATION_NUM
-				+ packetTest.DEVICE_INFO.getManufacturer()
-				+ packetTest.DEVICE_INFO.getType()
-				+ packetTest.DEVICE_INFO.getNetwork()
-				+ packetTest.TEST_START_TIME
-				+ packetTest.getClass().getSimpleName() + " with priority"
-				+ packetTest.PRIORITY + " has been analyzed.");
-		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(packetTest.TASK_LISTENER_HANDLER);
+		
+		logger.info("The result of " + packetTest.resultDirStr
+				+ " with priority" + packetTest.PRIORITY
+				+ " has been analyzed.");
+		
+		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(
+				packetTest.TASK_LISTENER_HANDLER);
 		RunnerServer.executor.execute(packetTestAnalyzer);
+		return packetTestAnalyzer;
 	}
 
 	private static void appendPacketTestMetrics(Element root,
@@ -118,7 +118,6 @@ public class ResultCollector {
 
 	private static void appendPublicMetrics(Element root, Test test,
 			double testTime) {
-
 		Element startTime = new Element("StartTime");
 		startTime.appendChild(test.TEST_START_TIME);
 		Element duration = new Element("Duration");
