@@ -71,7 +71,8 @@ public abstract class Test implements Runnable, Comparable<Test>{
 	/**
 	 * Create a folder to save result files
 	 */
-	public void createResultDir(String testType) {
+	public void createResultDir() {
+		String testType = this.getClass().getSimpleName();
 		TEST_START_TIME = new SimpleDateFormat("yyyyMMddHHmmss").format(
 				new Date()).toString();
 		resultDirStr = LOCATION_NUM + DEVICE_INFO.getManufacturer()

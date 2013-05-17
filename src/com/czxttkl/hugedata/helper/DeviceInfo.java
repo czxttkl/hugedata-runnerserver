@@ -96,12 +96,14 @@ public class DeviceInfo implements Runnable {
 		if (!availability) {
 			availability = true;
 			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
-					+ getType() + getNetwork() + " with priority"
+					+ getType() + getNetwork() + test.TEST_START_TIME
+					+ test.getClass().getSimpleName() + " with priority"
 					+ test.PRIORITY + " ends. " + this + " device released.");
 			return true;
 		} else {
 			logger.info("Test:" + Test.LOCATION_NUM + getManufacturer()
-					+ getType() + getNetwork() + " with priority"
+					+ getType() + getNetwork() + test.TEST_START_TIME
+					+ test.getClass().getSimpleName() + " with priority"
 					+ test.PRIORITY + " ends. " + this
 					+ " device is suspended.");
 			return false;

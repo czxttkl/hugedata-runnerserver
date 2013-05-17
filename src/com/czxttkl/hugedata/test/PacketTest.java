@@ -35,6 +35,8 @@ public class PacketTest extends Test implements Runnable {
 	public void run() {
 
 		if (suspendDevice()) {
+			IChimpDevice myDevice = getDevice();
+			createResultDir();
 			
 			if(TASK_LISTENER_HANDLER != null) {
 				ByteBuffer byteBuf = StreamTool.stringToByteBuffer("StartTest", "UTF-8");
@@ -46,9 +48,6 @@ public class PacketTest extends Test implements Runnable {
 				}
 			}
 			
-			createResultDir(this);
-			IChimpDevice myDevice = getDevice();
-
 			try {
 				installPackage(myDevice, APP_INSTALL_PATH, "APP");
 				installPackage(myDevice, TEST_INSTALL_PATH, "Test");
@@ -60,9 +59,8 @@ public class PacketTest extends Test implements Runnable {
 				logger.info("Test:" + resultDirStr + " failed. Caused by "
 						+ e.getMessage());
 			} finally {
-
 				stopTcpdump();
-				
+	
 				pullScreenshots(myDevice, getAdbName(), resultDirStr);
 
 				if (CLEAR_HISTORY) {
@@ -89,11 +87,18 @@ public class PacketTest extends Test implements Runnable {
 		}
 	}
 
+	/**
+	 * Start the tcpdump process
+	 * @throws IOException
+	 */
 	private void startTcpdump() throws IOException {
 		String testCmd = constructTcpdumpCmd();
 		Process tcpdump = Runtime.getRuntime().exec(testCmd);
 	}
 
+	/**
+	 * Stop the tcpdump process
+	 */
 	private void stopTcpdump() {
 		getDevice().shell("busybox pkill -SIGINT tcpdump");
 		StringBuilder cmd = new StringBuilder(ADB_LOCATION + " ");
