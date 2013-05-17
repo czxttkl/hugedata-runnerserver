@@ -15,22 +15,25 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Serializer;
 
+import com.czxttkl.hugedata.analyze.PacketTestAnalyzer;
 import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.test.PacketTest;
 import com.czxttkl.hugedata.test.Test;
 
 public class ResultCollector {
 
-	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
+	public static Logger logger = Logger
+			.getLogger(RunnerServer.class.getName());
 
-	public static void analyze(PacketTest packetTest, String testResult) throws IOException {
+	public static void analyze(PacketTest packetTest, String testResult)
+			throws IOException {
 		// TODO Auto-generated method stub
 		logger.info("Test Instrumentation finished");
 
 		int totalProcedure = 0;
 		double testTime = 0;
 		List<Integer> failureProcedureNums = new ArrayList<Integer>();
-		
+
 		Scanner resultScanner = new Scanner(testResult);
 		while (resultScanner.hasNextLine()) {
 			String line = resultScanner.nextLine();
@@ -48,66 +51,78 @@ public class ResultCollector {
 					String exception = resultScanner.nextLine();
 					if (exception.length() < 4)
 						break;
-					//System.out.println(exception);
+					// System.out.println(exception);
 				}
 			}
 
 			if (line.startsWith("Time: ")) {
 				testTime = Double.valueOf(line.substring(6));
-				//System.out.println(testTime);
+				// System.out.println(testTime);
 			}
 
 			if (line.startsWith("OK (")) {
 				totalProcedure = Integer
 						.valueOf(line.substring(4).split(" ")[0]);
-				//System.out.println(totalProcedure);
+				// System.out.println(totalProcedure);
 			}
 
 			if (line.startsWith("Tests run: ")) {
 				totalProcedure = Integer
 						.valueOf(line.split(",")[0].split(" ")[2]);
-				//System.out.println(totalProcedure);
+				// System.out.println(totalProcedure);
 			}
 
 		}
 		resultScanner.close();
 
-		Element root = appendPublicMetrics(packetTest, testTime);
-		
+		Element root = new Element("Result");
+		appendPublicMetrics(root, packetTest, testTime);
+		appendPacketTestMetrics(root, packetTest, totalProcedure,
+				failureProcedureNums);
+
+		Document doc = new Document(root);
+		format(new BufferedOutputStream(new FileOutputStream(
+				packetTest.resultDirStr + "/result.xml")), doc);
+		logger.info("The result of " + Test.LOCATION_NUM
+				+ packetTest.DEVICE_INFO.getManufacturer()
+				+ packetTest.DEVICE_INFO.getType()
+				+ packetTest.DEVICE_INFO.getNetwork()
+				+ packetTest.TEST_START_TIME
+				+ packetTest.getClass().getSimpleName() + " with priority"
+				+ packetTest.PRIORITY + " has been analyzed.");
+		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(packetTest.TASK_LISTENER_HANDLER);
+		RunnerServer.executor.execute(packetTestAnalyzer);
+	}
+
+	private static void appendPacketTestMetrics(Element root,
+			PacketTest packetTest, int totalProcedure,
+			List<Integer> failureProcedureNums) {
 		Element test = new Element("Test");
 		Element packetFileName = new Element("PacketFileName");
 		packetFileName.appendChild(packetTest.PACKET_FILE_NAME);
 		test.appendChild(packetFileName);
-		
-		for(int i=0; i<totalProcedure; i++){
+
+		for (int i = 0; i < totalProcedure; i++) {
 			Element procedure = new Element("Procedure");
 			Element completed = new Element("Completed");
-			if(failureProcedureNums.contains(i+1))
+			if (failureProcedureNums.contains(i + 1))
 				completed.appendChild("False");
 			else
 				completed.appendChild("True");
 			procedure.appendChild(completed);
 			test.appendChild(procedure);
 		}
-		
+
 		root.appendChild(test);
-		
-
-		
-		Document doc = new Document(root);
-		format(new BufferedOutputStream(new FileOutputStream(packetTest.resultDirStr + "/result.xml")),doc);
-		logger.info(testResult);
-
 	}
-	
-	private static Element appendPublicMetrics(Test test, double testTime) {
-		
-		Element root = new Element("Result");
-		
+
+	private static void appendPublicMetrics(Element root, Test test,
+			double testTime) {
+
 		Element startTime = new Element("StartTime");
 		startTime.appendChild(test.TEST_START_TIME);
 		Element duration = new Element("Duration");
-		duration.appendChild(String.valueOf((int)(testTime * 1000)));
+		duration.appendChild(String.valueOf((int) (testTime * 1000)));
 		Element location = new Element("Location");
 		location.appendChild(String.valueOf(PacketTest.LOCATION_NUM));
 		Element phoneManufacturer = new Element("PhoneManufacturer");
@@ -126,7 +141,7 @@ public class ResultCollector {
 		primeDns.appendChild(test.DEVICE_INFO.getPrimeDns());
 		Element secondaryDns = new Element("SecondaryDns");
 		secondaryDns.appendChild(test.DEVICE_INFO.getSecondaryDns());
-		
+
 		root.appendChild(startTime);
 		root.appendChild(duration);
 		root.appendChild(location);
@@ -137,12 +152,10 @@ public class ResultCollector {
 		root.appendChild(ipAddress);
 		root.appendChild(primeDns);
 		root.appendChild(secondaryDns);
-		
-		return root;
 	}
 
-	public static void format(OutputStream os, Document doc) throws IOException{
-		Serializer serializer = new Serializer(os,"utf-8");
+	public static void format(OutputStream os, Document doc) throws IOException {
+		Serializer serializer = new Serializer(os, "utf-8");
 		serializer.setIndent(4);
 		serializer.setMaxLength(600);
 		serializer.write(doc);

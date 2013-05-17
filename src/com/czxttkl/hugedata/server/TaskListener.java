@@ -49,8 +49,6 @@ public class TaskListener {
 		while (true) {
 			try {
 				socket = serverSocket.accept();
-//				Thread workThread = new Thread(new TaskListenerHandler(socket));
-//				workThread.start();
 				RunnerServer.executor.execute(new TaskListenerHandler(socket));
 			} catch (IOException e) {
 				e.printStackTrace();
