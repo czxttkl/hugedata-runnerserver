@@ -1,17 +1,25 @@
 package com.czxttkl.hugedata.test;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.regex.Pattern;
 import com.android.chimpchat.core.IChimpDevice;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultCollector;
+import com.czxttkl.hugedata.helper.StreamTool;
+import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public class PacketTest extends Test implements Runnable {
 
+	
+	/**PacketTest should be constructed only by its builder.
+	 * @param builder
+	 */
 	private PacketTest(Builder builder) {
+		//Mandatory parameters
 		TEST_PACKAGE_NAME = builder.TEST_PACKAGE_NAME;
 		DEVICE_INFO = builder.DEVICE_INFO;
-
+		// Optional Parameters
 		TEST_DURATION_THRESHOLD = builder.testDurationThres;
 		APP_INSTALL_PATH = builder.appInstallPath;
 		TEST_INSTALL_PATH = builder.testInstallPath;
@@ -20,14 +28,25 @@ public class PacketTest extends Test implements Runnable {
 		CLEAR_HISTORY = builder.clearHistory;
 		PRIORITY = builder.priority;
 		PACKET_FILE_NAME = builder.packetFileName;
+		TASK_LISTENER_HANDLER = builder.taskListenerHandler;
 	}
 
 	@Override
 	public void run() {
 
 		if (suspendDevice()) {
-
-			createResultDir("Packet");
+			
+			if(TASK_LISTENER_HANDLER != null) {
+				ByteBuffer byteBuf = StreamTool.stringToByteBuffer("StartTest", "UTF-8");
+				try {
+					TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			createResultDir(this);
 			IChimpDevice myDevice = getDevice();
 
 			try {
@@ -43,6 +62,7 @@ public class PacketTest extends Test implements Runnable {
 			} finally {
 
 				stopTcpdump();
+				
 				pullScreenshots(myDevice, getAdbName(), resultDirStr);
 
 				if (CLEAR_HISTORY) {
@@ -54,19 +74,27 @@ public class PacketTest extends Test implements Runnable {
 									+ APP_PACKAGE_NAME));
 
 				releaseDevice();
+				
+				if(TASK_LISTENER_HANDLER != null) {
+					ByteBuffer byteBuf = StreamTool.stringToByteBuffer("EndTest", "UTF-8");
+					try {
+						TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
 			}
 		}
 	}
 
 	private void startTcpdump() throws IOException {
-		// TODO Auto-generated method stub
 		String testCmd = constructTcpdumpCmd();
 		Process tcpdump = Runtime.getRuntime().exec(testCmd);
 	}
 
 	private void stopTcpdump() {
-		// TODO Auto-generated method stub
 		getDevice().shell("busybox pkill -SIGINT tcpdump");
 		StringBuilder cmd = new StringBuilder(ADB_LOCATION + " ");
 		cmd.append("-s ");
@@ -143,10 +171,12 @@ public class PacketTest extends Test implements Runnable {
 		private int testDurationThres = 999999;
 		private String appInstallPath;
 		private String testInstallPath;
+		// By default, remove app completely after test 
 		private boolean clearHistory = true;
-		// default priority:1
+		// Default priority:1
 		private int priority = 1;
 		private String packetFileName = "capture.pcap";
+		private TaskListenerHandler taskListenerHandler;
 
 		public Builder(String TEST_PACKAGE_NAME, DeviceInfo deviceinfo) {
 			// Validate Test Package Name
@@ -211,6 +241,11 @@ public class PacketTest extends Test implements Runnable {
 			return this;
 		}
 
+		public Builder taskListernerHandler(TaskListenerHandler tlh) {
+			taskListenerHandler = tlh;
+			return this;
+		}
+		
 		public PacketTest build() {
 			return new PacketTest(this);
 		}

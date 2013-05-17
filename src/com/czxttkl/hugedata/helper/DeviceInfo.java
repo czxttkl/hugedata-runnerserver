@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import com.android.chimpchat.core.IChimpDevice;
 import com.czxttkl.hugedata.server.RunnerServer;
+import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 import com.czxttkl.hugedata.test.Test;
 
 public class DeviceInfo implements Runnable {
@@ -148,7 +149,6 @@ public class DeviceInfo implements Runnable {
 			try {
 				testQueue.take().run();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
