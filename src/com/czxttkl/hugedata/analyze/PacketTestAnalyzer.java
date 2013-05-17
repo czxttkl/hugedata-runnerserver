@@ -2,16 +2,14 @@ package com.czxttkl.hugedata.analyze;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import com.czxttkl.hugedata.helper.StreamTool;
 import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
-public class PacketTestAnalyzer implements Runnable {
-
-	ResourceBundle resultBundle;
-	TaskListenerHandler taskListenerHandler;
+public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 
 	public PacketTestAnalyzer(TaskListenerHandler taskListenerHandler) {
 		this.taskListenerHandler = taskListenerHandler;
@@ -27,29 +25,16 @@ public class PacketTestAnalyzer implements Runnable {
 	}
 
 	private void generatePdf() {
-		taskListenerHandler.responseClient(
-				StreamTool.stringToByteBuffer("PDF", "UTF-8"), true);
-		String keyValue = null;
-		try {
-			keyValue = new String(resultBundle.getString("cached").getBytes(
-					"ISO-8859-1"), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		String keyValue = getStringValue("cached");
 		System.out.println(keyValue);
-	}
-
-	public synchronized void waitForTestFinish() {
-		try {
-			wait();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		if (taskListenerHandler != null) {
+			ByteBuffer byteBuf = StreamTool.stringToByteBuffer(
+					"EndTest", "UTF-8");
+			taskListenerHandler.responseClient(byteBuf, true);
 		}
 	}
 
-	public synchronized void notifyForTestFinish() {
-		notify();
-	}
+
 
 }

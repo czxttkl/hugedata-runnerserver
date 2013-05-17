@@ -72,7 +72,7 @@ public class PacketTest extends Test implements Runnable {
 
 				if (packetTestAnalyzer != null)
 					packetTestAnalyzer.notifyForTestFinish();
-
+				
 				if (CLEAR_HISTORY) {
 					removePackage(myDevice, APP_PACKAGE_NAME, "APP");
 					removePackage(myDevice, TEST_PACKAGE_NAME, "Test");
@@ -82,12 +82,6 @@ public class PacketTest extends Test implements Runnable {
 									+ APP_PACKAGE_NAME));
 
 				releaseDevice();
-
-				if (TASK_LISTENER_HANDLER != null) {
-					ByteBuffer byteBuf = StreamTool.stringToByteBuffer(
-							"EndTest", "UTF-8");
-					TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
-				}
 
 			}// finally
 		}// if suspenddevice
