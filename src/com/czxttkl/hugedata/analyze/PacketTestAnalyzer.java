@@ -41,7 +41,7 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 		System.out.println(keyValue);
 		if (taskListenerHandler != null) {
 			ByteBuffer byteBuf = StreamTool.stringToByteBuffer(
-					"EndTest", "UTF-8");
+					"EndTest:" + resultDirStr, "UTF-8");
 			taskListenerHandler.responseClient(byteBuf, true);
 		}
 	}

@@ -92,7 +92,7 @@ public class ApplicationResourceOptimizer {
 		if (this.analysisData != null) {
 
 			this.analysisData.clear();
-			displayAnalysis(null, this.profile, null, null);
+			//displayAnalysis(null, this.profile, null, null);
 
 			// Free memory from previous trace
 			System.gc();
@@ -118,6 +118,8 @@ public class ApplicationResourceOptimizer {
 
 		logger.info("Enter Display");
 		
+		AROSimpleTabb aroSimpleTab = new AROSimpleTabb();
+		aroSimpleTab.refresh(analysisData);
 		/*
 		 * // Force regeneration of TRA dialog this.timeRangeAnalysisDialog =
 		 * null; this.excludeTimeRangeDialog = null;

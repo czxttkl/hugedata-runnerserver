@@ -167,25 +167,10 @@ public class TaskListener {
 						if (mask == 1)
 							socketInputStream.read(maskingkey, 0, 4);
 
-						if (opCode == 1) {
-							ByteBuffer byteBuf = parseTestData(payloadLength,
-									maskingkey);
-
-							// int readThisBit = 1;
-							// ByteBuffer byteBuf = ByteBuffer
-							// .allocate(payloadLength + 10);
-							// byteBuf.put("echo: ".getBytes("UTF-8"));
-							// while (payloadLength > 0) {
-							// int raw = socketInputStream.read();
-							// byte masked = (byte) (raw ^
-							// (maskingkey[(readThisBit - 1) % 4]));
-							// byteBuf.put((byte) masked);
-							// payloadLength--;
-							// readThisBit++;
-							// }
-							byteBuf.flip();
-							responseClient(byteBuf, true);
-						}
+						if (opCode == 1)
+							responseClient(
+									parseTestData(payloadLength, maskingkey),
+									true);
 
 						socketInputStream.read(first, 0, 1);
 					}
@@ -205,8 +190,7 @@ public class TaskListener {
 
 		private ByteBuffer parseTestData(int payloadLength, byte[] maskingkey) {
 			ByteBuffer byteBuf = ByteBuffer.allocate(payloadLength);
-			ByteBuffer returnByteBuf = ByteBuffer.allocate(10);
-
+			ByteBuffer returnByteBuf = null;
 			try {
 				// socketInputStream.read(testData, 0, payloadLength);
 				int readThisBit = 1;
@@ -249,11 +233,12 @@ public class TaskListener {
 				 * deviceInfoMap.get("HTCT328WUNI").addToTestQueue(b);
 				 * deviceInfoMap.get("HTCT328WUNI").addToTestQueue(c);
 				 */
+				returnByteBuf = StreamTool.stringToByteBuffer(
+						"Add To Queue Successful", "UTF-8");
 
-				returnByteBuf.put("Successful".getBytes("UTF-8"));
 			} catch (Exception e) {
-				// e.printStackTrace();
-				logger.info(e.getMessage());
+				e.printStackTrace();
+				logger.info("Exception:" + e.getCause() + e.getMessage());
 			}
 
 			return returnByteBuf;
