@@ -27,7 +27,7 @@ import com.att.aro.main.ResourceBundleManager;
 public class ProfileException extends Exception {
 	private static final long serialVersionUID = 1L;
 
-	private static ResourceBundle rb = ResourceBundleManager.getDefaultBundle();
+	private static ResourceBundle rb = ResourceBundle.getBundle("messages");
 	
 	/**
 	 * 

@@ -38,7 +38,7 @@ public class Burst implements Serializable {
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = Logger.getLogger(Burst.class.getName());
 
-	private static final ResourceBundle rb = ResourceBundleManager.getDefaultBundle(); // Resource
+	private static final ResourceBundle rb = ResourceBundle.getBundle("messages"); // Resource
 																						// Bundle
 
 	private static final long serialVersionUID = 1L;

@@ -7,7 +7,7 @@ public final class Util {
 	
 	private Util() {}
 	
-	public static final ResourceBundle RB = ResourceBundleManager.getDefaultBundle();
+	public static final ResourceBundle RB = ResourceBundle.getBundle("messages");
 	private static final double TIME_CORRECTION = 1.0E9;
 
 	
