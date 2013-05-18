@@ -2167,28 +2167,28 @@ public class TraceData implements Serializable {
 	static String getAppNameForPacket(int packetIdx, List<Integer> appIds, List<String> appInfos){
 		
 		String appName = Util.RB.getString("aro.unknownApp");
-		int numberOfAppIds = appIds.size();
-				
-		if (packetIdx < numberOfAppIds && packetIdx >= VALID_UNKNOWN_APP_ID ) {
-
-			int appIdIdx = appIds.get(packetIdx);
-			if (appIdIdx >= 0) {
-				if (appIdIdx < appInfos.size())
-				{
-					appName = appInfos.get(appIdIdx);
-				} else {
-					logger.log(Level.WARNING, "Invalid app ID {0} for packet {1}", new Object[] {appIdIdx, packetIdx});
-					assert false;
-				}
-			} else if (appIdIdx != VALID_UNKNOWN_APP_ID) {
-				logger.log(Level.WARNING, "Invalid app ID {0} for packet {1}", new Object[] {appIdIdx, packetIdx});
-				assert false;
-			}
-			
-		} else {
-			logger.log(Level.WARNING, "No app ID for packet {0}", packetIdx);
-			assert false;
-		}
+//		int numberOfAppIds = appIds.size();
+//				
+//		if (packetIdx < numberOfAppIds && packetIdx >= VALID_UNKNOWN_APP_ID ) {
+//
+//			int appIdIdx = appIds.get(packetIdx);
+//			if (appIdIdx >= 0) {
+//				if (appIdIdx < appInfos.size())
+//				{
+//					appName = appInfos.get(appIdIdx);
+//				} else {
+//					logger.log(Level.WARNING, "Invalid app ID {0} for packet {1}", new Object[] {appIdIdx, packetIdx});
+//					assert false;
+//				}
+//			} else if (appIdIdx != VALID_UNKNOWN_APP_ID) {
+//				logger.log(Level.WARNING, "Invalid app ID {0} for packet {1}", new Object[] {appIdIdx, packetIdx});
+//				assert false;
+//			}
+//			
+//		} else {
+//			logger.log(Level.WARNING, "No app ID for packet {0}", packetIdx);
+//			assert false;
+//		}
 
 		return appName;
 		

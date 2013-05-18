@@ -135,7 +135,7 @@ public class ApplicationResourceOptimizer {
 		 */
 
 		this.profile = profile;
-		UserPreferences.getInstance().setLastProfile(profile);
+		//UserPreferences.getInstance().setLastProfile(profile);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class ApplicationResourceOptimizer {
 		// this.traceDirectory = userPreferences.getLastTraceDirectory();
 
 		// Default profile loaded.
-		try {
+/*		try {
 			this.profile = ProfileManager.getInstance()
 					.getLastUserProfile(null);
 		} catch (ProfileException e) {
@@ -169,7 +169,7 @@ public class ApplicationResourceOptimizer {
 		} catch (IOException e) {
 			logger.info(rb.getString("configuration.loaderror"));
 			this.profile = ProfileManager.getInstance().getDefaultProfile();
-		}
+		}*/
 
 		// chartPlotOptionsDialog = new ChartPlotOptionsDialog(
 		// ApplicationResourceOptimizer.this, aroAdvancedTab);
