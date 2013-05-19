@@ -90,7 +90,7 @@ public class ResultCollector {
 		
 		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(
 				packetTest.resultDirStr, packetTest.TASK_LISTENER_HANDLER);
-		
+		RunnerServer.executor.execute(packetTestAnalyzer);
 		return packetTestAnalyzer;
 	}
 

@@ -35,15 +35,15 @@ public class TestAnalyzer {
 		return keyValue;
 	}
 
-//	public synchronized void waitForTestFinish() {
-//		try {
-//			wait();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//
-//	public synchronized void notifyForTestFinish() {
-//		notify();
-//	}
+	public synchronized void waitForTestFinish() {
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public synchronized void notifyForTestFinish() {
+		notify();
+	}
 }

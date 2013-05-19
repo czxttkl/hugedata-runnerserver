@@ -13,6 +13,8 @@ import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public class PacketTest extends Test implements Runnable {
 
+	PacketTestAnalyzer packetTestAnalyzer = null;
+
 	/**
 	 * PacketTest should be constructed only by its builder.
 	 * 
@@ -33,6 +35,7 @@ public class PacketTest extends Test implements Runnable {
 		PRIORITY = builder.priority;
 		PACKET_FILE_NAME = builder.packetFileName;
 		TASK_LISTENER_HANDLER = builder.taskListenerHandler;
+
 	}
 
 	@Override
@@ -48,8 +51,6 @@ public class PacketTest extends Test implements Runnable {
 				TASK_LISTENER_HANDLER.responseClient(byteBuf, true);
 
 			}
-
-			PacketTestAnalyzer packetTestAnalyzer = null;
 
 			try {
 
@@ -79,8 +80,7 @@ public class PacketTest extends Test implements Runnable {
 				 * because I could use "if (packetTestAnalyzer != null)" to
 				 * examine if the result has been collected successfully.
 				 */
-				if (packetTestAnalyzer != null)
-					RunnerServer.executor.execute(packetTestAnalyzer);
+					
 
 				if (CLEAR_HISTORY) {
 					removePackage(myDevice, APP_PACKAGE_NAME, "APP");
@@ -130,6 +130,8 @@ public class PacketTest extends Test implements Runnable {
 		}
 		// Remove the pcap file after pulling
 		getDevice().shell("rm /sdcard/hugedata/" + PACKET_FILE_NAME);
+		if (packetTestAnalyzer != null)
+			packetTestAnalyzer.notifyForTestFinish();
 		logger.info("Tcpdump has been killed.");
 
 	}
