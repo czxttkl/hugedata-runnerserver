@@ -136,34 +136,81 @@ public class StreamTool {
 	 */
 	public static void copyFile(String srcFile, String dstFile) {
 		try {
+			String dstDirStr = dstFile.substring(0, dstFile.lastIndexOf("/"));
+			File dir = new File(dstDirStr);
+
+			if (!dir.exists())
+				dir.mkdirs();
+
 			File f1 = new File(srcFile);
 			File f2 = new File(dstFile);
-			if (!f2.exists())
-				if (f2.createNewFile()) {
 
-					InputStream in = new FileInputStream(f1);
+			InputStream in = new FileInputStream(f1);
 
-					// For Append the file.
-					// OutputStream out = new FileOutputStream(f2,true);
+			// For Append the file.
+			// OutputStream out = new FileOutputStream(f2,true);
 
-					// For Overwrite the file.
-					OutputStream out = new FileOutputStream(f2);
+			// For Overwrite the file.
+			OutputStream out = new FileOutputStream(f2);
 
-					byte[] buf = new byte[1024];
-					int len;
-					while ((len = in.read(buf)) > 0) {
-						out.write(buf, 0, len);
-					}
-					in.close();
-					out.close();
-					System.out.println("File copied.");
-				}
-		} catch (FileNotFoundException ex) {
-			System.out
-					.println(ex.getMessage() + " in the specified directory.");
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+			System.out.println("File copied.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+	}
+
+	/**
+	 * Copy src folder to dst folder
+	 * 
+	 * @param src
+	 *            source folder name
+	 * @param dst
+	 *            destination folder name
+	 */
+	public static void copyFolder(String src, String dst) {
+		try {
+			if (dst.lastIndexOf("/") != dst.length() - 1)
+				dst.concat("/");
+
+			File f1 = new File(src);
+			File f2 = new File(dst);
+
+			if (!f2.exists())
+				f2.mkdirs();
+
+			File[] allFiles = f1.listFiles();
+
+			for (File file : allFiles) {
+
+				InputStream in = new FileInputStream(file);
+				File newFile = new File(dst + file.getName());
+
+				OutputStream out = new FileOutputStream(newFile);
+
+				byte[] buf = new byte[1024];
+				int len;
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+				in.close();
+				out.close();
+			}
+
+			System.out.println("Folder copied.");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

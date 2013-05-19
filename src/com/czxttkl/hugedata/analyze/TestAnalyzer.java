@@ -1,14 +1,20 @@
 package com.czxttkl.hugedata.analyze;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
-public class TestAnalyzer {
+public abstract class TestAnalyzer {
 	
 	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
 
@@ -46,4 +52,26 @@ public class TestAnalyzer {
 	public synchronized void notifyForTestFinish() {
 		notify();
 	}
+	
+	public void appendPublicMetrics() throws IOException {
+		System.out.println("appendPublicMetrics");
+		File html = new File(resultDirStr + "/html/index.html");
+		Document doc = Jsoup.parse(html, "UTF-8");
+		
+		Element title = doc.getElementById("title");
+		System.out.println(title.nodeName() + getStringValue("html.title"));
+		
+		//title.html(getStringValue("html.title"));
+		//title.text(getStringValue("html.title"));
+		//title.append(getStringValue("html.title"));
+		//title.appendText(getStringValue("html.title"));
+		title.text(getStringValue("html.title"));
+		
+		Element publicinfo = doc.getElementById("publicinfo");
+		publicinfo.text(getStringValue("html.title"));
+		//title.prependText(getStringValue("html.title"));
+	}
+	
+	public abstract void appendPrivateMetrics() throws UnsatisfiedLinkError, IOException;
+	
 }

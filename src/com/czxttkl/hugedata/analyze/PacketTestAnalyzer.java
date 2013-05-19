@@ -13,43 +13,51 @@ import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 
-	public PacketTestAnalyzer(String resultDirStr, TaskListenerHandler taskListenerHandler) {
+	public PacketTestAnalyzer(String resultDirStr,
+			TaskListenerHandler taskListenerHandler) {
 		this.resultDirStr = resultDirStr;
 		this.taskListenerHandler = taskListenerHandler;
 		// System.out.println(supportedLocales[0].getLanguage());
-		
+
 	}
 
 	public void run() {
-	
+
 		try {
-			waitForTestFinish();
-			System.out.println("generatehtml");
 			generateHtml();
+			waitForTestFinish();
+			appendPrivateMetrics();
+			logger.info("Generate Html Successfully for Test:" + resultDirStr);
 		} catch (Exception e) {
 			logger.info("Generate Html Failed. Caused by:" + e.getCause());
-		} 
+			e.printStackTrace();
+		}
 
 	}
 
 	private void generateHtml() throws UnsatisfiedLinkError, IOException {
-		
-		final ApplicationResourceOptimizer aro = new ApplicationResourceOptimizer();
-		File pcapFile = new File(resultDirStr + "/capture.pcap");
-		//aro.openPcap(pcapFile);
-		
-		String keyValue = getStringValue("cached");
-		System.out.println(keyValue);
-		if (taskListenerHandler != null) {
-			ByteBuffer byteBuf = StreamTool.stringToByteBuffer(
-					"EndTest:" + resultDirStr, "UTF-8");
-			taskListenerHandler.responseClient(byteBuf, true);
-		}
-		
-	//	StreamTool.copyFile("html/index.html", resultDirStr + "/result.html");
-		
+
+		StreamTool.copyFolder("html/template", resultDirStr + "/html/");
+		appendPublicMetrics();
+
 	}
 
+	@Override
+	public void appendPrivateMetrics() throws UnsatisfiedLinkError, IOException {
 
+		final ApplicationResourceOptimizer aro = new ApplicationResourceOptimizer();
+		File pcapFile = new File(resultDirStr + "/capture.pcap");
+		aro.openPcap(pcapFile);
+
+/*		String keyValue = getStringValue("cached");
+		System.out.println(keyValue);*/
+
+		if (taskListenerHandler != null) {
+			ByteBuffer byteBuf = StreamTool.stringToByteBuffer("EndTest:"
+					+ resultDirStr, "UTF-8");
+			taskListenerHandler.responseClient(byteBuf, true);
+		}
+
+	}
 
 }

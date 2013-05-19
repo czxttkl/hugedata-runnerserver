@@ -280,6 +280,7 @@ public class TaskListener {
 			} catch (Exception e) {
 				logger.info("WebSocket Response Failed. Caused by:"
 						+ e.getMessage());
+				e.printStackTrace();
 			}
 		}
 
