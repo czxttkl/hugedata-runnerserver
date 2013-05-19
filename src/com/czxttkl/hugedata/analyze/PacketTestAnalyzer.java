@@ -21,11 +21,13 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("generatePdf");
+	
 		try {
+			waitForTestFinish();
+			System.out.println("generatehtml");
 			generateHtml();
 		} catch (Exception e) {
-			logger.info("Generate Pdf Failed. Caused by:" + e.getCause());
+			logger.info("Generate Html Failed. Caused by:" + e.getCause());
 		} 
 
 	}
@@ -34,7 +36,7 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 		
 		final ApplicationResourceOptimizer aro = new ApplicationResourceOptimizer();
 		File pcapFile = new File(resultDirStr + "/capture.pcap");
-		aro.openPcap(pcapFile);
+		//aro.openPcap(pcapFile);
 		
 		String keyValue = getStringValue("cached");
 		System.out.println(keyValue);
@@ -44,7 +46,7 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 			taskListenerHandler.responseClient(byteBuf, true);
 		}
 		
-		StreamTool.copyFile("html/index.html", resultDirStr + "/html/result.html");
+	//	StreamTool.copyFile("html/index.html", resultDirStr + "/result.html");
 		
 	}
 
