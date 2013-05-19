@@ -8,6 +8,7 @@ import com.czxttkl.hugedata.analyze.PacketTestAnalyzer;
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.ResultCollector;
 import com.czxttkl.hugedata.helper.StreamTool;
+import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public class PacketTest extends Test implements Runnable {
@@ -60,7 +61,7 @@ public class PacketTest extends Test implements Runnable {
 								TEST_DURATION_THRESHOLD));
 
 				logger.info("Test:" + resultDirStr + " succeeded.");
-				
+
 			} catch (Exception e) {
 				logger.info("Test:" + resultDirStr + " failed. Caused by "
 						+ e.getMessage());
@@ -70,9 +71,17 @@ public class PacketTest extends Test implements Runnable {
 
 				pullScreenshots(myDevice, getAdbName(), resultDirStr);
 
+				/*
+				 * Putting "PacketTestAnalyzer packetTestAnalyzer = new
+				 * PacketTestAnalyzer( packetTest.resultDirStr,
+				 * packetTest.TASK_LISTENER_HANDLER);" in
+				 * resultCollector.anaylze() is better than in the finally block
+				 * because I could use "if (packetTestAnalyzer != null)" to
+				 * examine if the result has been collected successfully.
+				 */
 				if (packetTestAnalyzer != null)
-					packetTestAnalyzer.notifyForTestFinish();
-				
+					RunnerServer.executor.execute(packetTestAnalyzer);
+
 				if (CLEAR_HISTORY) {
 					removePackage(myDevice, APP_PACKAGE_NAME, "APP");
 					removePackage(myDevice, TEST_PACKAGE_NAME, "Test");

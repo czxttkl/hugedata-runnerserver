@@ -21,17 +21,16 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 	}
 
 	public void run() {
-		waitForTestFinish();
 		System.out.println("generatePdf");
 		try {
-			generatePdf();
+			generateHtml();
 		} catch (Exception e) {
 			logger.info("Generate Pdf Failed. Caused by:" + e.getCause());
 		} 
 
 	}
 
-	private void generatePdf() throws UnsatisfiedLinkError, IOException {
+	private void generateHtml() throws UnsatisfiedLinkError, IOException {
 		
 		final ApplicationResourceOptimizer aro = new ApplicationResourceOptimizer();
 		File pcapFile = new File(resultDirStr + "/capture.pcap");
@@ -44,6 +43,9 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 					"EndTest:" + resultDirStr, "UTF-8");
 			taskListenerHandler.responseClient(byteBuf, true);
 		}
+		
+		StreamTool.copyFile("html/index.html", resultDirStr + "/html/result.html");
+		
 	}
 
 
