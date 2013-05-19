@@ -90,7 +90,6 @@ public class ResultCollector {
 		
 		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(
 				packetTest.resultDirStr, packetTest.TASK_LISTENER_HANDLER);
-		RunnerServer.executor.execute(packetTestAnalyzer);
 		
 		return packetTestAnalyzer;
 	}
@@ -98,6 +97,7 @@ public class ResultCollector {
 	private static void appendPacketTestMetrics(Element root,
 			PacketTest packetTest, int totalProcedure,
 			List<Integer> failureProcedureNums) {
+		
 		Element test = new Element("Test");
 		Element packetFileName = new Element("PacketFileName");
 		packetFileName.appendChild(packetTest.PACKET_FILE_NAME);

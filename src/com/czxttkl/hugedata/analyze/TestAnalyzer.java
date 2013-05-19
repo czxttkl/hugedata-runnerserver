@@ -18,7 +18,7 @@ public class TestAnalyzer {
 
 	/**
 	 * Return keyvalue in ResultBundle.properties. By default, JDK reads
-	 * keyvalue using ISO-8859
+	 * keyvalue using ISO-8859-1
 	 * 
 	 * @param key
 	 * @return
@@ -35,15 +35,15 @@ public class TestAnalyzer {
 		return keyValue;
 	}
 
-	public synchronized void waitForTestFinish() {
-		try {
-			wait();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public synchronized void notifyForTestFinish() {
-		notify();
-	}
+//	public synchronized void waitForTestFinish() {
+//		try {
+//			wait();
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	public synchronized void notifyForTestFinish() {
+//		notify();
+//	}
 }
