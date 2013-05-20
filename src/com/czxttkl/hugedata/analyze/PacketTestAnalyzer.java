@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -15,11 +16,8 @@ import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 
 	public PacketTestAnalyzer(String resultDirStr,
-			TaskListenerHandler taskListenerHandler) {
-		this.resultDirStr = resultDirStr;
-		this.taskListenerHandler = taskListenerHandler;
-		// System.out.println(supportedLocales[0].getLanguage());
-
+			TaskListenerHandler taskListenerHandler, HashMap<String, String> publicMetrics) throws IOException {
+		super(resultDirStr, taskListenerHandler, publicMetrics);
 	}
 
 	public void run() {
