@@ -1,6 +1,7 @@
 package com.czxttkl.hugedata.analyze;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -24,9 +25,10 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 	public void run() {
 
 		try {
-			generateHtml();
+			appendPublicMetrics();
 			waitForTestFinish();
 			appendPrivateMetrics();
+			generateHtml();
 			logger.info("Generate Html Successfully for Test:" + resultDirStr);
 		} catch (Exception e) {
 			logger.info("Generate Html Failed. Caused by:" + e.getCause());
@@ -37,8 +39,21 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 
 	private void generateHtml() throws UnsatisfiedLinkError, IOException {
 
-		StreamTool.copyFolder("html/template", resultDirStr + "/html/");
-		appendPublicMetrics();
+		// StreamTool.copyFolder("html/template", resultDirStr + "/html/");
+		// StreamTool.copyFile("html/template/index.html", resultDirStr +
+		// "/html/index.html");
+		if (doc != null) {
+			FileOutputStream fos = new FileOutputStream(resultDirStr
+					+ "/html/index.html", false);
+			fos.write(doc.html().getBytes());
+			fos.close();
+		}
+		
+		if (taskListenerHandler != null) {
+			ByteBuffer byteBuf = StreamTool.stringToByteBuffer("EndTest:"
+					+ resultDirStr, "UTF-8");
+			taskListenerHandler.responseClient(byteBuf, true);
+		}
 
 	}
 
@@ -49,14 +64,7 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 		File pcapFile = new File(resultDirStr + "/capture.pcap");
 		aro.openPcap(pcapFile);
 
-/*		String keyValue = getStringValue("cached");
-		System.out.println(keyValue);*/
 
-		if (taskListenerHandler != null) {
-			ByteBuffer byteBuf = StreamTool.stringToByteBuffer("EndTest:"
-					+ resultDirStr, "UTF-8");
-			taskListenerHandler.responseClient(byteBuf, true);
-		}
 
 	}
 

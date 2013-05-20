@@ -20,8 +20,8 @@ public class SelfTest {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//System.out.println(getStringValue("html.title"));
-		File f1 = new File("try.html");
+		System.out.println(getStringValue("html.title"));
+		File f1 = new File("try/try/index.html");
 		Document doc = null;
 		try {
 			doc = Jsoup.parse(f1, "UTF-8");
@@ -31,10 +31,10 @@ public class SelfTest {
 		}
 		Element title = doc.getElementById("title");
 		//System.out.println(title.text());
-		title.appendText("asdfsdaf112");
+		title.appendText(getStringValue("html.title"));
 		FileOutputStream fos;
 		try {
-			fos = new FileOutputStream("test.html", true);
+			fos = new FileOutputStream("try/try/test.html", false);
 			fos.write(doc.html().getBytes());
 			fos.close();
 		} catch (Exception e) {
