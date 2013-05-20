@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -76,7 +77,8 @@ public class ResultCollector {
 		resultScanner.close();
 
 		Element root = new Element("Result");
-		appendPublicMetrics(root, packetTest, testTime);
+		HashMap<String, String> publicMetrics = appendPublicMetrics(root, packetTest, testTime);
+		
 		appendPacketTestMetrics(root, packetTest, totalProcedure,
 				failureProcedureNums);
 
@@ -87,9 +89,9 @@ public class ResultCollector {
 		logger.info("The result of " + packetTest.resultDirStr
 				+ " with priority" + packetTest.PRIORITY
 				+ " has been analyzed.");
-		
 		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(
-				packetTest.resultDirStr, packetTest.TASK_LISTENER_HANDLER);
+				packetTest.resultDirStr, packetTest.TASK_LISTENER_HANDLER, publicMetrics);
+		
 		RunnerServer.executor.execute(packetTestAnalyzer);
 		return packetTestAnalyzer;
 	}
@@ -117,34 +119,58 @@ public class ResultCollector {
 		root.appendChild(test);
 	}
 
-	private static void appendPublicMetrics(Element root, Test test,
+	private static HashMap<String, String> appendPublicMetrics(Element root, Test test,
 			double testTime) {
+		
+		String startTimeValue = test.TEST_START_TIME;
+		String durationValue = String.valueOf((int) (testTime * 1000));
+		String locationValue = String.valueOf(PacketTest.LOCATION_NUM);
+		String phoneManufacturerValue = test.DEVICE_INFO.getManufacturer();
+		String phoneTypeValue = test.DEVICE_INFO.getType();
+		String networkValue = test.DEVICE_INFO.getNetwork();
+		String platformNameValue = test.DEVICE_INFO.getPlatformName();
+		String platformVerValue = test.DEVICE_INFO.getPlatformVer();
+		String ipAddressValue = test.DEVICE_INFO.getIpAddress();
+		String primeDnsValue = test.DEVICE_INFO.getPrimeDns();
+		String secondaryDnsValue = test.DEVICE_INFO.getSecondaryDns();
+		
 		Element startTime = new Element("StartTime");
-		startTime.appendChild(test.TEST_START_TIME);
+		startTime.appendChild(startTimeValue);
+		
 		Element duration = new Element("Duration");
-		duration.appendChild(String.valueOf((int) (testTime * 1000)));
+		duration.appendChild(durationValue);
+		
 		Element location = new Element("Location");
-		location.appendChild(String.valueOf(PacketTest.LOCATION_NUM));
+		location.appendChild(locationValue);
+		
 		Element phoneManufacturer = new Element("PhoneManufacturer");
-		phoneManufacturer.appendChild(test.DEVICE_INFO.getManufacturer());
+		phoneManufacturer.appendChild(phoneManufacturerValue);
+		
 		Element phoneType = new Element("PhoneType");
-		phoneType.appendChild(test.DEVICE_INFO.getType());
+		phoneType.appendChild(phoneTypeValue);
+		
 		Element network = new Element("Network");
-		network.appendChild(test.DEVICE_INFO.getNetwork());
+		network.appendChild(networkValue);
+		
 		Element platformName = new Element("PlatformName");
-		platformName.appendChild(test.DEVICE_INFO.getPlatformName());
+		platformName.appendChild(platformNameValue);
+		
 		Element platformVer = new Element("PlatformVer");
-		platformVer.appendChild(test.DEVICE_INFO.getPlatformVer());
+		platformVer.appendChild(platformVerValue);
+		
 		Element ipAddress = new Element("IpAddress");
-		ipAddress.appendChild(test.DEVICE_INFO.getIpAddress());
+		ipAddress.appendChild(ipAddressValue);
+		
 		Element primeDns = new Element("PrimeDns");
-		primeDns.appendChild(test.DEVICE_INFO.getPrimeDns());
+		primeDns.appendChild(primeDnsValue);
+		
 		Element secondaryDns = new Element("SecondaryDns");
-		secondaryDns.appendChild(test.DEVICE_INFO.getSecondaryDns());
+		secondaryDns.appendChild(secondaryDnsValue);
 
 		root.appendChild(startTime);
 		root.appendChild(duration);
 		root.appendChild(location);
+		root.appendChild(phoneManufacturer);
 		root.appendChild(phoneType);
 		root.appendChild(network);
 		root.appendChild(platformName);
@@ -152,6 +178,21 @@ public class ResultCollector {
 		root.appendChild(ipAddress);
 		root.appendChild(primeDns);
 		root.appendChild(secondaryDns);
+		
+		HashMap<String, String> publicMetrics = new HashMap<String, String>();
+		publicMetrics.put("StartTime", startTimeValue);
+		publicMetrics.put("Duration", durationValue);
+		publicMetrics.put("Location", locationValue);
+		publicMetrics.put("PhoneManufacturer", phoneManufacturerValue);
+		publicMetrics.put("PhoneType", phoneTypeValue);
+		publicMetrics.put("Network", networkValue);
+		publicMetrics.put("PlatformName", platformNameValue);
+		publicMetrics.put("PlatformVer", platformVerValue);
+		publicMetrics.put("IpAddress", ipAddressValue);
+		publicMetrics.put("PrimeDns", primeDnsValue);
+		publicMetrics.put("SecondaryDns", secondaryDnsValue);
+
+		return publicMetrics;
 	}
 
 	public static void format(OutputStream os, Document doc) throws IOException {
