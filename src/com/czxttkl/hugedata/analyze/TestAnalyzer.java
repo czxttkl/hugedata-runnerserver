@@ -15,12 +15,17 @@ import com.czxttkl.hugedata.server.RunnerServer;
 import com.czxttkl.hugedata.server.TaskListener.TaskListenerHandler;
 
 public abstract class TestAnalyzer {
-	
-	public static Logger logger = Logger.getLogger(RunnerServer.class.getName());
+
+	public static Logger logger = Logger
+			.getLogger(RunnerServer.class.getName());
 
 	public String resultDirStr;
-	public static final ResourceBundle resultBundle = ResourceBundle.getBundle("ResultBundle", Locale.CHINA);
+	public static final ResourceBundle resultBundle = ResourceBundle.getBundle(
+			"ResultBundle", Locale.CHINA);
 	public TaskListenerHandler taskListenerHandler;
+	public Document doc;
+
+	public volatile boolean notified = false;
 
 	/**
 	 * Return keyvalue in ResultBundle.properties. By default, JDK reads
@@ -43,35 +48,39 @@ public abstract class TestAnalyzer {
 
 	public synchronized void waitForTestFinish() {
 		try {
-			wait();
+			while(!notified)
+				wait();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public synchronized void notifyForTestFinish() {
+		notified = true;
 		notify();
+		
 	}
-	
+
 	public void appendPublicMetrics() throws IOException {
 		System.out.println("appendPublicMetrics");
-		File html = new File(resultDirStr + "/html/index.html");
-		Document doc = Jsoup.parse(html, "UTF-8");
-		
+		File html = new File("html/template/index.html");
+		doc = Jsoup.parse(html, "UTF-8");
+
 		Element title = doc.getElementById("title");
-		System.out.println(title.nodeName() + getStringValue("html.title"));
-		
-		//title.html(getStringValue("html.title"));
-		//title.text(getStringValue("html.title"));
-		//title.append(getStringValue("html.title"));
-		//title.appendText(getStringValue("html.title"));
-		title.text(getStringValue("html.title"));
-		
+		System.out.println(title.text() + getStringValue("html.title"));
+
+		// title.html(getStringValue("html.title"));
+		// title.text(getStringValue("html.title"));
+		// title.append(getStringValue("html.title"));
+		// title.appendText(getStringValue("html.title"));
+		title.appendText(getStringValue("html.title"));
+
 		Element publicinfo = doc.getElementById("publicinfo");
-		publicinfo.text(getStringValue("html.title"));
-		//title.prependText(getStringValue("html.title"));
+		publicinfo.appendText(resultBundle.getString("html.title"));
+		// title.prependText(getStringValue("html.title"));
 	}
-	
-	public abstract void appendPrivateMetrics() throws UnsatisfiedLinkError, IOException;
-	
+
+	public abstract void appendPrivateMetrics() throws UnsatisfiedLinkError,
+			IOException;
+
 }

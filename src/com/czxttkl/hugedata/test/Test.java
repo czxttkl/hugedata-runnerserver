@@ -79,6 +79,11 @@ public abstract class Test implements Runnable, Comparable<Test> {
 				+ TEST_START_TIME + testType;
 		resultDir = new File(resultDirStr);
 		resultDir.mkdir();
+		
+		//for demo demonstration: generate html automatically
+		File htmlDir = new File(resultDirStr + "/html");
+		htmlDir.mkdir();
+		
 		logger.info("Test:" + this.resultDirStr + " with priority "
 				+ this.PRIORITY + " starts.");
 	}
