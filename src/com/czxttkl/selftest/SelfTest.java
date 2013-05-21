@@ -3,48 +3,44 @@ package com.czxttkl.selftest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 public class SelfTest {
-	public static final ResourceBundle resultBundle = ResourceBundle.getBundle("ResultBundle", Locale.CHINA);
+	public static final ResourceBundle resultBundle = ResourceBundle.getBundle(
+			"ResultBundle", Locale.CHINA);
+
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(getStringValue("html.title"));
-		File f1 = new File("try/try/index.html");
-		Document doc = null;
-		try {
-			doc = Jsoup.parse(f1, "UTF-8");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		File dir = new File(
+				"p:/java/hugedata-runnerserver/101010HTCT328WUNI20130521100152PacketTest");
+		String[] files = dir.list(new FilenameFilter() {
+
+			@Override
+			public boolean accept(File dir, String name) {
+				// TODO Auto-generated method stub
+				if (name.startsWith("test_"))
+					return true;
+				else
+					return false;
+			}
+
+		});
+
+		for (int i = 0; i < files.length; i++) {
+			files[i].
 		}
-		Element title = doc.getElementById("title");
-		//System.out.println(title.text());
-		title.appendText(getStringValue("html.title"));
-		FileOutputStream fos;
-		try {
-			fos = new FileOutputStream("try/try/test.html", false);
-			fos.write(doc.html().getBytes());
-			fos.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//System.out.println(resultBundle.getString("html.title"));
 	}
-	
+
 	public static String getStringValue(String key) {
 		String keyValue = null;
 		try {
