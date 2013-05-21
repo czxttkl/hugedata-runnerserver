@@ -73,10 +73,10 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 		String[] procedureNames = { "输入账号密码并登陆人人网", "首次载入应用刷新新鲜事",
 				"发送一条Hello World新鲜事" };
 		String[] procedureDetails = {
-				"登陆成功后将出现人人网提示新功能的界面（而非直接出现新鲜事列表）。设置阈值时长为10秒。",
+				"按照指定账户密码登陆人人网应用。登陆成功后将出现人人网提示新功能的界面（而非直接出现新鲜事列表）。设置阈值时长为10秒。",
 				"刷新新鲜事列表，判定标准为刷新图标由动态滚动变为静态。设定阈值时长为10秒。",
-				"点击桌面菜单的发状态图标后，进入发状态界面。输入Hello World后点击发送。设定阈值时间为15秒。" };
-		
+				"点击桌面菜单的发状态图标后，进入发状态界面。输入Hello World后点击发送。发送成功判定标准为回到新鲜事列表。设定阈值时间为15秒。" };
+
 		File dir = new File(resultDirStr);
 		String[] screenshots = dir.list(new FilenameFilter() {
 			@Override
@@ -87,8 +87,7 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 					return false;
 			}
 		});
-		
-		
+
 		final ApplicationResourceOptimizer aro = new ApplicationResourceOptimizer();
 		File pcapFile = new File(resultDirStr + "/capture.pcap");
 		aro.openPcap(pcapFile);
@@ -114,7 +113,8 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 						+ totalProcedure
 						+ getStringValue("html.title.procedure.completion2")
 						+ (totalProcedure - failureProcedureNums.size())
-						+ getStringValue("html.title.procedure.completion3") + ")");
+						+ getStringValue("html.title.procedure.completion3")
+						+ ")");
 
 		Element accordionLiUl = accordionLi.appendElement("ul");
 
@@ -123,7 +123,8 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 			if (i == 0)
 				accordionLiUlLi.attr("class", "current");
 
-			Element a = accordionLiUlLi.appendElement("a").text(procedureNames[i]);
+			Element a = accordionLiUlLi.appendElement("a").text(
+					procedureNames[i]);
 			if (failureProcedureNums.contains(i + 1))
 				a.attr("class", "faillevel2");
 			else
@@ -131,7 +132,7 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 
 			Element frame = accordionLiUlLi.appendElement("div").attr("class",
 					"frame");
-			
+
 			Element procedure = frame.appendElement("div").attr("class",
 					"procedure");
 
@@ -152,10 +153,16 @@ public class PacketTestAnalyzer extends TestAnalyzer implements Runnable {
 			procedure.appendText(procedureDetails[i]);
 			procedure.appendElement("br");
 			procedure.appendElement("br");
-			
-			frame.appendElement("img").attr("class","screenshot").attr("src","../" + screenshots[i]);
 
-		}//for
+			Element span = frame.appendElement("span");
+			Element screenshot = span.appendElement("a")
+					.attr("class", "screenshot")
+					.attr("href", "../" + screenshots[i])
+					.attr("rel", "prettyPhoto[portfolio]");
+			screenshot.appendElement("img").attr("class", "screenshot")
+					.attr("src", "../" + screenshots[i]);
+
+		}// for
 
 	}
 }
