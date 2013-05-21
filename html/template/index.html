@@ -48,26 +48,26 @@ sss display: block;
 }
 .accordion li a {
 	text-decoration: none;
-	border-bottom: 1px solid #4df;
+	/*border-bottom: 1px solid #4df;*/
 	font: bold 1.1em/2em Arial, sans-serif;
 	color: #222;
-	padding: 0 10px;
 	display: block;
 	cursor: pointer;
 }
 .passlevel1 {
 	background: rgba(82, 206, 106, 0.81);
+	padding: 0 10px;
 }
-
 .faillevel1 {
-    background:rgb(255, 27, 27);
+	background:rgb(255, 27, 27);
+	padding: 0 10px;
 }
-
 .partlypasslevel1 {
 	background:rgb(255, 214, 0);
+	padding: 0 10px;
 }
 /* Level 2 */
-	.accordion li ul li {
+.accordion li ul li {
 	font-size: 0.9em;
 }
 .accordion li ul li a {
@@ -75,9 +75,11 @@ sss display: block;
 }
 .passlevel2 {
 	background: rgba(68,255,105,0.45);
+	padding: 0 10px;
 }
 .faillevel2 {
 	background: rgba(255, 39, 39, 0.72);
+	padding: 0 10px;
 }
 /* Table */
 table {
@@ -96,18 +98,35 @@ td {
 tr {
 	margin-bottom:10px;
 }
-.screenshot {
+.screenshot img {
 	width:60px;
 	height:100px;
+}
+.screenshot {
+	background:url(../../html/template/bg-fade.png) no-repeat center center;
+	background-size:100% 100%;
 	float:right;
+	padding-left:0px;
 }
 .procedure {
 	padding:0px;
 	display: inline-block;
 	clear: both;
 	float: left;
+	width:70%;
 }
 </style>
+<script src="../../html/template/jquery.js" type="text/javascript" charset="utf-8"></script> 
+<script src="../../html/template/jquery.accordion.source.js" type="text/javascript" charset="utf-8"></script> 
+<!-- //////// prettyPhoto - lightbox ////////  --> 
+<script src="../../html/template/jquery.prettyPhoto.js" type="text/javascript"></script>
+<link href="../../html/template/css.prettyPhoto.css" rel="stylesheet" type="text/css" />
+<!-- //////// Cufon - font Replacement ////////  --> 
+<script src="../../html/template/cufon.js" type="text/javascript"></script> 
+<script src="../../html/template/Museo_Sans_500.font.js" type="text/javascript"></script> 
+<!-- //////// Tipsy - tooltips ////////  --> 
+<script src="../../html/template/jquery.tipsy.js" type="text/javascript"></script>
+<link href="../../html/template/css.tipsy.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="pageWrap" class="pageWrap">
@@ -151,37 +170,30 @@ tr {
   </tr>
 </table>
 <br />
-
-
 <!--
-<h3 id="subtitle">
-Test Details
-</h3>
+<h3 id="subtitle"> Test Details </h3>
 <ul class="accordion">
-  <li> 
-  <a class="partlypasslevel1">Procedures Completion</a>
+  <li> <a class="partlypasslevel1">Procedures Completion</a>
     <ul>
       <li class="current"> <a class="passlevel2">Melbourne</a>
         <div class="frame">
-          <div class="procedure"> 
-           <b>Procedure Name: </b>dfdafasfdasfasd
-           <br />
+          <div class="procedure"> <b>Procedure Name: </b>dfdafasfdasfasd <br />
             <br />
-            <b>Procedure Detail: </b>adsfadsf
-            <br />
+            <b>Procedure Detail: </b>adsfadsf <br />
             <br />
           </div>
-          <img class="screenshot" src="1.jpg" /> </div>
+          <span><a href="1.jpg" class="screenshot"  rel="prettyPhoto[portfolio]"><img src="1.jpg"/> </a></span> </div>
       </li>
       <li> <a class="faillevel2">Perth</a>
         <div class="frame"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
       </li>
       <li> <a class="passlevel2">Sydney</a>
-        <div class="frame"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
+        <div class="frame"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a>dsaf</a></span></div>
       </li>
     </ul>
   </li>
 </ul>
+
 
 <h3 id="subtitle">
 Procedure Test Details
@@ -207,23 +219,40 @@ Procedure Test Details
       </li>
     </ul>
   </li>
-</ul>-->
-<script src="../../html/template/jquery.js" type="text/javascript" charset="utf-8"></script> 
-<script src="../../html/template/jquery.accordion.source.js" type="text/javascript" charset="utf-8"></script> 
+</ul>--> 
+
+
 <script type="text/javascript">
+Cufon.now();
 		// <![CDATA[
-			
+(function($){		
 		$(document).ready(function () {
 			$('ul.accordion').accordion();
 			
-/*			$('#openWashington').click(function(){
-				$('a[href=#antarctica]').trigger('activate-node');
-			});*/
+		    if ($.browser.msie && $.browser.version < 7) return;
+
+			$(".screenshot img").fadeTo(1, 1);
+			$(".screenshot img").hover(
+			function () {
+				$(this).fadeTo("fast", 0.80);
+			}, function () {
+				$(this).fadeTo("slow", 1);
+			});
 			
+		$("a[rel^='prettyPhoto']").prettyPhoto({
+			opacity: 0.80, 						// Value between 0 and 1
+			default_width: 500,
+			default_height: 344,
+			theme: 'light_square', 				// light_rounded / dark_rounded / light_square / dark_square / facebook 
+			hideflash: false, 					// Hides all the flash object on a page, set to TRUE if flash appears over prettyPhoto 
+			modal: false 						// If set to true, only the close button will close the window 
 		});
+			
+	});
+			
+})(window.jQuery);
 				
 		// ]]>
-	</script>
-    
+</script>
 </body>
 </html>

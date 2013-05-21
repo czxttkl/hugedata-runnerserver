@@ -21,24 +21,7 @@ public class SelfTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		File dir = new File(
-				"p:/java/hugedata-runnerserver/101010HTCT328WUNI20130521100152PacketTest");
-		String[] files = dir.list(new FilenameFilter() {
-
-			@Override
-			public boolean accept(File dir, String name) {
-				// TODO Auto-generated method stub
-				if (name.startsWith("test_"))
-					return true;
-				else
-					return false;
-			}
-
-		});
-
-		for (int i = 0; i < files.length; i++) {
-			files[i].
-		}
+		
 	}
 
 	public static String getStringValue(String key) {
