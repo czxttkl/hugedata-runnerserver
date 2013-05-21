@@ -22,7 +22,7 @@ body {
 	padding: 0;
 	margin: 0;
 	float: left;
-sss  display: block;
+sss display: block;
 	width: 100%;
 }
 .accordion li {
@@ -34,18 +34,17 @@ sss  display: block;
 	display: block;
 	width: 100%;
 }
-.accordion li.active>a {
-	background: rgba(82, 206, 106, 0.81);
-}
-.accordion li ul li.active>a {
-	background:rgba(68,255,105,0.45);
-}
-.accordion li div {
-	padding: 20px;
+/*.accordion li div {*/
+.frame {
+	padding-left: 5%;
+	padding-right:5%;
+	padding-bottom:20px;
+	padding-top:20px;
 	background: rgb(242, 255, 240);
 	display: block;
 	clear: both;
 	float: left;
+	width:90%;
 }
 .accordion li a {
 	text-decoration: none;
@@ -55,8 +54,17 @@ sss  display: block;
 	padding: 0 10px;
 	display: block;
 	cursor: pointer;
-	/*background: rgba(68,255,105,0.45);*/
+}
+.passlevel1 {
 	background: rgba(82, 206, 106, 0.81);
+}
+
+.faillevel1 {
+    background:rgb(255, 27, 27);
+}
+
+.partlypasslevel1 {
+	background:rgb(255, 214, 0);
 }
 /* Level 2 */
 	.accordion li ul li {
@@ -64,90 +72,142 @@ sss  display: block;
 }
 .accordion li ul li a {
 	font-size: 0.9em;
+}
+.passlevel2 {
 	background: rgba(68,255,105,0.45);
 }
-
-td,th {
+.faillevel2 {
+	background: rgba(255, 39, 39, 0.72);
+}
+/* Table */
+table {
+	width:90%;
+}
+td, th {
 	text-align:left;
 	height:25px;
 }
-
 th {
 	width:20%;
 }
-
 td {
 	width:30%;
 }
-
 tr {
 	margin-bottom:10px;
 }
-
-
+.screenshot {
+	width:60px;
+	height:100px;
+	float:right;
+}
+.procedure {
+	padding:0px;
+	display: inline-block;
+	clear: both;
+	float: left;
+}
 </style>
 </head>
 <body>
 <div id="pageWrap" class="pageWrap">
-<h1 id="title"></h1>
-<table width="80%">
+<h1 id="title">Test Report</h1>
+<table>
   <tr>
-    <th id="testTypeTitle"></th>
+    <th id="testTypeTitle">Test Type:</th>
     <td id="testType">row 1, cell 1</td>
-    <th id="startTimeTitle"></th>
+    <th id="startTimeTitle">Start Time:</th>
     <td id="startTime">asdasd</td>
   </tr>
   <tr>
-    <th id="durationTitle"></th>
+    <th id="durationTitle">Duration:</th>
     <td id="duration">asdasd</td>
-    <th id="locationTitle"></th>
+    <th id="locationTitle">Location:</th>
     <td id="location">row 1, cell 1</td>
   </tr>
   <tr>
-    <th id="phoneManufacturerTitle"></th>
+    <th id="phoneManufacturerTitle">Phone Manufacturer:</th>
     <td id="phoneManufacturer">asdasd</td>
-    <th id="phoneTypeTitle"></th>
+    <th id="phoneTypeTitle">Phont Type:</th>
     <td id="phoneType">asdasd</td>
   </tr>
   <tr>
-    <th id="platformNameTitle"></th>
+    <th id="platformNameTitle">Platform Name:</th>
     <td id="platformName">asdasd</td>
-    <th id="platformVerTitle"></th>
+    <th id="platformVerTitle">Platform Version:</th>
     <td id="platformVer">row 1, cell 1</td>
   </tr>
-    <tr>
-    <th id="networkTitle"></th>
+  <tr>
+    <th id="networkTitle">Network:</th>
     <td id="network">row 1, cell 1</td>
-    <th id="ipAddressTitle"></th>
+    <th id="ipAddressTitle">Ip Address:</th>
     <td id="ipAddress">asdasd</td>
   </tr>
   <tr>
-    <th id="primeDnsTitle"></th>
+    <th id="primeDnsTitle">Prime Dns:</th>
     <td id="primeDns">row 1, cell 1</td>
-    <th id="secondaryDnsTitle"></th>
+    <th id="secondaryDnsTitle">Secondary Dns:</th>
     <td id="secondaryDns">row 1, cell 1</td>
   </tr>
 </table>
 <br />
-<br />
 
-<div class="pageContent">
-  <ul class="accordion">
-    <li> <a href="#australia">Australia</a>
-      <ul>
-        <li> <a href="#australia-melbourne">Melbourne</a>
-          <div><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
-        </li>
-        <li> <a href="#australia-perth">Perth</a>
-          <div><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
-        </li>
-        <li> <a href="#australia-sydney">Sydney</a>
-          <div><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</div>
+
+<!--
+<h3 id="subtitle">
+Test Details
+</h3>
+<ul class="accordion">
+  <li> 
+  <a class="partlypasslevel1">Procedures Completion</a>
+    <ul>
+      <li class="current"> <a class="passlevel2">Melbourne</a>
+        <div class="frame">
+          <div class="procedure"> 
+           <b>Procedure Name: </b>dfdafasfdasfasd
+           <br />
+            <br />
+            <b>Procedure Detail: </b>adsfadsf
+            <br />
+            <br />
+          </div>
+          <img class="screenshot" src="1.jpg" /> </div>
+      </li>
+      <li> <a class="faillevel2">Perth</a>
+        <div class="frame"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
+      </li>
+      <li> <a class="passlevel2">Sydney</a>
+        <div class="frame"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="subtitle">
+Procedure Test Details
+</h3>
+
+<ul class="accordion">
+  <li> <a class="passlevel1">Australia</a>
+    <ul>
+      <li  class="current"> <a class="passlevel2">Melbourne</a>
+        <div class="frame">
+          <div class="procedure"> <b>Procedure Name: </b>dfdafasfdasfasd<br />
+            <br />
+            <b>Procedure Detail: </b>adsfadsf<br />
+            <br />
+          </div>
+          <img class="screenshot" src="1.jpg" /> </div>
+      </li>
+      <li> <a class="faillevel2">Perth</a>
+        <div class="frame"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
+      </li>
+      <li> <a class="passlevel2">Sydney</a>
+        <div class="frame"><span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</span></div>
+      </li>
+    </ul>
+  </li>
+</ul>-->
 <script src="../../html/template/jquery.js" type="text/javascript" charset="utf-8"></script> 
 <script src="../../html/template/jquery.accordion.source.js" type="text/javascript" charset="utf-8"></script> 
 <script type="text/javascript">
@@ -164,5 +224,6 @@ tr {
 				
 		// ]]>
 	</script>
+    
 </body>
 </html>

@@ -137,7 +137,7 @@ public abstract class TestAnalyzer {
 		phoneManufacturerTitle.text(getStringValue("html.phone.manufacturer.title"));
 		
 		Element phoneTypeTitle= doc.getElementById("phoneTypeTitle");
-		phoneTypeTitle.text(getStringValue("html.phone.type.tile"));
+		phoneTypeTitle.text(getStringValue("html.phone.type.title"));
 		
 		Element networkTitle= doc.getElementById("networkTitle");
 		networkTitle.text(getStringValue("html.network.title"));

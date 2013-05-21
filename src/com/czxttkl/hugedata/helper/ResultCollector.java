@@ -90,7 +90,7 @@ public class ResultCollector {
 				+ " with priority" + packetTest.PRIORITY
 				+ " has been analyzed.");
 		PacketTestAnalyzer packetTestAnalyzer = new PacketTestAnalyzer(
-				packetTest.resultDirStr, packetTest.TASK_LISTENER_HANDLER, publicMetrics);
+				packetTest.resultDirStr, packetTest.TASK_LISTENER_HANDLER, publicMetrics, totalProcedure, failureProcedureNums);
 		
 		RunnerServer.executor.execute(packetTestAnalyzer);
 		return packetTestAnalyzer;
