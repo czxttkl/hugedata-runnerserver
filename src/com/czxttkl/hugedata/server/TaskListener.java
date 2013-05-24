@@ -1,25 +1,22 @@
 package com.czxttkl.hugedata.server;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import javax.xml.bind.DatatypeConverter;
+
 import com.czxttkl.hugedata.helper.DeviceInfo;
 import com.czxttkl.hugedata.helper.StreamTool;
 import com.czxttkl.hugedata.test.PacketTest;
-import com.sun.xml.internal.fastinfoset.util.CharArray;
 
 /**
  * @author Zhengxing Chen
@@ -97,8 +94,9 @@ public class TaskListener {
 					MessageDigest md = MessageDigest.getInstance("SHA-1");
 					md.update(key.getBytes("utf-8"), 0, key.length());
 					byte[] sha1Hash = md.digest();
-					sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
-					key = encoder.encode(sha1Hash);
+					//sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
+					//key = encoder.encode(sha1Hash);
+					key = DatatypeConverter.printBase64Binary(sha1Hash);			
 					pw.println("HTTP/1.1 101 Switching Protocols");
 					pw.println("Upgrade: websocket");
 					pw.println("Connection: Upgrade");
