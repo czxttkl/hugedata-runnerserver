@@ -74,6 +74,9 @@ public abstract class TestAnalyzer {
 		}
 	}
 
+	/**
+	 * Unblock the Analyzer for appending private metrics
+	 */
 	public synchronized void notifyForTestFinish() {
 		notified = true;
 		notify();
